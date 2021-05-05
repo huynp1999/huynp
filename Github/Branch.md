@@ -7,6 +7,6 @@ Khi tiến hành commit lần đầu trong repository, Git sẽ tạo ra một b
 - Truy vết sửa đổi thông qua phần lịch sử giúp đưa biện pháp khắc phục dễ hơn
 
 ## Tạo branch
-1. Fork project: clone project về tài khoản của mình
+1. 
 2. 
 Có hai nhánh để tạo branch là master và develop. Các tính năng mới sẽ nằm trên nhánh develop, còn nhánh master chứa các bản sửa lỗi.
