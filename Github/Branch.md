@@ -7,6 +7,16 @@ Khi tiến hành commit lần đầu trong repository, Git sẽ tạo ra một b
 - Truy vết sửa đổi thông qua phần lịch sử giúp đưa biện pháp khắc phục dễ hơn
 
 ## Tạo branch
-1. 
-2. 
 Có hai nhánh để tạo branch là master và develop. Các tính năng mới sẽ nằm trên nhánh develop, còn nhánh master chứa các bản sửa lỗi.
+**ví dụ muốn tạo 1 branch từ branch develop có sẵn**
+1. `git checkout develop`: chuyển tới branch cần tạo mới từ nó
+2. `git checkout -b feature_1 develop`:tạo và chuyển tới branch mới tạo
+3. `git push origin feature_1`: đẩy file được add trong index vào branch feature_1 vừa tạo
+
+## Xoá branch
+Trước tiên xoá (-d) branch tại máy mình và đẩy cập nhật lên 
+1.`git branch -d develop_1`
+2.`git push origin -d develop_1`
+
+## Khác
+- `git branch -a`: danh sách branch
