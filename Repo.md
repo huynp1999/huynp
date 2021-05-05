@@ -2,7 +2,8 @@
 Là nơi lưu trữ những thông tin project nhằm hiển thị, sửa đổi và chia sẻ cho những người khác.
 
 Khởi tạo tại:
-Picture: ![Alt](https://github.com/huynp1999/huynp/blob/master/New%20r.png)
+
+![Alt](https://github.com/huynp1999/huynp/blob/master/New%20r.png)
 
 Sau khi có URL, sử dụng `git clone` để clone repo về máy của mình:
 ```$ git clone hhttps://github.com/huynp1999/huynp
