@@ -6,13 +6,15 @@ Khởi tạo tại:
 ![Alt](https://github.com/huynp1999/huynp/blob/master/New%20r.png)
 
 Sau khi có URL, sử dụng `git clone` để clone repo về máy của mình:
-```$ git clone hhttps://github.com/huynp1999/huynp
+```
+$ git clone hhttps://github.com/huynp1999/huynp
 Cloning into 'hoc-git'...
 warning: You appear to have cloned an empty repository.
 Checking connectivity... done
 ```
 Tạo file và add, commit:
-```$ echo "# Thực hành Git cơ bản" > README.md
+```
+$ echo "# Thực hành Git cơ bản" > README.md
 $ git add README.md 
 $ git commit -m "sample commit"
 [master 39eb20b] sample commit
@@ -20,7 +22,8 @@ $ git commit -m "sample commit"
  create mode 100644 README.md
  ```
  Đẩy file được commit lên Github: (tại repo huynp)
- ```$ git push origin master
+ ```
+ $ git push origin master
 Counting objects: 5, done.
 Delta compression using up to 4 threads.
 Compressing objects: 100% (4/4), done.
