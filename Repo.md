@@ -1,5 +1,12 @@
 # Repository
-Là nơi lưu trữ những thông tin project nhằm hiển thị, sửa đổi và chia sẻ cho những người khác.
+Là nơi lưu trữ những thông tin project nhằm hiển thị, sửa đổi và chia sẻ cho những người khác. Gồm 2 loại:
+- Local
+- Remote
+
+**Local**: bố trí trên máy của mình, dành cho một người dùng sử dụng.
+**Remote**: để chia sẻ giữa nhiều người, thông qua đó có thể chỉnh sửa những file chung từ local.
+
+
 
 Khởi tạo tại:
 
@@ -12,7 +19,7 @@ Cloning into 'hoc-git'...
 warning: You appear to have cloned an empty repository.
 Checking connectivity... done
 ```
-Tạo file và add, commit:
+git add và git commit: add vào staging và commit lên repo
 ```
 $ echo "# Thực hành Git cơ bản" > README.md
 $ git add README.md 
@@ -21,7 +28,7 @@ $ git commit -m "sample commit"
  1 file changed, 1 insertion(+)
  create mode 100644 README.md
  ```
- Đẩy file được commit lên Github: (tại repo huynp)
+ git push: đẩy file được commit lên Github theo branch
  ```
  $ git push origin master
 Counting objects: 5, done.
