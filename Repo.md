@@ -1,14 +1,11 @@
 # Repository
 Là nơi lưu trữ những thông tin project nhằm hiển thị, sửa đổi và chia sẻ cho những người khác. Gồm 2 loại:
-- Local
-- Remote
 
-**Local**: bố trí trên máy của mình, dành cho một người dùng sử dụng.
-**Remote**: để chia sẻ giữa nhiều người, thông qua đó có thể chỉnh sửa những file chung từ local.
+- **Local**: bố trí trên máy của mình, dành cho một người dùng sử dụng.
+- **Remote**: để chia sẻ giữa nhiều người, thông qua đó có thể chỉnh sửa những file chung từ local.
 
-
-
-Khởi tạo tại:
+## Đẩy file lên github
+Khởi tạo một repo mới:
 
 ![Alt](https://github.com/huynp1999/huynp/blob/master/New%20r.png)
 
