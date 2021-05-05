@@ -43,3 +43,4 @@ To https://github.com/huynp1999/huynp
 - git init: tạo folder dưới sự quản lý của git
 - git pull: cập nhật local repo từ remote repo
 - git status: kiểm tra trạng khác của index và working tree
+- git rm --cached [file]: xoá file đã được add trong index (cache)
