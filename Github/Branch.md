@@ -15,8 +15,8 @@ Có hai nhánh để tạo branch là master và develop. Các tính năng mới
 
 ## Xoá branch
 Trước tiên xoá (-d) branch tại máy mình và đẩy cập nhật lên 
-1.`git branch -d develop_1`
-2.`git push origin -d develop_1`
+1. `git branch -d develop_1`
+2. `git push origin -d develop_1`
 
 ## Khác
 - `git branch -a`: danh sách branch
