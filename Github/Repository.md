@@ -42,5 +42,6 @@ To https://github.com/huynp1999/huynp
 ## Khác
 - git init: tạo folder dưới sự quản lý của git
 - git pull: đồng bộ hoá local repo và remote repo
+- git fetch: giống _pull_ nhưng không thay đổi file local và không bị xung đột như git pull
 - git status: kiểm tra trạng khác của index và working tree
 - git rm --cached [file]: xoá file đã được add trong index (cache)
