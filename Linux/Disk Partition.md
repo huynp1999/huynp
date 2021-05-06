@@ -1,6 +1,6 @@
 # Disk partition
-Có chức năng chia một ổ cứng vật lý thành nhiều ổ logic con. Đơn giản hóa việc quán lý và chia sẻ tài nguyên
-Có 3 partition mặc định chính:
+Có chức năng chia một ổ cứng vật lý thành nhiều ổ logic con. Đơn giản hóa việc quán lý và chia sẻ tài nguyên.
+Có 3 phân vùng mặc định chính:
 1. root (ký hiệu /): chứa file hệ thống
 2. boot: dành cho khởi động
 3. swap: tương tự như RAM và thường được đặt gấp đôi dung lượng RAM thật
