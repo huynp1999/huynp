@@ -18,5 +18,7 @@ Trước tiên xoá (-d) branch tại máy mình và đẩy cập nhật lên
 1. `git branch -d develop_1`
 2. `git push origin -d develop_1`
 
+## Merge branch
+
 ## Khác
 - `git branch -a`: danh sách branch
