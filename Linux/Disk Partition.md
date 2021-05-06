@@ -5,7 +5,7 @@ Có 3 phân vùng mặc định chính:
 2. boot: dành cho khởi động
 3. swap: tương tự như RAM và thường được đặt gấp đôi dung lượng RAM thật
 
-Đôi khi /var, /home cũng cần phân vùng nhằm tránh trường hợp quá tải chèn lên những phân vùng khác.
+Đôi khi /var, /home cũng được phân vùng riêng nhằm tránh trường hợp quá tải và chèn lên những dữ liệu khác.
 Việc phân vùng ổ cứng thường được làm trên một hệ thống mới cài đặt. Việc tùy chỉnh và quản lý các partition được hỗ trợ thông qua các phần mềm như GNU Parted, fdisk,...
 
 ## Tạo phân vùng
