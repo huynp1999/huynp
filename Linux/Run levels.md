@@ -27,10 +27,13 @@ graphical.target
 ```
 
 Set default:
+
 `systemctl set-default multi-user.target`
 
 Chuyển đổi run level khi hệ thống đang hoạt động:
+
 `systemctl isolate graphical.target`
 
 Ngoài ra systemd còn có thể thao tác với các dịch vụ:
+
 `systemctl enable named.service`
