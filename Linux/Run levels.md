@@ -20,7 +20,8 @@ Từng có những phần mềm init phổ biến như SysV, Upstart nhưng gầ
 6. reboot.target
 
 Kiểm tra default target (được kích hoạt khi boot)
-```$ systemctl get-default 
+```
+$ systemctl get-default 
 graphical.target
 ```
 
