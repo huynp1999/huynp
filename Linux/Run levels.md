@@ -12,7 +12,7 @@ Gồm có 7 level vận hành tiêu chuẩn trong hệ thống linux:
 6. Reboot: khởi động lại hệ thống
 
 ## Systemd
-Từng có những phần mềm init phổ biến như SysV, Upstart nhưng gần đây đã thay thế bằng systemd với tốc độ vận hành cao, nhiều chức năng hơn nhưng vẫn có các target tương tự:
+Từng có những phần mềm init phổ biến như SysV, Upstart nhưng gần đây đã thay thế bằng systemd với tốc độ vận hành cao, chức năng đa dạng hơn nhưng vẫn có các target tương tự:
 
 1. poweroff.target
 2. rescue.target
@@ -27,7 +27,10 @@ graphical.target
 ```
 
 Set default:
-`# systemctl set-default multi-user.target`
+`systemctl set-default multi-user.target`
 
 Chuyển đổi run level khi hệ thống đang hoạt động:
-`# systemctl isolate graphical.target`
+`systemctl isolate graphical.target`
+
+Ngoài ra systemd còn có thể thao tác với các dịch vụ:
+`systemctl enable named.service`
