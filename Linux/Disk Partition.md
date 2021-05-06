@@ -40,8 +40,8 @@ Last sector, +sectors or +size{K,M,G,T,P} (2048-45815807, default 45815807): +2G
 
 Created a new partition 1 of type 'Linux' and of size 2 GiB.
 ```
--`p`:dành cho phân vùng chính
--`e`:dành cho phân vùng mở rộng
+- `p`:dành cho phân vùng chính
+- `e`:dành cho phân vùng mở rộng
 4. Kiểm tra lại /dev/sda3 sẽ xuất hiện phân vùng đã được tạo thành công:
 ```
 Device      Boot Start     End Sectors Size Id Type
