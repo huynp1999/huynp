@@ -8,9 +8,13 @@ Có sẵn nhiều tài liệu, hướng dẫn hỗ trợ và hoạt động tố
 
 2. **Zsh (Z-shell)**:
 
-Được thiết kế với mục đích nhằm tương tác và kết hợp với những shell cũ như bash, tcsh và ksh. Kèm với đó các tính năng riêng biệt như sửa lỗi chính tả, hoàn thiện lệnh,... cùng đa dạng những tùy chọn và plugin khác.
+Được thiết kế với mục đích nhằm tương tác và kết hợp với những shell cũ như bash, tcsh và ksh. Kèm với đó các tính năng đặc biệt như sửa lỗi chính tả, hoàn thiện lệnh,cd tự động,... cùng đa dạng những tùy chọn và plugin khác.
 
 3. **Ksh (KornShell)**:
 
-Là một đối thủ cũ của bash nhưng không được dùng rộng rãi nên ít có tài liệu tham khảo
+Là một bản thay thế cũ của bash nhưng không được dùng rộng rãi nên ít có tài liệu tham khảo.
+
+4.**Tcsh**:
+
+Là bản cải tiến của csh (C shell). Phổ biến trong giới lập trình bởi cú pháp gần giống với ngôn ngữ lập trình c
 
