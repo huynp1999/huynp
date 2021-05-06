@@ -17,6 +17,7 @@ Từng có những phần mềm init phổ biến như SysV, Upstart nhưng gầ
 1. poweroff.target
 2. rescue.target
 3. multi-user.target
+4. unused
 5. graphic.target
 6. reboot.target
 
