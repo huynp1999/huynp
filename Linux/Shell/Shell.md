@@ -16,5 +16,5 @@ Là một bản thay thế cũ của bash nhưng không được dùng rộng r�
 
 4. **Tcsh**:
 
-Là bản cải tiến của csh (C shell). Phổ biến trong giới lập trình bởi cú pháp gần giống với ngôn ngữ lập trình c
+Là bản cải tiến của csh (C shell). Phổ biến trong giới lập trình bởi cú pháp gần giống với ngôn ngữ lập trình c.
 
