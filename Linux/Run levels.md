@@ -10,8 +10,22 @@ Gồm có 7 level vận hành tiêu chuẩn trong hệ thống linux:
 5. X11: sử dụng GUI desktop
 6. Reboot: khởi động lại hệ thống
 
-Tuy nhiên gần đây Ubuntu đã thay thế bằng systemd với tốc độ vận hành cao hơn, nhưng các chức năng tương tự:
+## Systemd
+Từng có những phần mềm init phổ biến như SysV, Upstart nhưng gần đây đã thay thế bằng systemd với tốc độ vận hành cao, nhiều chức năng hơn nhưng vẫn có các target tương tự:
 
-5 graphic.target
+1. poweroff.target
+2. rescue.target
+3. multi-user.target
+5. graphic.target
+6. reboot.target
 
+Kiểm tra default target (được kích hoạt khi boot)
+```$ systemctl get-default 
+graphical.target
+```
 
+Set default:
+`# systemctl set-default multi-user.target`
+
+Chuyển đổi run level khi hệ thống đang hoạt động:
+`# systemctl isolate graphical.target`
