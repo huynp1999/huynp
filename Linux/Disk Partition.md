@@ -27,7 +27,10 @@ Be careful before using the write command.
 Device does not contain a recognized partition table.
 Created a new DOS disklabel with disk identifier 0x11119dd8.
 ```
-3. Chọn n để tạo một partition mới
+3. Tạo một partition mới
+- `n`: để tạo
+- `d`: để xoá
+
 ```
 command (m for help): n
 Partition type
@@ -46,17 +49,4 @@ Created a new partition 1 of type 'Linux' and of size 2 GiB.
 ```
 Device      Boot Start     End Sectors Size Id Type
 /dev/sda3p1       2048 4196351 4194304   2G 83 Linux
-```
-
-## Xóa phân vùng
-```
-$ sudo fdisk /dev/sda3
-command (m for help): d
-Selected partition 1
-Partition 1 has been deleted.
-Command (m for help): w
-
-The partition table has been altered.
-The kernel still uses the old partitions. The new table will be used at the next reboot. 
-Syncing disks.
 ```
