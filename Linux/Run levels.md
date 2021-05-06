@@ -2,6 +2,7 @@
 Khi máy tính khởi động trải qua nhiều bước, kernel sẽ chạy chương trình đầu tiên với PID 1 - có tên chung là init. 
 
 Gồm có 7 level vận hành tiêu chuẩn trong hệ thống linux:
+
 0. Halt: tắt máy
 1. Single user mode: chỉ duy nhất một user được phép kết nối hệ thống
 2. Multi-user, without NFS: đa người dùng, không hỗ trợ networking
