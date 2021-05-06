@@ -19,6 +19,10 @@ Trước tiên xoá (-d) branch tại máy mình và đẩy cập nhật lên
 2. `git push origin -d develop_1`
 
 ## Merge branch
+Hợp nhất feature hoặc hotfix vào master
+1. `git checkout master`: trước tiên cần phải quay trở về master branch
+2. `git merge [branch]`: hợp nhất branch vào master
+
 
 ## Khác
 - `git branch -a`: danh sách branch
