@@ -53,6 +53,7 @@ Truyền tham số vào name và age:
 `./script.sh huy 22` 
 
 1.3 Ví dụ
+
 Thực hiện phép tính `a*(b+c)`
 ```
 kq=$($1 * ($2 + $3))
