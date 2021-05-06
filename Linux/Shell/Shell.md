@@ -6,7 +6,7 @@ Shell có 5 loại phổ biến:
 Là một shell hoàn chỉnh nhờ lịch sử lâu đời cũng như được sử dụng nhiều nhất. Bash thường là default shell trong nhiều bản phân phối Linux nổi tiếng.
 Có sẵn nhiều tài liệu, hướng dẫn hỗ trợ và hoạt động tốt với nhiều tác vụ quản trị hệ thống.
 
-2. **[Zsh](https://viblo.asia/p/cach-cai-dat-zsh-va-zsh-autosuggestions-tren-ubuntu-LzD5ddDO5jY)-shell)**:
+2. **[Zsh](https://viblo.asia/p/cach-cai-dat-zsh-va-zsh-autosuggestions-tren-ubuntu-LzD5ddDO5jY) (Z-shell)**:
 
 Được thiết kế với mục đích nhằm tương tác và kết hợp với những shell cũ như bash, tcsh và ksh. Kèm với đó các tính năng đặc biệt như sửa lỗi chính tả, hoàn thiện lệnh,cd tự động,... Ngoài ra, với framework "oh-my-zsh" càng đa dạng hoá các tùy chọn và plugin khác.
 
