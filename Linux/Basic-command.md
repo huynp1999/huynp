@@ -29,11 +29,22 @@
 Dùng để sắp xếp file với những tùy chọn đa dạng:
 - `-r` đảo ngược sắp xếp
 - `-o` chuyển hướng kết quả sắp xếp đến một filename, tương tự `>`
-- `-n` theo số thứ tự
+- `-n` sắp xếp theo số thứ tự
 ## uniq
 Dùng để làm việc với các tên ký tự trùng lặp, thường yêu cầu một file sort là input.
 - `-d` chỉ in những dòng bị trùng
 - `-c` kèm theo số lần xuất hiện
 - `-u` chỉ in những dòng không trùng 
-## 
-
+## split
+Phân tách file với cú pháp `split [options] filename newfile`
+- `-l` tách dựa trên số dùng
+- `--verbose` thông báo sau khi tách
+- `-b` tách thành các file có cùng dung lượng
+- `-n` tách thành n file, mặc định là 2
+## tac
+Chức năng in tương tự cat nhưng có thể ghép hoặc in đảo ngược file
+- `r` gắn liền các dòng khi nối 2 file
+## nl
+Dùng để đánh số các dòng với cú pháp `nl [option] [file]`
+- `-v` chỉ định số bắt đầu, mặc định là 1
+- `-s` thêm các chuỗi đằng sau số được đánh
