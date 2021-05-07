@@ -13,14 +13,13 @@ Trong đó, dòng đầu tiên để khai báo loại ngôn ngữ sử dụng l�
 
 2. Thực thi script:
 
-`$bash script.sh`
+`bash script.sh`
 
 3. Cách thực thi 2:
 Cấp quyền execute cho nó bằng lệnh
-`$chmod +x  script.sh`
+`chmod +x  script.sh`
 Sau đó chạy bằng lệnh sẽ cho ra kết quả tương tự
-
-`$./script.sh `
+`./script.sh `
 
 ## Input
 Gồm 4 kiểu biến dữ liệu:
@@ -56,8 +55,21 @@ Truyền tham số vào name và age:
 
 Thực hiện phép tính `a*(b+c)`
 ```
-kq=$($1 * ($2 + $3))
-echo “$($1 * ($2 + $3)) = $kq”
+#!/bin/bash
+kq=$(($3*$(($1+$2))))
+echo "=$kq"
 ```
 
-Với input `./script.sh 2 1 3` sẽ có output `2 * (1 + 3) = 8`
+Với input `./script.sh 2 3 2` sẽ có output `=10`
+## Lệnh điều kiện
+```
+#!/bin/bash
+if [ $3 -eq 0 ]
+then
+echo "Bang khong"
+else
+kq=$(($3*$(($1+$2))))
+echo "=$kq"
+fi
+```
+với `-eq` = **eq**ual, `ge` = **g**reater than or **e**qual,...
