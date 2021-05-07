@@ -72,4 +72,9 @@ kq=$(($3*$(($1+$2))))
 echo "=$kq"
 fi
 ```
-với `-eq` = **eq**ual, `ge` = **g**reater than or **e**qual,...
+sẽ cho ra kết quả
+```
+./script.sh 2 3 0
+Bang khong
+```
+với `-eq` = **eq**ual, `-ge` = **g**reater than or **e**qual,...
