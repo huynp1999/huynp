@@ -56,7 +56,7 @@ Truyền tham số vào name và age:
 Thực hiện phép tính `a*(b+c)`
 ```
 #!/bin/bash
-kq=$(($3*$(($1+$2))))
+kq=$(($1*$(($2+$3))))
 echo "=$kq"
 ```
 
@@ -64,11 +64,11 @@ Với input `./script.sh 2 3 2` sẽ có output `=10`
 ## Lệnh điều kiện
 ```
 #!/bin/bash
-if [ $3 -eq 0 ]
+if [ $1 -eq 0 ]
 then
 echo "Bang khong"
 else
-kq=$(($3*$(($1+$2))))
+kq=$(($1*$(($2+$3))))
 echo "=$kq"
 fi
 ```
