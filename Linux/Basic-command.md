@@ -5,7 +5,7 @@
 - `echo "Hello"` in ra màn hình
   - `echo "Hello" > file.txt` sẽ ghi _Hello_ vào cuối file.txt
 # Wildcard
-- `*` chọn tất cả các file và thư mục
+- `*` chọn tất cả tên các file và thư mục
   - `mv dir/*` di chuyển toàn bộ bên trong thư mục nguồn
   - `ls *.txt` liệt kê toàn bộ file có đuôi txt
 - `?`: chọn tất cả ký tự trong tên
