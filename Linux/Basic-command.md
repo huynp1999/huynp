@@ -38,23 +38,25 @@ Cú pháp `cat [option] [file]`
 - `;` đọc nhiều file cùng lúc
 
 Kết hợp với ống lệnh, ví dụ tạo file3 với input là file1 và file2 kết hợp đồng thời với sắp xếp
-`cat file.txt num.txt | sort > filenum.txt`
+
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/cat2.png)
 ## join
 Dùng để ghép 2 file hoặc một vùng cho trước, yêu cầu phải đánh số dòng tại input (`nl`)
 
 Cú pháp `join [option] file1 file2`
 - `-a` ghép 2 file lệch số dòng
 
-
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/join2.png)
 - `-v` chỉ in ra dòng bị lệch
 - `-t` sử dụng ký tự để tách các cột được ghép
 ## paste
 Dùng để ghép 1 file với các file khác theo từng cột dữ liệu
 
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/paste2.png)
 Cú pháp `join [option] file1 ...`
 - `-d` chọn ký tự ngăn giữa các cột thay vì `tab` ở mặc định
 
-
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/paste1.png)
 # Lệnh với text
 ## sort
 Dùng để sắp xếp file với những tùy chọn đa dạng:
