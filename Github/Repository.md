@@ -9,7 +9,7 @@ Những thư mục được đặt trong sự quản lý của Git gọi là wor
 ## Đẩy file lên github
 1. Khởi tạo một repo mới:
 
-![Alt](https://github.com/huynp1999/huynp/blob/master/New%20r.png)
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/New%20r.png)
 
 2. Sau khi có URL, sử dụng `git clone` để clone repo về máy của mình:
 ```

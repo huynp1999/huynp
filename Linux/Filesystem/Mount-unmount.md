@@ -16,4 +16,4 @@ Ví dụ khi rút usb:
 
 `umount /dev/usb /home/usb`
 
-Tương tự như khi ấn `eject` ở giao diện GUI. Điều này giảm rủi ro lỗ hoặc làm hỏn thiết bị phần cứng.
+Tương tự như khi ấn `eject` ở giao diện GUI. Điều này giảm rủi ro lỗ hoặc làm hỏng thiết bị phần cứng.
