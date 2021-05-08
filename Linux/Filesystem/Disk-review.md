@@ -9,8 +9,12 @@ Output của lệnh `df` cho ra sáu 6 cột:
 - Use%: tỉ lệ sử dụng
 - Mounted on: vị trí mà filesystem được mount trong hệ thống
 
+`-h` (human-readable) sẽ convert các số liệu dễ đọc hơn với người dùng
+
+
 # `du`
-Liệt kê quá trình sử dụng không gian bộ nhớ của các thư mục và thư mục con.
+Liệt kê quá trình sử dụng không gian bộ nhớ của các cây thư mục. Hữu dụng khi muốn tìm ra chính xác nơi chiếm nhiều tài nguyên nhất
+
 
 `-s` sẽ cho ra dung lượng tổng của  thư mục đích, ví dụ cần xem /etc đã sử dụng bao nhiêu dung lượng:
 ```
