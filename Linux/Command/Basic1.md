@@ -95,12 +95,3 @@ Dùng để đánh số các dòng với cú pháp `nl [option] [file]`
 - `-s` thêm các chuỗi đằng sau số được đánh
 
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/nl1.png)
-
-# Các lệnh đọc file
-## head
-Mặc định in 10 dòng đầu tiên của một file.
-
-- `-n` in số dòng theo chỉ định
-- `-b` in theo số byte chỉ định
-- `-q` đọc nhiều file
-- `-v` hiển thị tên file được in
