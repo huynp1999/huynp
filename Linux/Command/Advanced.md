@@ -16,13 +16,28 @@ Cú pháp: `grep 'word' [file]`
 Sed được dùng để lọc văn bản, sửa đổi nội dung một file, đặt nội dung vào một file mới.
 
 Cú pháp: `sed [option] 'commands' [file]`
-Các [option]
-- `-i` in ra shell
+Các command:
 - `sed 's/pattern/replace_string/' file`	thay thế chuỗi đầu tiên xuất hiện trong mỗi dòng
 - `sed 's/pattern/replace_string/g' file`	thay thế tất cả các lần xuất hiện trong mỗi dòng
-  - `/g` có thể thay bằng số
+  - `/2 thay thế 2 lần xuất hiện đầu tiên trong mỗi dòng
   - `/p` để lọc ra những dòng cụ thể chứ keyword
   - `/d` để không in ra những dùng cụ thể, in còn lại
 - `sed '1,3s/pattern/replace_string/g' file`	Thay thế tất cả các lần xuất hiện chuỗi trong một loạt các dòng
 - `sed -i 's/pattern/replace_string/g' file`	Lưu các thay đổi sau khi thay thế
+- `-i.bkp` để tạo một bản sao lưu trước khi ghi đè
 
+# awk
+Là một loại ngôn ngữ script dùng để thao tác với dữ liệu, tìm kiếm và xử lý file. Có thể tìm kiếm một hoặc nhiều file để xem những dòng nào bao gồm những pattern cần tìm kiếm và sau đó thực hiện những action.
+
+Cú pháp: `awk pattern actions file`
+- `'{print}'` in ra từng dòng
+- `'{if(statement){do}}'` cú pháp điều kiện
+- `'{sub((" ","-")} 1'` thay thế chuỗi hoặc ký tự
+- `'/keyword/'` lọc ký tự 
+
+- `'{s+=$1} END {print s}'` tính tổng trường
+
+Các trường"
+- `$0` toàn bộ văn bản
+- `$1` trường đầu tiên, giữa các trường mặc định là `tab` hoặc `space`
+- `$NF` trường cuối cùng
