@@ -14,5 +14,7 @@ Hai cách để chuyển hướng dữ liệu ra file, thay vì ra màn hình:
 Ví dụ: `echo "abc" >> file.txt`
 # Piping
 Dùng để kết hợp xử lý nhiều câu lệnh cùng lúc, dữ liệu từ output của một câu lệnh thành input của câu lệnh kế tiếp. Bằng cách sử dụng `|` giữa các câu lệnh.
-`command 1 | command 2 | command 3 | ...`
+
+Cú pháp: `command 1 | command 2 | command 3 | ...`
+
 Ví dụ: `cat file.txt | sort | uniq`
