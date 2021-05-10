@@ -12,6 +12,7 @@ Cú pháp: `grep 'word' [file]`
 - `-l` chỉ hiện tên file có chứa từ khoá
 - `--color` tô màu từ khoá trong kết quả
 
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/grep2.png)
 # sed
 Sed được dùng để lọc văn bản, sửa đổi nội dung một file, đặt nội dung vào một file mới.
 
@@ -26,17 +27,22 @@ Các command:
 - `sed -i 's/pattern/replace_string/g' file`	Lưu các thay đổi sau khi thay thế
 - `-i.bkp` để tạo một bản sao lưu trước khi ghi đè
 
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/sed1.png)
 # awk
 Là một loại ngôn ngữ script dùng để thao tác với dữ liệu, tìm kiếm và xử lý file. Có thể tìm kiếm một hoặc nhiều file để xem những dòng nào bao gồm những pattern cần tìm kiếm và sau đó thực hiện những action.
 
 Cú pháp: `awk pattern actions file`
 - `'{print}'` in ra từng dòng
 - `'{if(statement){do}}'` cú pháp điều kiện
+
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/awk1.png)
 - `'{sub((" ","-")} 1'` thay thế chuỗi hoặc ký tự
 - `'/keyword/'` lọc ký tự 
 
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/awk.png)
 - `'{s+=$1} END {print s}'` tính tổng trường
 
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/awk2.png)
 Các trường"
 - `$0` toàn bộ văn bản
 - `$1` trường đầu tiên, giữa các trường mặc định là `tab` hoặc `space`
