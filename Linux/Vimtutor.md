@@ -2,10 +2,12 @@
 Là một phần mềm chỉnh sửa văn bản mã nguồn mở, với nhiều ưu điểm như gọn nhẹ, tùy biến cao, nhiều plugin nhưng cũng có một số hạn chế với người mới sử dụng.
 
 Cài đặt: `$ sudo apt-get install vim`
+
 Mở file bằng vim: `vim [file]`
 
-# Vimtutor Ba chế độ
-Có 3 chế độ trong vim:
+# Vimtutor
+
+Có 3 chế độ hoạt động trong vim:
 - NORMAL - dùng các câu lệnh mà không làm ảnh hưởng tới phần văn bản đang gõ
 - INSERT - chỉnh sửa code, văn bản trong chế độ này, nhưng không thể dùng phím tắt hoặc lệnh.
 - VISUAL - chế độ chọn, dùng để chọn nhanh phần văn bản để xử lý.
@@ -13,7 +15,8 @@ Có 3 chế độ trong vim:
 Thay đổi chế độ:
 - i - chuyển sang chế độ INSERT
 - v - chuyển sang chế độ VISUAL
-- V   chuyển sang chế độ VISUAL LINE (chọn hàng thay vì chọn từ như VISUAL)
+- V - chuyển sang chế độ VISUAL LINE
+- Ctrl+alt+v - chuyển sang chế độ VISUAL BLOCK
 - Esc - chuyển sang chế độ NORMAL
 
 Di chuyển trỏ chuột:
@@ -26,10 +29,10 @@ Di chuyển trỏ chuột:
 - :2 - di chuyển đến dòng thứ 2
 - gg - di chuyển con trỏ chuột về đầu văn bản
 - G - di chuyển con trỏ chuột xuống cuối văn bản
-- Ctrl-y - cuộn lên văn bản một dòng
-- Ctrl-e - cuộn xuống văn bản một dòng
-- Ctrl-u - cuộn lên văn bản nửa màn hình
-- Ctrl-d - cuộn xuống văn bản nửa màn hình
+- Ctrl+y - cuộn lên văn bản một dòng
+- Ctrl+e - cuộn xuống văn bản một dòng
+- Ctrl+u - cuộn lên văn bản nửa màn hình
+- Ctrl+d - cuộn xuống văn bản nửa màn hình
 
 Thao tác với văn bản:
 - x - Xóa phần đã chọn
@@ -44,7 +47,7 @@ Thao tác với văn bản:
   - d2h - Xóa 2 chữ bên trải (delete ... h là qua trái)
   - dd - Xóa dòng hiện tại của con trỏ
 - u: Undo 
-- Ctrl-r: Redo
+- Ctrl+r: Redo
 
 Tìm kiếm:
 - `/` hoặc `?[keyword]` tìm kiếm thuận hoặc ngược
