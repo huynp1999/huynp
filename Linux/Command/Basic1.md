@@ -4,7 +4,6 @@
 - `sudo` (superuser do) đứng trước các câu lệnh, cho phép chạy với quyền admin
 - `whoami` hiển thị username, trong trường hợp sử dụng nhiều user
 - `echo "Hello"` in ra màn hình
-  - `echo "Hello" >> file.txt` sẽ ghi _Hello_ vào cuối file.txt
 # 2. Wildcard
 - `*` chọn tất cả tên các file và thư mục
   - `mv dir/*` di chuyển toàn bộ bên trong thư mục nguồn
@@ -13,9 +12,7 @@
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/wildcard1.png)
 - `?`: chọn tất cả ký tự trong tên
   - `ls text?.txt` liệt kê các file có tên text1,text2,...
-# 3. Ống lệnh
-Dùng để kết hợp xử lý nhiều câu lệnh cùng lúc, dữ liệu từ output của một câu lệnh thành input của câu lệnh kế tiếp. Bằng cách sử dụng `|` giữa các câu lệnh.
-# 4. Lệnh với thư mục và file
+# 3. Lệnh với thư mục và file
 - `ls` liệt kê các file và thư mục
   - `-l` liệt kê chi tiết hơn với permission, size, owner,...
   - `-a` hiện thư mục ẩn
@@ -29,7 +26,7 @@ Dùng để kết hợp xử lý nhiều câu lệnh cùng lúc, dữ liệu t�
   - `-rf` xóa thư mục
 -  `grep` tìm kiếm một đoạn text trong file hoặc thư mục
 
-## 4.1 cat
+## 3.1 cat
 Là một lệnh phổ biến trong linux với các chức năng như đọc, tạo, điều hướng file.
 
 Cú pháp `cat [option] [file]`
@@ -43,7 +40,7 @@ Cú pháp `cat [option] [file]`
 Kết hợp với ống lệnh, ví dụ tạo file3 với input là file1 và file2 kết hợp đồng thời với sắp xếp
 
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/cat2.png)
-## 4.2 join
+## 3.2 join
 Dùng để ghép 2 file hoặc một vùng cho trước, yêu cầu phải đánh số dòng tại input (`nl`)
 
 Cú pháp `join [option] file1 file2`
@@ -52,7 +49,7 @@ Cú pháp `join [option] file1 file2`
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/join2.png)
 - `-v` chỉ in ra dòng bị lệch
 - `-t` sử dụng ký tự để tách các cột được ghép
-## 4.3 paste
+## 3.3 paste
 Dùng để ghép 1 file với các file khác theo từng cột dữ liệu
 
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/paste2.png)
