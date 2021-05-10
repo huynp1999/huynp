@@ -13,7 +13,9 @@
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/wildcard1.png)
 - `?`: chọn tất cả ký tự trong tên
   - `ls text?.txt` liệt kê các file có tên text1,text2,...
-# 3. Lệnh với thư mục và file
+# 3. Ống lệnh
+Dùng để kết hợp xử lý nhiều câu lệnh cùng lúc, dữ liệu từ output của một câu lệnh thành input của câu lệnh kế tiếp. Bằng cách sử dụng `|` giữa các câu lệnh.
+# 4. Lệnh với thư mục và file
 - `ls` liệt kê các file và thư mục
   - `-l` liệt kê chi tiết hơn với permission, size, owner,...
   - `-a` hiện thư mục ẩn
@@ -27,7 +29,7 @@
   - `-rf` xóa thư mục
 -  `grep` tìm kiếm một đoạn text trong file hoặc thư mục
 
-## 3.1 cat
+## 4.1 cat
 Là một lệnh phổ biến trong linux với các chức năng như đọc, tạo, điều hướng file.
 
 Cú pháp `cat [option] [file]`
@@ -41,7 +43,7 @@ Cú pháp `cat [option] [file]`
 Kết hợp với ống lệnh, ví dụ tạo file3 với input là file1 và file2 kết hợp đồng thời với sắp xếp
 
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/cat2.png)
-## 3.2 join
+## 4.2 join
 Dùng để ghép 2 file hoặc một vùng cho trước, yêu cầu phải đánh số dòng tại input (`nl`)
 
 Cú pháp `join [option] file1 file2`
@@ -50,7 +52,7 @@ Cú pháp `join [option] file1 file2`
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/join2.png)
 - `-v` chỉ in ra dòng bị lệch
 - `-t` sử dụng ký tự để tách các cột được ghép
-## 3.3 paste
+## 4.3 paste
 Dùng để ghép 1 file với các file khác theo từng cột dữ liệu
 
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/paste2.png)
@@ -58,41 +60,4 @@ Cú pháp `join [option] file1 ...`
 - `-d` chọn ký tự ngăn giữa các cột thay vì `tab` ở mặc định
 
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/paste1.png)
-# 4. Lệnh với text
-## 4.1 sort
-Dùng để sắp xếp file với những tùy chọn đa dạng:
-- `-r` đảo ngược sắp xếp
 
-![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/sort1.png)
-- `-o` chuyển hướng kết quả sắp xếp đến một filename, tương tự `>`
-
-![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/sort2.png)
-- `-n` sắp xếp theo số thứ tự
-
-![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/sort3.png)
-## 4.2 uniq
-Dùng để làm việc với các tên ký tự trùng lặp, thường yêu cầu một file sort là input.
-- `-d` chỉ in những dòng bị trùng
-- `-c` kèm theo số lần xuất hiện
-- `-u` chỉ in những dòng không trùng 
-
-![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/uniq1.png)
-## 4.3 split
-Phân tách file với cú pháp `split [options] filename newfile`
-- `-l` tách dựa trên số dùng
-- `--verbose` thông báo sau khi tách
-
-![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/split1.png)
-- `-b` tách thành các file có cùng dung lượng
-
-![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/split2.png)
-- `-n` tách thành n file, mặc định là 2
-## 4.4 tac
-Chức năng in tương tự cat nhưng có thể ghép hoặc in đảo ngược file
-- `r` gắn liền các dòng khi nối 2 file
-## 4.5 nl
-Dùng để đánh số các dòng với cú pháp `nl [option] [file]`
-- `-v` chỉ định số bắt đầu, mặc định là 1
-- `-s` thêm các chuỗi đằng sau số được đánh
-
-![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/nl1.png)
