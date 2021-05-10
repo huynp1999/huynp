@@ -1,5 +1,6 @@
 # 1. Câu lệnh chung
 - `[command] --help` xem mô tả về một câu lệnh
+- `man [command]` xem cách sử dụng về một câu lệnh
 - `sudo` (superuser do) đứng trước các câu lệnh, cho phép chạy với quyền admin
 - `whoami` hiển thị username, trong trường hợp sử dụng nhiều user
 - `echo "Hello"` in ra màn hình
