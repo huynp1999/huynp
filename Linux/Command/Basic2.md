@@ -23,10 +23,11 @@ Các câu lệnh trong less
 - `/` hoặc `?` tìm kiếm theo chiều lên hoặc xuống
 - `q` thoát
 - `n` hoặc `N` tìm kết quả tiếp theo theo chiều lên hoặc xuống
+- `g` hoặc `G` chuyển đến đầu hoặc cuối file
+- `f` cập nhật file theo thời gian thực tương tự `tail -f`
 
 Các option
 - `-N` in số dòng được chỉ định
-- `+F` kiểm tra những dòng mới được thêm vào, cho phép kiểm soát và sửa lỗi khi làm việc với log file
 ## cut
 Cắt các phần theo từng dòng trong file và in ra màn hình. Sẽ bị lỗi nếu không có option.
 - `-b` cắt theo từng byte
