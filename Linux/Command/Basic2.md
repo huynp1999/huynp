@@ -6,13 +6,15 @@ Mặc định in 10 dòng đầu tiên của một file.
 - `-q` đọc nhiều file
 - `-v` hiển thị tên file được in
 
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/head.png)
 ## tail
 Mặc định in 10 dòng cuối cùng của một file.
 - `-n` in số dòng tính từ cuối
 - `-b` in theo số byte chỉ định
 - `-q` đọc nhiều file
-- `-f` kiểm tra những dòng mới được thêm vào, cho phép kiểm soát và sửa lỗi khi làm việc với log file
+- `-f` kiểm tra những dòng mới được thêm vào theo thời gian thực, cho phép kiểm soát và sửa lỗi khi làm việc với log file
 
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/tail.png)
 ## less
 Là một câu lệnh hiện thị file hoặc output của một command theo từng trang một. Thường dùng với những file lớn.
 
