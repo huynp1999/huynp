@@ -28,6 +28,7 @@ Cú pháp với các panel
 - `Ctrl+b q`    hiện số thứ tự trên
 - `Ctrl+b x`    xoá panel
 
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/tmux.png)
 # Byobu
 Cài đặt: `sudo apt-get install byobu`
 Tạo một session mới: `byobu`
@@ -46,3 +47,5 @@ Các cú pháp với panel
 - `Shift+Up Arrow và Shift+Down Arrow` di chuyển giữa các panel
 - `Ctrl+F6`   xoá panel đang dùng
 - `shift-F5`  hợp nhất các panel thành một
+
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/byobu1.png)
