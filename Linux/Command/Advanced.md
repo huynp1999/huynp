@@ -17,6 +17,7 @@ Cú pháp: `grep 'word' [file]`
 Sed được dùng để lọc văn bản, sửa đổi nội dung một file, đặt nội dung vào một file mới.
 
 Cú pháp: `sed [option] 'commands' [file]`
+
 Các command:
 - `sed 's/pattern/replace_string/' file`	thay thế chuỗi đầu tiên xuất hiện trong mỗi dòng
 - `sed 's/pattern/replace_string/g' file`	thay thế tất cả các lần xuất hiện trong mỗi dòng
@@ -43,7 +44,8 @@ Cú pháp: `awk pattern actions file`
 - `'{s+=$1} END {print s}'` tính tổng trường
 
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/awk2.png)
-Các trường"
+
+Các trường
 - `$0` toàn bộ văn bản
 - `$1` trường đầu tiên, giữa các trường mặc định là `tab` hoặc `space`
 - `$NF` trường cuối cùng
