@@ -32,6 +32,7 @@ Kiểm soát số lần xuất hiện của một ký tự trong một chuỗi.
 - `{n, m}`	khớp với ký tự xuất hiện 'n' lần nhưng không quá m
 - `{n,}`	  chỉ khớp với ký tự xuất hiện 'n' lần trở lên
 
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/regex1.png)
 Ngoài ra còn có thể đại diễn cho một chuỗi hoặc một danh sách các mục:
 ```
 echo a{0..10}b
@@ -42,5 +43,6 @@ Chứa các kết hợp của nhiều câu lệnh khác.
 
 - `\+`	Khớp với một hoặc nhiều lần xuất hiện của ký tự trước
 - `\?`	Khớp 0 hoặc một lần xuất hiện của ký tự trước
-
+- 
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/regex2.png)
 
