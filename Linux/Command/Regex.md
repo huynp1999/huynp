@@ -43,6 +43,5 @@ Chứa các kết hợp của nhiều câu lệnh khác.
 
 - `\+`	Khớp với một hoặc nhiều lần xuất hiện của ký tự trước
 - `\?`	Khớp 0 hoặc một lần xuất hiện của ký tự trước
-- 
-![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/regex2.png)
 
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/regex2.png)
