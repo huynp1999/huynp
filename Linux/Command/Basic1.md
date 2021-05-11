@@ -4,15 +4,7 @@
 - `sudo` (superuser do) đứng trước các câu lệnh, cho phép chạy với quyền admin
 - `whoami` hiển thị username, trong trường hợp sử dụng nhiều user
 - `echo "Hello"` in ra màn hình
-# 2. Wildcard
-- `*` chọn tất cả tên các file và thư mục
-  - `mv dir/*` di chuyển toàn bộ bên trong thư mục nguồn
-  - `ls *.txt` liệt kê toàn bộ file có đuôi txt
-
-![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/wildcard1.png)
-- `?`: chọn tất cả ký tự trong tên
-  - `ls text?.txt` liệt kê các file có tên text1,text2,...
-# 3. Lệnh với thư mục và file
+# 2. Lệnh với thư mục và file
 - `ls` liệt kê các file và thư mục
   - `-l` liệt kê chi tiết hơn với permission, size, owner,...
   - `-a` hiện thư mục ẩn
@@ -26,7 +18,7 @@
   - `-rf` xóa thư mục
 -  `grep` tìm kiếm một đoạn text trong file hoặc thư mục
 
-## 3.1 cat
+## 2.1 cat
 Là một lệnh phổ biến trong linux với các chức năng như đọc, tạo, điều hướng file.
 
 Cú pháp `cat [option] [file]`
@@ -40,7 +32,7 @@ Cú pháp `cat [option] [file]`
 Kết hợp với ống lệnh, ví dụ tạo file3 với input là file1 và file2 kết hợp đồng thời với sắp xếp
 
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/cat2.png)
-## 3.2 join
+## 2.2 join
 Dùng để ghép 2 file hoặc một vùng cho trước, yêu cầu phải đánh số dòng tại input (`nl`)
 
 Cú pháp `join [option] file1 file2`
@@ -49,7 +41,7 @@ Cú pháp `join [option] file1 file2`
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/join2.png)
 - `-v` chỉ in ra dòng bị lệch
 - `-t` sử dụng ký tự để tách các cột được ghép
-## 3.3 paste
+## 2.3 paste
 Dùng để ghép 1 file với các file khác theo từng cột dữ liệu
 
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/paste2.png)
