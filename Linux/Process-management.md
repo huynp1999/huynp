@@ -8,7 +8,7 @@ Cú pháp: `ps [option]`
 
 Các cột thông tin:
 - PID  – ID đặc trưng cho tiến trình
-  - PPID - PID của tiến trình cha
+  - PPID – PID của tiến trình cha
 - TTY  – thông tin terminal người dùng đăng nhập
 - TIME – lượng thời gian tiến trình đó sử dụng CPU (nếu là 00:00:00 có nghĩa tiến trình đó không sử dụng CPU)
 - CMD  – tên lệnh khởi động tiến trình
