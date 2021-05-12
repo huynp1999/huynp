@@ -17,14 +17,14 @@ Tiện ích ps sẽ đọc thông tin tiến trình từ một file ảo nằm t
 
 Cú pháp: `ps [option]`
 
-Các cột thông tin:
+**Các cột thông tin:**
 - PID  – ID đặc trưng cho tiến trình
   - PPID – PID của tiến trình cha
 - TTY  – thông tin terminal người dùng đăng nhập
 - TIME – lượng thời gian tiến trình đó sử dụng CPU (nếu là 00:00:00 có nghĩa tiến trình đó không sử dụng CPU)
 - CMD  – tên lệnh khởi động tiến trình
 
-Các option:
+**Các option:**
 - `ps`    show những tiến trình đang chạy ở shell hiện tại
 - `-a/-e` show tất cả những tiến trình đang chạy
 - `-f`    show full các thông tin
@@ -69,14 +69,14 @@ Lệnh top hiển thị trạng thái hoạt động của hệ thống, và nh�
 
 Khởi động: `top`
 
-Phím tắt:
+**Phím tắt:**
 - `q` thoát
 - `Shift+O` để sắp xếp theo từng kiểu vùng
 - `z` show tất cả các tiến trình đang chạy
 - `k` kill tiến trình theo PID
 - `Shift+P` sắp xếp theo %cpu được các tiến trình sử dụng 
 
-Các option:
+**Các option:**
 - `-u huynp` show tiến trình theo user
 - `-n 1 -b > outp.txt` lưu và đẩy kết quả hiển thị vào file
 
@@ -91,7 +91,7 @@ Màn hình hiển thị của htop được chia làm 3 phần:
 - Body: liệt kê tất cả tiến trình đang chạy
 - Footer: hiển thị các tùy chọn
 
-Các cột thông số:
+**Các cột thông tin:**
 - `PID` số ID của tiến trình
 - `USER` người dùng sở hữu tiến trình
 - `PR` độ ưu tiên của tiến trình. Số càng thấp, ưu tiên càng cao
@@ -105,7 +105,7 @@ Các cột thông số:
 - `TIME+` thời gian sử dụng CPU của tiến trình
 - `COMMAND` tên lệnh khởi tạo tiến trình
 
-Các phím tắt:
+**Phím tắt:**
 - `F9`    kill process
 - `F7/F8` renice tiến trình
 - `I`     liệt kê các tập tin được sử dụng bởi tiến trình
@@ -115,7 +115,7 @@ Các phím tắt:
 
 # Kill process
 Xem các tùy chọn SIGNAL để làm việc với tiến trình: `kill -l`
-Một số SIGNAL chính:
+Một số **SIGNAL chính**:
 - `-9`  (SIGKILL)   hard kill, xóa ngay lập tức
 - `-15` (SIGTERM)   soft kill, hẹn giờ xóa
 - `-18` (SIGCONT)   tiếp tục tiến trình
