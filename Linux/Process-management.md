@@ -19,7 +19,7 @@ Các option:
 - `-f`    show full các thông tin
 - `-u`    chọn show theo user ID 
   - Ví dụ khi khởi tạo một phiên tmux sẽ cho PPID bằng với bash đã khởi tạo nó (tiến trình cha)
-  - ```
+```
 huynp     6444  6159  0 09:02 pts/1    00:00:00 bash
 huynp     6452  6444  0 09:02 pts/1    00:00:00 tmux
 ```
@@ -33,8 +33,7 @@ huynp     6452  6444  0 09:02 pts/1    00:00:00 tmux
 - `-t` chọn show theo tty
 - `-- forest` show theo cây
 - `-o` show theo các cột cho trước
-
-Ví dụ show PID 4558 theo từng cột pid,ppid,user,cmd
+  - Ví dụ cần show PID 4558 theo từng cột pid,ppid,user,cmd
 ```
 huynp@huyComputer:~$ ps -p 4558 -o pid,ppid,user,cmd
   PID  PPID USER     CMD
