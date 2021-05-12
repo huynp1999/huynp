@@ -18,9 +18,8 @@ Các option:
 - `-a/-e` show tất cả những tiến trình đang chạy
 - `-f`    show full các thông tin
 - `-u`    chọn show theo user ID 
-
-Ví dụ khi khởi tạo một phiên tmux sẽ cho PPID bằng với bash đã khởi tạo nó (tiến trình cha)
-```
+  - Ví dụ khi khởi tạo một phiên tmux sẽ cho PPID bằng với bash đã khởi tạo nó (tiến trình cha)
+  - ```
 huynp     6444  6159  0 09:02 pts/1    00:00:00 bash
 huynp     6452  6444  0 09:02 pts/1    00:00:00 tmux
 ```
