@@ -1,5 +1,5 @@
 # Boot process
-![Alt]((https://user-images.githubusercontent.com/83684068/117920279-cf185f00-b318-11eb-9927-1f2c8338d2cc.png)
+![Alt](https://user-images.githubusercontent.com/83684068/117920279-cf185f00-b318-11eb-9927-1f2c8338d2cc.png)
 1. System Startup
 Đây là bước đầu tiên của quá trình khởi động , ở bước này BIOS thực hiện kiểm tra tính sẵn sàng phần cứng (POST) nhằm kiểm tra thông số và trạng thái của các phần cứng máy tính như bộ nhớ, CPU,... Nếu quá trình POST kết thúc thành công, BIOS sẽ tìm kiếm và boot 1 hệ điều hành được chứa trong các thiết bị lưu trữ như HHD, SSD, CD/DVD, USB.
 2. MBR Loading
