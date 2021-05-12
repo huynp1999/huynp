@@ -1,6 +1,13 @@
 # Quản lý tiến trình
 
-## ps
+Bất cứ khi nào một lệnh được phát hành trong unix / linux, nó sẽ khởi tạo một tiến trình mới. Mỗi tiến trình được cắp một PID duy nhất.
+Một tiến trình có thể hoạt động theo 2 cách:
+- Foreground – Mỗi tiến trình mặc định sẽ khởi chạy ở tiền cảnh (foreground), nhận dữ liệu từ bàn phím và gửi output ra màn hình. Khi ở foreground các tiến trình phải chạy lần lượt theo thứ tự
+- Background – dành cho những tiến trình chạy trên nền (background), không yêu cầu dữ liệu từ bàn phím.Khi ở foreground các tiến trình có thể hoạt động song song nhau
+
+Ví dụ khi chuyển một tiến trình từ fg về bg
+
+# ps
 Dùng để xem thông tin của các tiến trình đang chạy trong hệ thống.
 Tiện ích ps sẽ đọc thông tin tiến trình từ một file ảo nằm trong thư mục /proc, kết hợp với một số tuỳ chọn để người dùng dễ dàng quan sát.
 
