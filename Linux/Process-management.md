@@ -1,6 +1,6 @@
 # Quản lý tiến trình
 
-Bất cứ khi nào một lệnh được phát hành trong unix / linux, nó sẽ khởi tạo một tiến trình mới. Mỗi tiến trình được cắp một PID duy nhất.
+Bất cứ khi nào một lệnh được khởi chạy trong linux sẽ tạo một tiến trình mới. Mỗi tiến trình được cấp một PID duy nhất.
 Một tiến trình có thể hoạt động theo 2 cách:
 - Foreground – Mỗi tiến trình mặc định sẽ khởi chạy ở tiền cảnh (foreground), nhận dữ liệu từ bàn phím và gửi output ra màn hình. Khi ở foreground các tiến trình phải chạy lần lượt theo thứ tự
 - Background – dành cho những tiến trình chạy trên nền (background), không yêu cầu dữ liệu từ bàn phím.Khi ở foreground các tiến trình có thể hoạt động song song nhau
