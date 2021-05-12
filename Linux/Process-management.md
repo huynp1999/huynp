@@ -115,6 +115,7 @@ Màn hình hiển thị của htop được chia làm 3 phần:
 
 # Kill process
 Xem các tùy chọn SIGNAL để làm việc với tiến trình: `kill -l`
+
 Một số **SIGNAL chính**:
 - `-9`  (SIGKILL)   hard kill, xóa ngay lập tức
 - `-15` (SIGTERM)   soft kill, hẹn giờ xóa
