@@ -5,7 +5,11 @@ Một tiến trình có thể hoạt động theo 2 cách:
 - Foreground – Mỗi tiến trình mặc định sẽ khởi chạy ở tiền cảnh (foreground), nhận dữ liệu từ bàn phím và gửi output ra màn hình. Khi ở foreground các tiến trình phải chạy lần lượt theo thứ tự
 - Background – dành cho những tiến trình chạy trên nền (background), không yêu cầu dữ liệu từ bàn phím.Khi ở foreground các tiến trình có thể hoạt động song song nhau
 
-Ví dụ khi chuyển một tiến trình từ fg về bg
+Ví dụ:
+- Tiến trình `yes` sau khi được khởi tạo sẽ mặc định chạy ở foreground (có thể dùng `&` để chạy trực tiếp ở background)
+- Khi `Ctrl+Z` để dừng lại và `bg` để chuyển nó về background
+- Tương tự, `fg` để chuyển từ background lên foreground
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/bgfg.png)
 
 # ps
 Dùng để xem thông tin của các tiến trình đang chạy trong hệ thống.
