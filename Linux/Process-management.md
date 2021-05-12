@@ -105,9 +105,9 @@ Các phím tắt:
 # Kill process
 Xem các tùy chọn SIGNAL để làm việc với tiến trình: `kill -l`
 Một số SIGNAL chính:
-- `-9`  - SIGKILL   hard kill, xóa ngay lập tức
-- `-15` - SIGTERM   soft kill, hẹn giờ xóa
-- `-18` - SIGCONT   tiếp tục tiến trình
-- `-19` - SIGSTOP   tạm dừng tiến trình
+- `-9`  (SIGKILL)   hard kill, xóa ngay lập tức
+- `-15` (SIGTERM)   soft kill, hẹn giờ xóa
+- `-18` (SIGCONT)   tiếp tục tiến trình
+- `-19` (SIGSTOP)   tạm dừng tiến trình
 
 Ví dụ khi cần kill process, trước tiên cần tìm PID của tiến trình: `ps -a | grep firefox` và `kill -9 [PID]`
