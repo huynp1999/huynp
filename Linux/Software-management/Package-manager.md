@@ -11,6 +11,10 @@ Các option:
 - `-P` gỡ cài đặt gói, xóa file cấu hình
 - `-l` list những gói đã được cài đặt
 
+Cài đặt apache:
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/dpks1.png)
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/dpkg2.png)
+
 ## apt
 Là một tiện ích dành cho cài đặt, cập nhật, xóa bỏ  và quản lý các gói cho Ubuntu, Debian và nhiều distro Linux khác.
 
@@ -25,3 +29,6 @@ Các option:
 - `list` list những gói được cài đặt và có thể nâng cấp
 - `search` tìm gói xem có sẵn để cài đặt không
 - `show` đưa ra thông tin về gói như kích thước, nguồn cài đặt,...
+
+Cài đặt nginx:
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/apt1.png)
