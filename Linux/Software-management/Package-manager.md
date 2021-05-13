@@ -12,6 +12,7 @@ Các option:
 - `-l` list những gói đã được cài đặt
 
 Cài đặt apache:
+
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/dpks1.png)
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/dpkg2.png)
 
@@ -31,4 +32,5 @@ Các option:
 - `show` đưa ra thông tin về gói như kích thước, nguồn cài đặt,...
 
 Cài đặt nginx:
+
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/apt1.png)
