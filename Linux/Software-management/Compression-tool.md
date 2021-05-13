@@ -18,6 +18,7 @@ Các option:
 - `-x` giải nén
 - `-C` giải nén vào một thư mục
 
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/tar1.png)
 ## rar
 Là công cụ nén làm việc với đuôi .rar
 
@@ -31,6 +32,8 @@ Các option:
 - `u` thêm file vào trong file nén
 - `-p` đặt password
 
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/rar1.png)
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/rar2.png)
 ## zip
 Là công cụ nén làm việc với đuôi .zip
 
