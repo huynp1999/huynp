@@ -80,13 +80,13 @@ Bang khong
 với `-eq` = **eq**ual, `-ge` = **g**reater than or **e**qual,...
 
 # Startup script
-Có nhiều cách  chạy một script mỗi khi khởi động hoặc reboot máy, ví dụ như `crontab -e` nhưng ví dụ ở đây sẽ làm việc với `systemd` vì cho độ tin cậy cao nhất.
+Có nhiều cách chạy một script mỗi khi khởi động hoặc reboot máy như `crontab -e`, nhưng ví dụ ở đây sẽ làm việc với `systemd` vì cho [độ tin cậy cao nhất](https://transang.me/create-startup-scripts-in-ubuntu/#method-3-inconsistent-create-a-shell-startup-script).
 
-Với một bash script sau, dùng để in ra màn hình chuỗi ký tự mỗi khi một người dùng đăng nhập với `/etc/motd` (message of the day):
+Với một bash script sau dùng để in ra màn hình chuỗi ký tự mỗi khi một người dùng đăng nhập, với `/etc/motd` (message of the day):
 
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/startup3.png)
 
-Tạo một file .service tại `/etc/systemd/system` với nội dung cơ bản gồm
+Tạo một file .service tại `/etc/systemd/system` với nội dung cơ bản gồm:
 - thông tin
 - đường dẫn file script
 - áp dụng cho đa người dùng 
@@ -96,5 +96,6 @@ Tạo một file .service tại `/etc/systemd/system` với nội dung cơ bản
 File .service này cần được cấp quyền `chmod -x` để có thể thực hiện `systemctl enable`.
 
 Kết quả:
+
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/startup1.png)
 
