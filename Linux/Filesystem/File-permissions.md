@@ -21,6 +21,8 @@ Như vậy chỉ có nhóm đó nghĩa là những người trong lớp có quy�
 Bất kỳ user nào không thuộc vào 2 đối tượng phía trên.
 - Xét với ví dụ trên, các bạn lớp khác chính là thuộc nhóm Other bởi không thuộc trong nhóm hay sở hữu tài liệu nào cả
 
+![Alt](https://www.guru99.com/images/PermissionsConcept.png)
+
 ## Permission
 Là công cụ để Linux phân biệt 3 loại người dùng trên.
 
@@ -32,7 +34,7 @@ Trong đó, mỗi một file hay thư mục trong Linux đều có 3 quyền đ�
 ##
 Để xem permission của một file: `ls -l`
 
-
+![Alt](https://github.com/huynp1999/huynp/blob/master/pic/permission.png)
 
 Trong đó:
 - `d` = directory
@@ -64,6 +66,8 @@ Cách quyền sẽ được đại diện bằng số theo bảng sau:
 
 Ví dụ với `chmod 764` sẽ lần lượt cấp 7 cho user, 6 cho group và 4 cho other.
 
+![Alt](https://github.com/huynp1999/huynp/blob/master/pic/permission2.png)
+
 ## Cách 2 (ký tự)
 Các ký tự toán học:
 - `+` thêm quyền
@@ -78,9 +82,13 @@ Các chủ sở hữu được đại diện bởi:
 
 Ví dụ với `chmod u=rw-` thì quyền w của user sẽ mất do bị ghi đè.
 
+![Alt](https://github.com/huynp1999/huynp/blob/master/pic/permission3.png)
+
 # Thay đổi quyền sở hữu và group
 Khi cần thay đổi quyền sở hữu của một file hoặc thư mục: `chmod [username] [filename]`
 
 Thay đổi quyền sở hữu của user và group: `chown [user:group] [filename]`
 
 Thay đổi quyền của group: `chgrp [groupname] [filename]`
+
+![Alt](https://github.com/huynp1999/huynp/blob/master/pic/permission4.png)
