@@ -16,11 +16,13 @@ Mỗi một loại RAID kèm theo những tính năng như
 ## Các chuẩn RAID
 ### RAID 0
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/RAID_0.svg/800px-RAID_0.svg.png" alt="drawing" width="200"/>
+
 - **Ưu điểm**: Striping phân chia khối dữ liệu và trải chúng qua các ổ cứng. Tăng hiệu quả thực thi.
 - **Nhược điểm**: tiềm ẩn rủi ro về dữ liệu. Bởi dữ liệu được chia đôi lưu trên 2 ổ cứng nếu hỏng 1 trong 2 thì nguy cơ mất dữ liệu rất cao
 
 ### RAID 1
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/RAID_1.svg/800px-RAID_1.svg.png" alt="drawing" width="200"/>
+
 - **Ưu điểm**: Mirroring đảm bảo an toàn hơn về dữ liệu do dữ liệu được ghi vào 2 ổ giống hệt nhau
 - **Nhược điểm**: hiệu suất không cao và tốn kém chi phí
 
