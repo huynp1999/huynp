@@ -144,3 +144,5 @@ sudo systemctl enable nginx.service
 sudo systemctl start nginx.service
 ```
 
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/nginx1.png)
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/nginx2.png)
