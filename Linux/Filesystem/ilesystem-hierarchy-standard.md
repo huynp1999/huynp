@@ -1,8 +1,17 @@
-# Directory tree
-Filesystem là cách mà hệ thống lưu trữ và khai thác tài nguyên, cho phép người dùng truy cập dễ dàng và an toàn khi cần thiết.
+# Filesystem Hierarchy Standard (FHS)
+Là một tiêu chuẩn thiết kế thư mục trong các bản phân phối Linux. FHS được tạo ra và duy trì bởi Linux Foundation.
+
 Pseudo filesystem là một cấu trúc được tạo bởi các file ảo, không có thật (pseudo). Cấu trúc file này đại diện cho các tài nguyên thật và thuộc tính của chúng. Khi tổ chức phần cứng theo cách này, làm cho việc tương tác với phần cứng trông giống như một phần mềm.
 
-Cấu trúc này được sắp xếp theo cây thư mục, với thư mục root nằm ở trên cùng (/).
+Hai thuộc tính file:
+- shareable hoặc unshareable
+  - shareable: là những file được lưu ở host, có thể truy cập từ host khác ví dụ như trong folder `/home`
+  - unshareable: là những file được phải nằm trên hệ thống riêng của chúng, ví dụ như trong foler `/etc`
+- variable hoặc static
+  - variable: là những file được thay đổi bởi người dùng hoặc các tiến trình
+  - static: là những file cần quyền superuser để can thiệp, ví dụ như `/etc`, `/usr`
+  - 
+Kiến trúc này được sắp xếp theo cây thư mục, với thư mục root nằm ở trên cùng (/).
 ![Alt](https://blogd.net/linux/tong-quan-ve-filesystem-tren-linux/img/minh-hoa-cho-filesystem.png)
 
 ## /
