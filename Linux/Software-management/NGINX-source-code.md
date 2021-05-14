@@ -16,37 +16,25 @@ Tải về source code của NGINX và giải nén:
 - `wget https://nginx.org/download/nginx-1.19.2.tar.gz && tar zxvf nginx-1.19.2.tar.gz`
 
 Thư viện dành cho những module:
-1. PCRE version 8.44
+1. **PCRE** version 8.44
 - `wget https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz && tar xzvf pcre-8.44.tar.gz`
 
-2. zlib version 1.2.11
+2. **zlib** version 1.2.11
 - `wget https://www.zlib.net/zlib-1.2.11.tar.gz && tar xzvf zlib-1.2.11.tar.gz`
 
-3. OpenSSL version 1.1.1g
-- `wget https://www.openssl.org/source/openssl-1.1.1g.tar.gz && tar xzvf openssl-1.1.1g.tar.gz`
-
-Cài đặt các tùy chọn:
-- `sudo apt install -y perl libperl-dev libgd3 libgd-dev libgeoip1 libgeoip-dev geoip-bin libxml2 libxml2-dev libxslt1.1 libxslt1-dev`
-Thư viện dành cho những module:
-1. PCRE version 8.44
-- `wget https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz && tar xzvf pcre-8.44.tar.gz`
-
-2. zlib version 1.2.11
-- `wget https://www.zlib.net/zlib-1.2.11.tar.gz && tar xzvf zlib-1.2.11.tar.gz`
-
-3. OpenSSL version 1.1.1g
+3. **OpenSSL** version 1.1.1g
 - `wget https://www.openssl.org/source/openssl-1.1.1g.tar.gz && tar xzvf openssl-1.1.1g.tar.gz`
 
 Cài đặt các tùy chọn:
 - `sudo apt install -y perl libperl-dev libgd3 libgd-dev libgeoip1 libgeoip-dev geoip-bin libxml2 libxml2-dev libxslt1.1 libxslt1-dev`
 
 Copy **man**ual vào thư mục /usr/share/man/man8/:
-- ```
+```
 sudo cp ~/nginx-1.19.2/man/nginx.8 /usr/share/man/man8
 sudo gzip /usr/share/man/man8/nginx.8
 ```
 Kiểm tra hoạt động của manual
-- ```
+```
 ls /usr/share/man/man8/ | grep nginx.8.gz
 man nginx
 ```
@@ -119,7 +107,7 @@ Liên kết `/usr/lib/nginx/modules` tới thư mục chuẩn của các nginx m
 - `sudo ln -s /usr/lib/nginx/modules /etc/nginx/modules`
 
 Tạo group và user, kiểm tra:
-- ```
+```
 sudo adduser --system --home /nonexistent --shell /bin/false --no-create-home --disabled-login --disabled-password --gecos "nginx user" --group nginx
 sudo tail -n 1 /etc/passwd /etc/group /etc/shadow
 ```
@@ -151,7 +139,7 @@ WantedBy=multi-user.target
 ```
 
 Khởi động nginx mỗi khi boot:
-- ```
+```
 sudo systemctl enable nginx.service
 sudo systemctl start nginx.service
 ```
