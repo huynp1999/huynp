@@ -8,7 +8,7 @@ Là một phần mềm web server mã nguồn mở. Ban đầu được dùng đ
 NGINX quản lý những threads tương đồng nhau trong một tiến trình (process), mỗi tiến trình hoạt động lại chứa các thực thể nhỏ hơn gọi là worker connections.
 Mỗi một worker connection có thể xử lý 1024 yêu cầu tương tự nhau, nhờ vậy mà NGINX có khả năng xử lý hàng ngàn kết nối cùng lúc.
 
-## Cài đặt NGINX từ source code
+# Cài đặt NGINX từ source code
 Bởi NGINX được viết từ C nên cần phải cài đặt trình biên dịch C:
 - `sudo apt install -y build-essential git tree`
 
