@@ -33,7 +33,7 @@ Một số thư mục con gồm:
 ### /bin
 Thư mục /bin chứa các chương trình thực thi, hay còn gọi là các binaries (nhị phân). Chúng là chương trình thiết yếu được sử dụng bởi admin hoặc user thường, như `ls`,`pwd`,...
 ### /sbin
-/sbin chứa các file nhị phân hệ thống giống /bin. Nhưng các file ở đây thường dành cho superuser. (superuser-bin).
+Chứa các file nhị phân hệ thống giống `/bin`. Nhưng các file ở đây thường dành cho superuser. (superuser-bin).
 ### /etc
 Chứa nhiều file config dùng để điều khiển hoạt động của một chương trình nào đó, ví dụ như của NGINX, cũng như fstab và danh sách các file system cần nạp vào khi khởi động máy. Ngoài ra thư mục còn chứa các script khởi động cho Linux như danh sách các host kèm địa chỉ IP.
 - `/etc/motd` tin nhắn khi user login
@@ -63,5 +63,8 @@ FHS cũng đưa ra những quy chuẩn cho thư mục bên dưới `/var`
 - `/var/opt` chứa variable data dành cho các phần mềm được cài đặt trong `/opt`
 - `/var/run` symbolic link trỏ đến /run
 ### /usr
-Là thư mục quan trọng thứ hai của một hệ thống Linux, bởi chứa đựng những chương trình cần thiết nhất cho hệ thống. Những thư mục cấp dưới của `/usr` cũng phải theo quy chuẩn của FHS tương tự như `/`. Ví dụ như `/usr/lib` chứa các thư viện để chương trình sử dụng, `/usr/bin`,..
+Là thư mục quan trọng thứ hai của một hệ thống Linux, bởi chứa đựng những chương trình cần thiết nhất cho hệ thống. Những thư mục cấp dưới của `/usr` cũng phải theo quy chuẩn của FHS tương tự như `/`.
+- `/usr/lib` chứa các thư viện để chương trình sử dụng
+- `/usr/local` là một phiên bản thu nhỏ của `/usr` dành cho các phần mềm tự build, tự cài không theo distro
+- `/usr/bin/` và `/usr/sbin` dành cho những binary file không cần thiết khi khắc phục sự cố (như ở `/bin` và `/sbin`). Các phần mềm thuộc distro cũng được cài đặt tại đây
 Trong nhiều trường hợp, thư mục /usr được phân vùng ra làm một filesystem riêng rẽ.
