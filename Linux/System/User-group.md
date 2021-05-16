@@ -5,8 +5,13 @@ Group là tập hợp của nhiều user, được tạo ra nhằm mục đính 
 ### 1.1 Quản lý
 Mỗi user được gắn cho một UID riêng, bắt đầu từ 1000 trở lên. Tại mỗi user lại nắm giữ nhiều ID của các nhóm đang tham gia.
 
-- Danh sách user: `/etc/passwd`
-- Danh sách group: `/etc/group`
+- **Danh sách user** `/etc/passwd`
+
+Mỗi dòng trong file tương ứng với một user, và gồm 7 trường trong đó về các thông tin như UID, GID, home directory, shell,...
+
+- **Danh sách group** `/etc/group`
+
+Mỗi dòng là các trường về tên group, mật khẩu, GID, những user trong group. 
 ### 1.2 Tạo và xoá
 - **User**
   - Tạo: `useradd [username]`  và đặt mặt khẩu `passwd [username]`
@@ -17,11 +22,15 @@ Mỗi user được gắn cho một UID riêng, bắt đầu từ 1000 trở lê
   - Xoá: `groupdel [groupname]`
 
 ### 1.3 Thêm user vào group
-- Tạo mới và thêm: `useradd -a -G newgroup username`
-- Có sẵn và thêm: `usermod -a -G newgroup username1`
+- Tạo user mới và thêm
+  - `useradd -a -G [group] [user]`
+- Thêm nhiều user vào 1 group
+  - `gpasswd -M [user1],[user2] [group]`
+- Xoá user khỏi group
+  - `gpasswd -d [user] [group]`
 
 # 2. Root user
-- Lệnh su 
+- **Lệnh su** 
 
 Su là một công cụ chuyển đổi người dùng (switch user)
 
@@ -29,7 +38,7 @@ Cú pháp: `su [username]`
 
 Mặc định nếu không ghi username sẽ tự hiểu là chuyển sang root, 
 
-- Lệnh sudo
+- **Lệnh sudo**
 
 Sudo là một cơ chế quản lý quyền, phụ thuộc vào `/etc/sudoers` mà xác định user nào được phép thực hiện loại lệnh quản lý nào.
 Mặc định, chỉ người dùng root mới có thể thực thi lệnh sudo. Người dùng root cần chỉnh sửa file cấu hình `/etc/sudoers` để cho phép những user thường khác thực thi lệnh sudo.
