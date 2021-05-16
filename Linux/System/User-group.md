@@ -6,17 +6,17 @@ Group là tập hợp của nhiều user, được tạo ra nhằm mục đính 
 Mỗi user được gắn cho một UID riêng, bắt đầu từ 1000 trở lên. Tại mỗi user lại nắm giữ nhiều ID của các nhóm đang tham gia.
 
 - **Danh sách user** `/etc/passwd`
-
-Mỗi dòng trong file tương ứng với một user, và gồm 7 trường trong đó về các thông tin như UID, GID, home directory, shell,...
-
 - **Danh sách group** `/etc/group`
 
-Mỗi dòng là các trường về tên group, mật khẩu, GID, những user trong group. 
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/user1.png)
+
+Mỗi dòng trong file tương ứng với một user hoặc group. Một dòng gồm các trường về tên user/group, mật khẩu, UID, GID,... 
 ### 1.2 Tạo và xoá
 - **User**
   - Tạo: `useradd [username]`  và đặt mặt khẩu `passwd [username]`
   - Xoá: `userdel [username]`
 
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/user2.png)
 - **Group**
   - Tạo: `groupadd [groupname]`
   - Xoá: `groupdel [groupname]`
@@ -26,6 +26,8 @@ Mỗi dòng là các trường về tên group, mật khẩu, GID, những user 
   - `useradd -a -G [group] [user]`
 - Thêm nhiều user vào 1 group
   - `gpasswd -M [user1],[user2] [group]`
+
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/user3.png)
 - Xoá user khỏi group
   - `gpasswd -d [user] [group]`
 
