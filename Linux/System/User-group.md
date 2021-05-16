@@ -5,8 +5,8 @@ Group là tập hợp của nhiều user, được tạo ra nhằm mục đính 
 ### 1.1 Quản lý
 Mỗi user được gắn cho một UID riêng, bắt đầu từ 1000 trở lên. Tại mỗi user lại nắm giữ nhiều ID của các nhóm đang tham gia.
 
-Danh sách user: `/etc/passwd`
-Danh sách group: `/etc/group`
+- Danh sách user: `/etc/passwd`
+- Danh sách group: `/etc/group`
 ### 1.2 Tạo và xoá
 - **User**
   - Tạo: `useradd [username]`  và đặt mặt khẩu `passwd [username]`
@@ -16,7 +16,7 @@ Danh sách group: `/etc/group`
   - Tạo: `groupadd [groupname]`
   - Xoá: `groupdel [groupname]`
 
-Thêm user vào group:
+### 1.3 Thêm user vào group
 - Tạo mới và thêm: `useradd -a -G newgroup username`
 - Có sẵn và thêm: `usermod -a -G newgroup username1`
 
@@ -35,7 +35,7 @@ Sudo là một cơ chế quản lý quyền, phụ thuộc vào `/etc/sudoers` m
 Mặc định, chỉ người dùng root mới có thể thực thi lệnh sudo. Người dùng root cần chỉnh sửa file cấu hình `/etc/sudoers` để cho phép những user thường khác thực thi lệnh sudo.
 
 
-### So sánh
+### 2.1 So sánh
 Vậy `su` và `sudo` giống nhau về cách mượn quyền root để thực thi.
 
 Tuy nhiên `su` sẽ chuyển hoàn toàn sang root user dẫn tới nhiều rủi ro về tính bảo mật và ổn định của hệ thống do người dùng toàn quyền quyết định. Cấp đặc quyền bằng `sudo` sẽ ít nguy hiểm và được ưu tiên hơn.
