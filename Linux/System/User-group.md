@@ -1,4 +1,4 @@
-# 1.User và group
+# 1. User và group
 Hệ điều hành Linux là hệ điều hành đa người dùng nên việc quản lý user và group là một phần quan trong trong việc quản lý hệ thống nói chung.
 
 Group là tập hợp của nhiều user, được tạo ra nhằm mục đính hỗ trợ [phân quyền](https://github.com/huynp1999/huynp/blob/master/Linux/Filesystem/File-permissions.md) và tránh rủi ro vận hành. Mỗi user trên linux bắt buộc phải thuộc một nhóm chính (primary group) và có thể là nhiều nhóm phụ khác (secondary group).
