@@ -1,4 +1,4 @@
-1. **Tạo physical volume**
+### Bước 1: Tạo physical volume
 
 Cú pháp: `pvcreate [partition1] [partition2]`
 
@@ -20,7 +20,7 @@ root@huynp:~# pvs
   /dev/sdc        lvm2 ---  1.00g 1.00g
 ```
 
-2. **Tạo volume group** từ physical volume
+### Bước 2: Tạo volume group từ physical volume
 Cú pháp: `vgcreate [vg_name] [pv1] [pv2]`
 
 ```
@@ -44,7 +44,7 @@ root@huynp:~# vgs
 
 Có thể thấy dung lượng của volume group `LVMGroup` thiếu một ít so với tổng tổng dung lượng của 2 phân vùng tạo ra nó, bởi vì trong quá trình sử dụng LVM, nó sẽ sử dụng một phần dung lượng để lưu trữ các thông tin khác.
 
-3. **Tạo logical volume** từ volume group
+### Bước 3: Tạo logical volume từ volume group
 
 Cú pháp: `lvcreate -L [size] -n [logical_volume_name] [volume_group_name]`
 
@@ -71,7 +71,7 @@ root@huynp:~# vgs -o +lv_size,lv_name
   LVMGroup   2   2   0 wz--n- 1.99g 208.00m   1.30g Client2
 ```
 
-4. **Format và mount**
+### Bước 4: Format và mount
 Cuối cùng, các volume group cần phải được format và mount để sử dụng chúng trong hệ thống. Các LV có thể được truy cập ở một trong hai nơi:
 
 `/dev/volume_group_name/logical_volume_name`
