@@ -4,7 +4,7 @@ Là một tính năng hữu ích trong LVM, cho phép tạo ra các bản sao l�
 ### Tạo Snapshot
 Cần phải sử dụng 1 phần của dung lượng trống trong VG để tạo ra snapshot, vậy nên trước tiên cần phải kiểm tra:
 ``` 
-~# vgdisplay LVMGroup | grep Free
+# vgdisplay LVMGroup | grep Free
   Free  PE / Size       307 / 1.20 GiB
 ```
 Snapshot cũng tương tự như một LV, dùng chung các câu lệnh như `lvcreate`, `lvextend`, `lvreduce` với chức năng tương tự:
