@@ -28,7 +28,7 @@ Kiểm tra:
 
 Có thể thấy kích thước của LVMGroup tăng lên 1GB bằng đúng dung lượng của phân vùng vừa được thêm vào.
 
-Tương tự như vậy khi cần giảm kích thước cho volume group, sử dụng câu lệnh: `vgreduce`
+Tương tự như vậy khi cần giảm kích thước cho volume group: `vgreduce`
 
 ```
 # vgreduce /dev/LVMGroup /dev/sdd
@@ -42,7 +42,7 @@ Tương tự như vậy khi cần giảm kích thước cho volume group, sử d
 
 Để tăng kích thước của một logical volume, trước tiên cần phải có dung lượng trống trong volume group mà logical volume đó được tạo.
 
-1. Kiểm tra dụng lượng tối đa dùng để tăng kích thước với câu lệnh `vgdisplay [vg]`
+1. Kiểm tra dụng lượng tối đa dùng để tăng kích thước: `vgdisplay [vg]`
 
 ```
 # vgdisplay LVMGroup | grep Free
@@ -51,7 +51,7 @@ Tương tự như vậy khi cần giảm kích thước cho volume group, sử d
 
 Có thể thấy dung lượng tối đa có thể tăng cho một logical volume là 1.20GB hoặc 307 PE (physical extent).
 
-2. Thêm dung lượng cho LV Client1 với câu lệnh `lvextend -l [PE] [logical_volume]`
+2. Thêm dung lượng cho LV Client1: `lvextend -l [PE] [logical_volume]`
 
 ```
 # lvextend -l 307 /dev/LVMGroup/Client1
@@ -59,7 +59,7 @@ Có thể thấy dung lượng tối đa có thể tăng cho một logical volum
   Logical volume Client1 successfully resized.
 ```
 
-3. Thay đổi kích thước cho LV Client1 sử dụng `resize2fs [logical_volume]`
+3. Thay đổi kích thước cho LV Client1: `resize2fs [logical_volume]`
 
 ```
 # resize2fs /dev/LVMGroup/Client1
@@ -71,34 +71,43 @@ The filesystem on /dev/LVMGroup/Client1 is now 1257472 (1k) blocks long.
 
 Để giảm kích thước của một logical volume, trước tiên cần phải unmount nó:
 
-1. Unmount logical volume với câu lệnh `umount -v [mount_directory]`
+1. Unmount logical volume: `umount -v [mount_directory]`
 ```
 # umount -v /mnt/Client1
 umount: /mnt/Client1 unmounted
 ```
+2. Kiểm tra lại filesystem: `e2fsck -f`
+3. Cắt bỏ dung lượng của logical volume: `lvreduce -L -[size] [filesystem]
 ```
-root@huynp:~# lvreduce -L -1G /dev/LVMGroup/Client1
+# lvreduce -L -1G /dev/LVMGroup/Client1
   WARNING: Reducing active logical volume to 204.00 MiB
   THIS MAY DESTROY YOUR DATA (filesystem etc.)
 Do you really want to reduce Client1? [y/n]: y
   Size of logical volume LVMGroup/Client1 changed from 1.20 GiB (307 extents) to 204.00 MiB (51 extents).
   Logical volume Client1 successfully resized.
 ```
+4. Giảm kích thước logical volume: `resize2fs [filesystem] [size]`
 
-
-
-### Xóa
+### Xóa LV, VG và PV
+- Trước khi xóa một logical volume cần phải unmount trước khi tiến hành xóa với câu lệnh: `lvremove [filesystem]`
 ```
-~# lvremove /dev/LVMGroup/Client1
+# lvremove /dev/LVMGroup/Client1
 Do you really want to remove and DISCARD active logical volume Client1? [y/n]: y
   Logical volume "Client1" successfully removed
 ```
 
-Xóa group
+- Xóa volume group: `vgremove [filesystem]`
 ```
 # vgremove /dev/LVMGroup
   Volume group "LVMGroup" successfully removed
 ```
+- Xóa physical volume: `pvremove [filesystem]
+```
+# pvremove /dev/sdb
+   Labels on physical volume "/dev/sdd" successfully wiped.
+```
+
+Kiểm tra:
 ```
 # lvmdiskscan | grep sd
   /dev/sda2  [      15.81 GiB]
@@ -108,3 +117,5 @@ Xóa group
   /dev/sdc   [       1.00 GiB]
   /dev/sdd   [       1.00 GiB]
 ```
+
+Như vậy tất cả đều được gỡ bỏ, các phân vùng trở về trạng thái ban đầu.
