@@ -11,15 +11,18 @@ LVM (Logical Volume Manager) là một phương pháp cho phép chuyển các kh
 **1. Physical volume (PV)**
   - Ổ cứng vật lí từ hệ thống (partition, SSD, đĩa cứng,..)
   - Đơn vị cơ bản để LVM khởi tạo volume group
+
 **2. Volume group (VG)**
   - Nhóm các physical volume (ổ đĩa ảo) trên 1 hoặc nhiều ổ đĩa khác nhau.
   - Dung lượng của một VG sẽ được chia thành nhiều Physical Extent (PE) với kích cỡ bằng nhau.
   - Logical Volume được tạo từ dung lượng trống của VG
+
 **3. Extent**
   - Là đơn vị dữ liệu của VG
   - Logical volume được tạo ra từ VG chứa nhiều extent nhỏ với kích thước bằng nhau
   - Các extent trên LV không nhất thiết phải nằm trên cùng một ổ cứng vật lí mà có thể rải rác trên nhiều ổ cứng khác nhau
   - Kích thước của một LV có thể được thêm bớt dựa theo các extent 
+
 **4. Logical volume (LV)**
   - Phân vùng ảo của ổ đĩa ảo, được chia từ VG.
   - Dùng để mount tới các filesystem và được format với định dạng chuẩn khác nhau như ext2, ext3, ext4...
