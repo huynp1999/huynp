@@ -1,3 +1,62 @@
+# Tổng quan LVM
+LVM (Logical Volume Manager) là một phương pháp cho phép chuyển các không gian đĩa cứng thành những phân vùng logic, giúp thuận lợi cho việc quản lý kích thước các phân vùng. 
+
+## Các chức năng chính
+- Tạo và quản lý nhiều Logical Volume cũng một lúc.
+- Snapshot, cho phép phục hổi hiện trạng của không gian ổ đĩa tại một thời điểm nhất định.
+- Thin Provisioning, cấp phát dung lượng dựa trên bộ nhớ trống
+- Migration, cho phép tạo ra bản sao từ Logical Volume nhằm di chuyển dữ liệu tới nơi khác
+
+## Các khái niệm
+**1. Physical volume (PV)**
+  - Ổ cứng vật lí từ hệ thống (partition, SSD, đĩa cứng,..)
+  - Đơn vị cơ bản để LVM khởi tạo volume group
+**2. Volume group (VG)**
+  - Nhóm các physical volume (ổ đĩa ảo) trên 1 hoặc nhiều ổ đĩa khác nhau.
+  - Dung lượng của một VG sẽ được chia thành nhiều Physical Extent (PE) với kích cỡ bằng nhau.
+  - Logical Volume được tạo từ dung lượng trống của VG
+**3. Extent**
+  - Là đơn vị dữ liệu của VG
+  - Logical volume được tạo ra từ VG chứa nhiều extent nhỏ với kích thước bằng nhau
+  - Các extent trên LV không nhất thiết phải nằm trên cùng một ổ cứng vật lí mà có thể rải rác trên nhiều ổ cứng khác nhau
+  - Kích thước của một LV có thể được thêm bớt dựa theo các extent 
+**4. Logical volume (LV)**
+  - Phân vùng ảo của ổ đĩa ảo, được chia từ VG.
+  - Dùng để mount tới các filesystem và được format với định dạng chuẩn khác nhau như ext2, ext3, ext4...
+  - Tương tự như các partition trên ổ cứng nhưng linh hoạt hơn vì có thể tùy chỉnh kích thước mà không làm gián đoạn hệ thống.
+  - LV được chia thành nhiều các Logical Extent, mỗi Logical Extent được ánh xạ với 1 Physical Extent trên ổ đĩa.
+
+## Các thao tác quản lý
+
+LVM là một phương pháp được hỗ trợ sẵn trong các hệ điều hành Linux. Các tính năng của nó được cung cấp qua nhiều tiện các câu lệnh. 
+
+1. Đối với Physical Volumes, các câu lệnh chứa tiền tố `pv*` với một số chức năng chính như:
+- `pvcreate` tạo PV từ partition  
+- `pvs` show các PV đã được tạo
+- `pvremove` xóa PV
+- `pvresize` điều chỉnh kích thước của PV
+
+Một Physical Volume tương đương với một đĩa vật lý hoặc một phân vùng, chẳng hạn như `/dev/sda1`,`/dev/sdb`.
+
+Đối với Volume Group, các câu lệnh chứa tiền tố `vg*` với một số chắc năng chính như:
+- `vgcreate` tạo VG từ PV
+- `vgs` show các VG đã được tạo
+- `vgextend`,`vgreduce` tăng và giảm kích thước VG
+- `vgremove` xóa VG
+- `vgcfgbackup`,`vgcfgrestore` lưu trữ và khôi phục cấu hình VG
+
+Một Volume Group được hình thành từ là một nhóm các Physical Volume.
+
+Đối với Logical Volume, các câu lệnh chứa tiền tố `lv*` với một số chắc năng chính như:
+- `lvcreate` tạo LV từ VG
+- `lvs` show các LV đã được tạo
+- `lvextend`,`lvreduce` tăng và giảm kích thước LV
+- `lvremove` xóa LV
+- `lvmdiskscan` kiểm tra tình trạng các phân vùng ô cứng
+
+Logical Volume là mức cuối cùng trước khi có thể mount vào hệ điều hành.
+
+## LAB
 ### Bước 1: Tạo physical volume
 
 Cú pháp: `pvcreate [partition1] [partition2]`
