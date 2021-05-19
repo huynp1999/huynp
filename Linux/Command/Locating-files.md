@@ -14,6 +14,9 @@ Các option:
 Ví dụ với một file hierarchy như sau:
 
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/find1.png)
+
+Thực hiện lệnh xóa khi tìm ra kết quả. (`-exec` bắt buộc phải có đầy đủ cú pháp với `{} \;`)
+
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/find2.png)
 
 ### locate
