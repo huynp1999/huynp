@@ -6,6 +6,8 @@ Là một tính năng cấp phát ổ cứng dựa theo nhu cầu trong LVM.
 
 
 ## Lab
+Tính năng Thin Provisioning chỉ được khuyến nghị chứ không được gộp sẵn vào gói lvm2, vậy nên người dùng muốn sử dụng phải tự cài đặt:
+- `sudo apt-get install -y thin-provisioning-tools`
 1. Trước tiên, cần tạo một VG dành riêng cho Thin Group
 ```
 # vgcreate LVMThinGrp /dev/sdb /dev/sdc /dev/sdd
