@@ -12,6 +12,7 @@ Các option:
 - `-user` tìm theo chủ sở hữu
 
 Ví dụ với một file hierarchy như sau:
+
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/find1.png)
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/find2.png)
 
@@ -27,7 +28,7 @@ Các option:
 - `-c` số lượng kết quả tìm được
 - `-i` tìm theo cả chữ hoa và chữ thường
 
-![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/location.png)
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/locate.png)
 ### whereis
 Là một tiện ích tìm kiếm vị trí các file nhị phân, nguồn, hướng dẫn sử dụng của một câu lệnh.
 
