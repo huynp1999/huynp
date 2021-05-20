@@ -34,7 +34,16 @@ Header tiêu chuẩn của syslog đi kèm với một số trường mặc đ�
 
 Với định dạng mặc định sẽ dễ dàng dể quan sát và phân tích hơn, tuy nhiên vẫn có thể tùy chỉnh các trường xuất hiện theo mục đính của người dùng bằng **rsyslog**.
 
-# Rsyslog
+# Syslog
+Syslog là giao thức dùng để xử lí các file log trong Linux. File log có thể ở trong chính máy đó hoặc di chuyển sang 1 máy khác.
+Đặc điểm:
+- Syslog có thể gửi qua UDP hoặc TCP.
+- Các dữ liệu log được gửi dưới dạng cleartext.
+- Syslog mặc định dùng cổng 514.
+
+Syslog là 1 giao thức và được sử dụng bởi dịch vụ **Rsyslog**
+
+### Rsylog
 The **r**ocket-fast **sys**tem for **log** processing là một phần mềm mã nguồn mở sử dụng trên Linux dùng để chuyển tiếp các log message đến một địa chỉ trên mạng (log receiver, log server). Nó thực hiện giao thức syslog cơ bản, đặc biệt là sử dụng TCP cho việc truyền tải log từ client tới server. Hiện nay rsyslog là phần mềm được cài đặt sẵn trên hầu hết các distro Linux
 
 - Ở những bản distro Linux hiện đại (như Ubuntu, CentOS hoặc RHEL), máy chủ syslog mặc định được sử dụng là rsyslog.
