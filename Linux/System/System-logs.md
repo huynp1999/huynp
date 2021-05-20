@@ -31,6 +31,29 @@ Header tiêu chuẩn của syslog đi kèm với một số trường mặc đ�
 - `timestamp` là thời gian và ngày tháng năm mà bản tin được ghi
 - `hostname` tên của host hoặc hệ thống đã gửi bản tin
 - `app-name` tên của ứng dụng
-- `priority` cho thấy mức độ cần thiết hoặc nghiêm trọng của sự kiện
 
-Với định dạng mặc định sẽ dễ dàng dể quan sát và phân tích hơn, tuy nhiên vẫn có thể tùy chỉnh các trường xuất hiện theo mục đính của người dùng.
+Với định dạng mặc định sẽ dễ dàng dể quan sát và phân tích hơn, tuy nhiên vẫn có thể tùy chỉnh các trường xuất hiện theo mục đính của người dùng bằng **rsyslog**.
+
+# Rsyslog
+The **r**ocket-fast **sys**tem for **log** processing là một phần mềm mã nguồn mở sử dụng trên Linux dùng để chuyển tiếp các log message đến một địa chỉ trên mạng (log receiver, log server). Nó thực hiện giao thức syslog cơ bản, đặc biệt là sử dụng TCP cho việc truyền tải log từ client tới server. Hiện nay rsyslog là phần mềm được cài đặt sẵn trên hầu hết các distro Linux
+
+- Ở những bản distro Linux hiện đại (như Ubuntu, CentOS hoặc RHEL), máy chủ syslog mặc định được sử dụng là rsyslog.
+- Rsyslog là một sự phát triển của syslog, cung cấp các khả năng như các module có thể cấu hình, được liên kết với nhiều mục tiêu khác nhau (ví dụ chuyển tiếp nhật ký Apache đến một máy chủ từ xa).
+- Rsyslog cũng cung cấp tính năng lọc riêng, cho phép người dùng tùy chỉnh định dạng của log.
+
+### Ví dụ
+Định dạng mặc định của syslog có tên là `RSYSLOG_TraditionalFileFormat`, người dùng có thể tự tùy chỉnh các trường xuất hiện như sau:
+
+Các trường được tùy chỉnh bao gồm:
+- `%pri%` cho thấy mức độ cần thiết hoặc nghiêm trọng của sự kiện
+- `%HOSTNAME%` tên của host hoặc hệ thống đã gửi bản tin
+- `%app-name%` tên của ứng dụng
+- `%msg%` nội dung bản tin được gửi tới `syslog`
+
+Sau khi cấu hình lại `/etc/rsyslog.conf` cần phải khởi động lại service: `sudo systemctl restart rsyslog.service`
+
+Kết quả khi vào xem file `/var/log/syslog` sẽ đúng theo format mà người dùng đưa ra.
+
+
+So với trước khi thay đổi định dạng:
+
