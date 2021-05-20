@@ -31,7 +31,7 @@ Các option:
 - `-c` số lượng kết quả tìm được
 - `-i` tìm theo cả chữ hoa và chữ thường
 
-![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/locate.png)
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/locate1.png)
 ### whereis
 Là một tiện ích tìm kiếm vị trí các file nhị phân, nguồn, hướng dẫn sử dụng của một câu lệnh.
 
