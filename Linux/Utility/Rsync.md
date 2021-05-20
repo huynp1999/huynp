@@ -20,6 +20,7 @@ Các option:
 - `--exclude '*'` loại trừ ra những dữ liệu không muốn truyền đi
 - `--progress` hiển thị thông tin tiến trình transfer
 
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/rs.png)
 
 Khi cần làm việc với remote server, ví dụ ở đây có địa chỉ là `192.168.50.9`
 - `rsync -avzh --progress root@192.168.50.9:/root/testdir /root/testdir`
