@@ -4,6 +4,7 @@ Tất cả những hoạt động từ kernel đến user đều được Linux 
 ## System logs
 Linux có một danh mục riêng để chứa các log (bản ghi nhật ký) là `/var/log`. Thư mục này chứa tất cả log của hệ điều hành, dịch vụ (service), và các ứng dụng chạy trong hệ thống.
 
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/log1.png)
 
 Một số các system log quan trọng nằm ở:
 - `var/log/syslog` ghi lại hoạt động của toàn bộ hệ thống
@@ -53,6 +54,8 @@ The **r**ocket-fast **sys**tem for **log** processing là một phần mềm mã
 ### Ví dụ
 Định dạng mặc định của syslog có tên là `RSYSLOG_TraditionalFileFormat`, người dùng có thể tự tùy chỉnh các trường xuất hiện như sau:
 
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/rsyslog2.png)
+
 Các trường được tùy chỉnh bao gồm:
 - `%pri%` cho thấy mức độ cần thiết hoặc nghiêm trọng của sự kiện
 - `%HOSTNAME%` tên của host hoặc hệ thống đã gửi bản tin
@@ -63,6 +66,9 @@ Sau khi cấu hình lại `/etc/rsyslog.conf` cần phải khởi động lại 
 
 Kết quả khi vào xem file `/var/log/syslog` sẽ đúng theo format mà người dùng đưa ra.
 
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/rsyslog1.png)
 
 So với trước khi thay đổi định dạng:
+
+![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/rsyslog3.png)
 
