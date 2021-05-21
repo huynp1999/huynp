@@ -1,12 +1,12 @@
 # Giao thức IP
-Giao thức IP đóng các gói gọi là IP packet để chứa thông tin. 
+Giao thức IP đóng các gói IP packet để chứa thông tin. 
 
 Các đặc điểm:
 - Mỗi packet là một đơn vị bản tin, chúng không được đánh số và không cần phải gửi theo thứ tự
 - IP không thiết lập kết nối, việc này dành cho TCP và UDP nằm ở lớp Transport
 - Các địa chỉ IP được phân theo các cấp bậc
 
-### IPv4
+## IPv4
 Mỗi thiết bị phải có một IP duy nhất trong một vùng mạng.
 
 Mỗi một IP bao gồm 2 phần: **Network** và **Host**. Subnetmask sẽ chỉ ra đâu là phần Network (bit 1) và đâu là phần Host (bit 0)
@@ -34,3 +34,6 @@ Phạm vi của IP private:
 - Gọi n là số bit mượn ở phần Host để chia subnet thì số mạng con là 2^n
 - m là số bit còn lại của phần host thì số host cho mỗi mạng con là 2^m - 2
 - n+m= số bit phần host ban đầu
+
+## IPv6
+
