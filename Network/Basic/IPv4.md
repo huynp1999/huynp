@@ -31,6 +31,6 @@ Phạm vi của IP private:
 - Class C:  192.168.0.0 – 192.168.255.255
 
 #### Chia mạng con
-Gọi n là số bit mượn ở phần Host để chia subnet thì số mạng con là 2^n
-m là số bit còn lại của phần host thì số host cho mỗi mạng con là 2^m - 2
-n+m= số bit phần host ban đầu
+- Gọi n là số bit mượn ở phần Host để chia subnet thì số mạng con là 2^n
+- m là số bit còn lại của phần host thì số host cho mỗi mạng con là 2^m - 2
+- n+m= số bit phần host ban đầu
