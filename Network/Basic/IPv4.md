@@ -36,4 +36,27 @@ Phạm vi của IP private:
 - n+m= số bit phần host ban đầu
 
 ## IPv6
+Địa chỉ IPv6 dài 128 bit, được chia làm 8 nhóm (octet), mỗi nhóm gồm 16 bit, được ngăn cách với nhau bằng dấu hai chấm “:”. Mỗi nhóm được biểu diễn bằng 4 số hexa.
+- Ví dụ: FEDC:BA98:768A:0C98:FEBA:CB87:7678:1111
 
+### Cấu trúc
+![alt](https://wiki.matbao.net/wp-content/uploads/2019/09/ipv6-la-gi-5-basic-IPv6-address.png)
+
+Một địa chỉ IPv6 được chia thành 3 phần:
+- **Site prefix**: là số được gán đến website bằng một ISP. Theo đó, tất cả máy tính trong cùng một vị trí sẽ được chia sẻ cùng một site prefix.
+- **Subnet ID**: là thành phần ở bên trong trang web, được sử dụng với chức năng miêu tả cấu trúc trang của mạng. Một IPv6 subnet có cấu trúc tương đương với một nhánh mạng đơn như subnet của IPv4.
+- **Interface ID**: có cấu trúc tương tự host_ID trong IPv4. Số này nhận dạng duy nhất một host riêng trong mạng. Interface ID được cấu hình tự động điển hình là dựa vào địa chỉ MAC của giao diện mạng.
+
+Với số lượng địa chỉ lớn, khả năng cung cấp được cho nhiều node và cấu trúc phân cấp linh hoạt. Cùng vì nhiều nên nó cần 1 số quy tắc để nhằm rút ngắn lại cách biểu diễn:
+- Cho phép bỏ các số 0 nằm trước mỗi nhóm (octet).
+- Thay bằng số 0 cho nhóm có toàn số 0.
+- Thay bằng dấu “::” cho các nhóm liên tiếp nhau có toàn số 0 (chỉ được thay 1 lần)
+
+Ví dụ với một IPv6 đầy đủ như sau: `1080:0000:0000:0070:0000:0989:CB45:005F` có thể viết được thành `1080::70:0:989:CB45:5F`
+
+### Phân loại
+
+Một địa chỉ IPv6 có thể được phân thành 1 trong 3 loại:
+- **Unicast**: chỉ có duy nhất 1 địa chỉ unicast trên một cổng của một node IPv6
+- **Multicast**: một địa chỉ multicast định nghĩa một nhóm các cổng IPv6. Một gói tin gửi đến địa chỉ multicast được xử lý bởi tất cả những thành viên trong nhóm
+- **Anycast**: địa chỉ được đăng kí cho nhiều cổng (trên nhiều node)
