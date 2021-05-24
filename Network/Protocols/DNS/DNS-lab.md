@@ -47,4 +47,5 @@ Thường được dùng trong các hệ thống email, yêu cầu cần phải 
 ## 4. Kiểm tra hoạt động
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/network/DNS/nslookup.PNG)
 
-Như vậy có thể thấy nameserver ở cả trong zone và ngoài Internet đều được phân giải thành IP. Ví dụ như với website 24h.com.vn có địa chỉ IP là 125.212.247.245
+Như vậy có thể thấy nameserver ở cả trong zone và ngoài Internet đều được phân giải thành địa chỉ IP thành công.
+- Ví dụ như với website 24h.com.vn có địa chỉ IP là 125.212.247.245
