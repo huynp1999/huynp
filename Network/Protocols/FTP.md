@@ -45,9 +45,9 @@ Ngoài ra, bên phía người dùng còn có 1 thành phần thứ ba là giao 
 ## Phương thức truyền dữ liệu
 Khi Client-DTP và Server-DTP thiết lập xong kênh dữ liệu, FTP có ba phương thức truyền dữ liệu:
 - Stream mode
- - Dữ liệu truyền đi liên tiếp dưới dạng các byte không cấu trúc.
- - Đẩy luồng dữ liệu qua kết nối TCP tới phía nhận.
- - Không có Header nên việc vận truyển dễ dàng hơn
+  - Dữ liệu truyền đi liên tiếp dưới dạng các byte không cấu trúc.
+  - Đẩy luồng dữ liệu qua kết nối TCP tới phía nhận.
+  - Không có Header nên việc vận truyển dễ dàng hơn
 - Block mode
   - Phương thức này mang tính quy chuẩn hơn.
   - Dữ liệu được chia thành nhiều khối nhỏ và đóng gói thành các FTP block.
