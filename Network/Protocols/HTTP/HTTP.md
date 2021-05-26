@@ -37,18 +37,15 @@ Là phương thức để chỉ ra hành động mong muốn được thực hi�
     - 1xx: Thông tin (100 -> 101) 
       - 100 (Continue)
     - 2xx: Thành công (200 -> 206) 
-      - 200 (OK) , 201 (CREATED)
-    - 3xx: Sự điều hướng lại (300 -> 307)
-      - 305 (USE PROXY)
+      - 200 (OK), 201 (CREATED)
+    - 3xx: Điều hướng web (300 -> 307)
+      - `302, 301` Thông báo có sự thay đổi trong URL
+      - `304` Không có thay đổi và có thể load từ cache 
     - 4xx: Lỗi phía Client (400 -> 417)
-      - 403 (FORBIDDEN), 404 (NOT FOUND)
+      - `403` Client không có quyền truy cập
+      - `404` Server không tìm thấy địa chỉ và không thể nhận diện URL
     - 5xx: Lỗi phía Server (500 -> 505) 
-      - 500 (INTERNAL SERVER ERROR)
+      - `500` Thông báo lỗi chung, không chỉ ra cụ thể
+      - `501` Server không nhận ra hoặc không thể thực thi yêu cầu
 
-# HTTPS (HyperText Transfer Protocol Secure)
-<img src="https://s.cystack.net/resource/home/content/17163019/Giao-th%E1%BB%A9c-HTTPS-01-1024x483.png" alt="drawing" width="700"/>
 
-Là giao thức Http có sử dụng thêm SSL (Secure Sockets Layer) để mã hóa dữ liệu trong lúc truyền tải dữ liệu, đây cũng là khác biệt chính với HTTP nhằm gia tăng thêm tính an toàn cho việc truyền dữ liệu giữa client và server.
-Giao thức Https sử dụng cổng 433 để truyền dữ liệu.
-
-Để có thể sử dụng giao thức Https thì cả browser và website đều phải có chứng chỉ SSL.
