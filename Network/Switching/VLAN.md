@@ -26,6 +26,17 @@ Ví dụ:
   - Gồm có 2 giao thức trunking:
     - 802.1Q (dot1q): một giao thức phổ biến, tiêu chuẩn và được hỗ trợ bởi nhiều nhà phát triển
     - ISL: giao thức riêng của Cisco, không có nhiều loại Switch hỗ hợ
+
+## Các loại VLAN
+1. **VLAN 1:** là kiểu mạng mặc định của tất cả các thiết bị hỗ trợ VLAN, tất cả các cổng mạng trên thiết bị mặc định đều nằm trong cùng một miền quảng bá và dưới quản lý của VLAN 1.
+2. **Default VLAN:** Là kiểu VLAN mặc định ban đầu với tất cả các interface trên một thiết bị, vì vậy cũng có thể hiểu là VLAN 1
+3. **User VLAN:** là VLAN trong đó chứa các tài khoản người dùng thành từng nhóm dựa theo các thuộc tính như phòng ban, chức năng
+4. **Native VLAN:** dùng để cấu hình Trunking với một số thiết bị cũ không tương thích, lúc này cần set native VLAN để chúng có thể giao tiếp với nhau mà không cần tag VLAN khi đi qua trunk. Mặc định Native VLAN cũng là VLAN 1, tuy nhiên cần phải đổi để đạt được tính bảo mật.
+
+        (config-if)#switchport trunk native vlan [vlan-id]
+
+5. **Management VLAN:** dùng để giám sát từ xa các thiết bị hệ thống mạng. VLAN này cần được tách riêng biệt để đảm bảo yếu tố an toàn bảo mật cũng như giải quyết khi hệ thống VLAN chính gặp vấn đề.
+6. **Voice VLAN:** Voice VLAN là VLAN dành cho lưu lượng thoại, cho phép các cổng Switch mang lưu lượng thoại IP từ một điện thoại IP.
 ##  VLAN Trunking Protocol (VTP)
 Là một giao thức hoạt động ở tầng datalink trong mô hình OSI
 
