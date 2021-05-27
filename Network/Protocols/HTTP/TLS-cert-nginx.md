@@ -1,17 +1,17 @@
 # Cấu hình chứng chỉ TLS trên NGINX với Let’s Encrypt
 Let’s Encrypt là phần mềm mã nguồn mở cung cấp mã hóa SSL/TLS miễn phí. Let’s Encrypt đóng vai trò tương tự như một Certificate Authority (CA) tự động.
 
-Chứng chỉ số do Let’s Encrypt cấp được hầu hết các trình duyệt hiện nay tin cậy, kể cả các trình duyệt cũ hơn như IE trên Windows XP. Ngoài ra, Let’s Encrypt còn cung cấp khả năng tự động hóa việc cấp và gia hạn chứng chỉ.
+Chứng chỉ số do Let’s Encrypt cấp được hầu hết các trình duyệt hiện nay tin cậy. Ngoài ra, Let’s Encrypt còn cung cấp khả năng tự động hóa việc cấp và gia hạn chứng chỉ.
 
 ## Cách thức hoạt động
 - Trước khi cấp chứng chỉ, Let’s Encrypt cần xác thực quyền sở hữu tên miền.
-- Let’s Encrypt trên server sẽ tạo một tệp tạm thời (token) với các thông tin bắt buộc trong đó.
-- Sau đó, máy chủ xác thực Let’s Encrypt thực hiện một yêu cầu HTTP để truy xuất tệp và xác thực token, xác nhận bản ghi DNS nơi chứa tên miền.
+- Let’s Encrypt trên server sẽ tạo một file tạm thời (token) với các thông tin bắt buộc trong đó.
+- Sau đó, máy chủ xác thực Let’s Encrypt thực hiện một yêu cầu HTTP để truy xuất file và xác thực token, xác nhận bản ghi DNS nơi chứa tên miền.
 
 ## Điều kiện tiên quyết
 Như vậy, để có thể sử dụng được Let’s Encrypt cần tuân theo những điều kiện tiên quyết sau:
 - Phải sở hữu một tên miền đã được đăng ký
-- Phải tạo được bản ghi DNS, nơi chứa tên miền được phân giải
+- Phải có bản ghi DNS, nơi chứa tên miền được phân giải
 - Server đã được cài đặt NGINX
 
 ## Cấu hình
