@@ -2,8 +2,8 @@
 Mã hóa là một công nghệ hoạt động bằng cách xáo trộn dữ liệu, nhằm tránh khỏi các bên ngoài ý muốn đọc được.
 
 Có nhiều loại thuật toán mã hóa tuy nhiên chúng đều dựa trên 2 phương pháp chủ yếu là:
-- Mã hóa khóa đối xứng (symmetric encryption)
-- Mã hóa khóa bất đối xứng (asymmetric encryption)
+- **Mã hóa khóa đối xứng (symmetric encryption)**
+- **Mã hóa khóa bất đối xứng (asymmetric encryption)**
 
 Mỗi hệ thống mã hóa có ưu nhược điểm riêng. Trong các ứng dụng mã hóa hiện tại, người ta thường kết hợp các ưu điểm của cả hai loại mã hóa này. 
 ## Mã hóa đối xứng
