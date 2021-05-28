@@ -26,6 +26,7 @@ Có 2 loại giao thức cài đặt EtherChannel:
 
 Cú pháp
   - `(config-if)#channel-group 1 mode [on/desirable/active/passive/auto]`
+
 Câu lệnh kiểm tra
   - `show etherchannel summary`
 
