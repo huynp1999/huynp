@@ -6,7 +6,11 @@ Thông tin các VLAN:
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/network/switching/vlan.png)
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/network/switching/ping.png)
 
-Etherchannel được tạo giữa 2 switch, gộp 2 interface vật lý thành một logic
+Etherchannel được tạo giữa 2 switch, gộp 2 interface vật lý thành một logic:
+```
+SW2(config)#int range e0/0-1
+SW2(config-if)#channel-group 1 mode auto
+```
 
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/network/switching/etherchannel.png)
 
