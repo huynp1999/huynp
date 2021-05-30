@@ -4,9 +4,6 @@ Là giao thức điều khiển từ xa cho phép người dùng kiểm soát v�
 Vượt trội hơn trình Telnet về tính bảo mật được đảm bảo trong suốt phiên giao tiếp
 - Để làm được như vậy, SSH triển khai 1 số kỹ thuật mã hoá với dữ liệu tại từng thời điểm khác nhau của phiên làm việc như [mã hóa đối xứng, bất đối xứng](https://github.com/huynp1999/huynp/blob/master/Network/Protocols/HTTP/Encryption-algorithms.md) và hàng băm
 
-
-Cú pháp: `ssh [user]@[host]`
-
 ## Đặc điểm
 Các tính chất được SSH cung cấp:
 - **Riêng tư (Privacy)**: dữ liệu được mã hóa
@@ -40,7 +37,7 @@ Một session của SSH được thành lập qua 2 bước:
 Các thông tin cấu hình SSH hệ thống được lưu trữ tại `/etc/ssh/`, còn các thông tin cấu hình của riêng từng user thì tại `~/.ssh/`
 
 Một số file cấu hình đáng quan tâm tại `~/.ssh/`:
-- `~/.ssh/config` chứa thông tin về remote host như hostname, thiết lập nén khi truyền dữ liệu, tuỳ chỉnh port,...
+- `~/.ssh/config` chứa thông tin về remote host như hostname, login name, thiết lập nén, tuỳ chỉnh port,...
 - `~/.ssh/id_rsa` khoá RSA private dùng để xác thực
 - `~/.ssh/id_rsa.pub` khoá RSA public dùng để gửi cho remote server
 
@@ -52,5 +49,23 @@ Còn trong `/etc/ssh` chứa file cấu hình `/etc/ssh/sshd_config`, dành cho 
 
 Lưu ý: mỗi khi tuỳ chỉnh các trường này cần phải `service ssh restart`.
 
+### Command
 
-  
+Cú pháp: `ssh [option] [user]@[host] [command]`
+- `-p` port
+- `-l` login name
+   - `ssh –p 22 –l huynp@192.168.50.9`
+
+Tạo key `ssh-keygen`
+- `-t rsa` tạo public và private key theo thuật toán RSA 
+- `-p` đổi passphrase
+
+Copy keypair đã được tạo lên server
+
+    ssh-copy-id  -i [file_name]  username@ip_address
+    
+### Tiện ích kèm theo
+Hai câu lệnh `scp` và `rsync` thường được dùng khi làm việc giữa local và remote server. Cả hai đều có chức năng copy và thay thế, nhưng `rsync` sử dụng thêm một số thuật toán phụ, nhằm tối ưu quy trình hoạt động
+- Ví dụ như `rsync` sẽ bỏ qua những file trùng, thay vì copy đè. Như vậy chỉ những file khác biệt mới đc truyền, giảm lưu lượng cho đường truyền dẫn
+- `rsync` cũng có nhiều option hơn ví dụ như lên lịch trình (tương tự `cron`), tiếp tục phiên bị ngắt quãng (option -p)
+- Xem thêm các option tại [đây](https://github.com/huynp1999/huynp/blob/master/Linux/Utility/Rsync.md)
