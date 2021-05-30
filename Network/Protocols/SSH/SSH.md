@@ -7,8 +7,8 @@ Vượt trội hơn trình Telnet về tính bảo mật được đảm bảo t
 
 Cú pháp: `ssh [user]@[host]`
 
-## Tính chất
-Các tính chất được SSH mang đến bao gồm:
+## Đặc điểm
+Các tính chất được SSH cung cấp:
 - **Riêng tư (Privacy)**: dữ liệu được mã hóa
 - **Toàn vẹn (Integrity)**: dữ liệu toàn vẹn qua kênh truyền, không bị thay đổi
 - **Xác thưc (Authentication)**: xác thực nguồn gốc giữa bên gửi và bên nhận
@@ -17,4 +17,24 @@ Các tính chất được SSH mang đến bao gồm:
    + Port forwarding: cho phép chuyển lưu lượng truy cập từ 1 port lên SSH server
    + X forwarding
    + Agent forwarding
+
+## Cơ chế hoạt động
+Giao thức SSH hoạt động theo mô hình client-server để xác thực (authenticate) và mã hoá (encrypt data).
+
+Một session của SSH được thành lập qua 2 bước:
+1. Thỏa thuận và thiết lập phiên mã hoã để bảo vệ thông tin sẽ được truyền
+- Tại đây, 2 bên thương lượng một session key sử dụng thuật toán symmetrical encryption (AES)
+- Session key này sẽ được vận chuyển bảo mật nhờ mã hoá bằng public key của Server được gửi đi
+
+![image](https://user-images.githubusercontent.com/83684068/120099907-38e19700-c168-11eb-8533-0e2927e6f2a6.png)
+
+2. Xác thực tài khoản người dùng truy cập
+- Ở giai đoạn này liên quan đến việc xác nhận và uỷ quyền truy cập cho người dùng.
+- Hai phương pháp chính để xác thực là password hoặc key pair
+   - Password: mật khẩu sẽ được mã hoá và gửi lên server, tương đối khó bị đánh cắp nhưng yêu cầu độ phức tạp cao
+   - Key pair: server sẽ nhận một ID đặc trưng từ client và dựa vào đây để xác thực bằng public key và MD5 hash
+
+![image](https://user-images.githubusercontent.com/83684068/120099881-1485ba80-c168-11eb-9ff9-2f9bdd34b751.png)
+
+
 
