@@ -36,5 +36,21 @@ Một session của SSH được thành lập qua 2 bước:
 
 ![image](https://user-images.githubusercontent.com/83684068/120099881-1485ba80-c168-11eb-9ff9-2f9bdd34b751.png)
 
+## Cấu hình
+Các thông tin cấu hình SSH hệ thống được lưu trữ tại `/etc/ssh/`, còn các thông tin cấu hình của riêng từng user thì tại `~/.ssh/`
+
+Một số file cấu hình đáng quan tâm tại `~/.ssh/`:
+- `~/.ssh/config` chứa thông tin về remote host như hostname, thiết lập nén khi truyền dữ liệu, tuỳ chỉnh port,...
+- `~/.ssh/id_rsa` khoá RSA private dùng để xác thực
+- `~/.ssh/id_rsa.pub` khoá RSA public dùng để gửi cho remote server
+
+Còn trong `/etc/ssh` chứa file cấu hình `/etc/ssh/sshd_config`, dành cho hệ thống SSH. Trong này gồm nhiều các trường tuỳ chỉnh cho phiên kết nối SSH:
+   - `PermitRootLogin [no/yes/with-out password]` không, hoặc cho phép truy cập SSH vào user root
+   - `PasswordAuthentication [no/yes]` bật tắt tính năng xác thực mật khẩu
+   - `Port 4444` thay đổi port mà sshd chạy
+   - `AllowUsers [user1] [user2]` uỷ quyền truy cập tuỳ theo user, theo group sẽ là `AllowGroups`
+
+Lưu ý: mỗi khi tuỳ chỉnh các trường này cần phải `service ssh restart`.
 
 
+  
