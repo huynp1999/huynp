@@ -47,7 +47,7 @@ Restart lại dịch vụ:
 
 Cấu hình kết nối ra ngoài mạng
         
-    iptables -t nat -A POSTROUTING -o ens3 -s 192.168.1.0/24 -j MASQUERADE
+    iptables -t nat -A POSTROUTING -o ens4 -s 192.168.1.0/24 -j MASQUERADE
 
 Kết quả, các client ping thông ra ngoài Internet:
 
