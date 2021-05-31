@@ -23,5 +23,7 @@ Các option:
 ![Alt](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/rs.png)
 
 Khi cần làm việc với remote server, ví dụ ở đây có địa chỉ là `192.168.50.9`
-- `rsync -avzh --progress root@192.168.50.9:/root/testdir /root/testdir`
-Như vậy sẽ đồng bộ giữa 2 thư mục `/testdir` của server và local.
+- `rsync -avzh --progress root@172.29.129.202:/root/dir1/* /root/dir1`
+đồng bộ các file thư mục `/dir1` từ remote server tới local machine.
+
+![image](https://user-images.githubusercontent.com/83684068/120129231-c7e4c280-c1ed-11eb-9b8b-a35525a4ff89.png)
