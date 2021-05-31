@@ -64,8 +64,13 @@ Copy keypair đã được tạo lên server
 
     ssh-copy-id  -i [file_name]  username@ip_address
     
+![image](https://user-images.githubusercontent.com/83684068/120129446-2f027700-c1ee-11eb-8c51-e7b211a82c0a.png)
+    
 ### Tiện ích kèm theo
 Hai câu lệnh `scp` và `rsync` thường được dùng khi làm việc giữa local và remote server. Cả hai đều có chức năng copy và thay thế, nhưng `rsync` sử dụng thêm một số thuật toán phụ, nhằm tối ưu quy trình hoạt động
 - Ví dụ như `rsync` sẽ bỏ qua những file trùng, thay vì copy đè. Như vậy chỉ những file khác biệt mới đc truyền, giảm lưu lượng cho đường truyền dẫn
 - `rsync` cũng có nhiều option hơn ví dụ như lên lịch trình (tương tự `cron`), tiếp tục phiên bị ngắt quãng (option -p)
 - Xem thêm các option tại [đây](https://github.com/huynp1999/huynp/blob/master/Linux/Utility/Rsync.md)
+
+![image](https://user-images.githubusercontent.com/83684068/120129467-39bd0c00-c1ee-11eb-9439-782ff53d0cc8.png)
+
