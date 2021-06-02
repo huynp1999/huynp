@@ -50,6 +50,6 @@ Tương tự, ngược lại đối với các gói tin từ ngoài vào trong m
 
       iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
     
-- Trong trường hợp IP ngoài không thay đổi, nên sử dụng SNAT để giảm bớt gánh nặng cho CPU:
+- Trong trường hợp IP ngoài là cố định và không thay đổi, nên sử dụng SNAT để giảm bớt gánh nặng cho CPU:
 
       iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to-source {outside_address}
