@@ -30,29 +30,26 @@ Tương tự, ngược lại đối với các gói tin từ ngoài vào trong m
 
 ## Phân loại NAT
 1. **Static NAT (one-to-one mapping)**
-Là kỹ thuật dùng để biến đổi một IP này thành một IP khác. Sử dụng phương pháp cố định thủ công địa chỉ IP Private sang Public.
+- Là kỹ thuật dùng để biến đổi một IP này thành một IP khác. Sử dụng phương pháp cố định thủ công địa chỉ IP Private sang Public.
 
-Cấu hình:
-- eth0 = outside network
-- eth1 = inside network
+- Cấu hình: (eth0 = outside network, eth1 = inside network)
 
-    iptables -t nat -A PREROUTING -d {outside_address} -j DNAT --to-destination {inside_address}
-    iptables -t nat -A POSTROUTING -d {inside_address} -j SNAT --to-destination {outside_address}
+      iptables -t nat -A PREROUTING -d {outside_address} -j DNAT --to-destination {inside_address}
+      iptables -t nat -A POSTROUTING -d {inside_address} -j SNAT --to-destination {outside_address}
     
 2. **Dynamic NAT (pool-to-pool mapping)**
-Dynamic NAT sẽ chuyển đổi pool IP mạng cục bộ sang pool các IP đã được đăng ký, tự động hóa.
+- Dynamic NAT sẽ chuyển đổi pool IP mạng cục bộ sang pool các IP đã được đăng ký, tự động hóa.
 
-Cấu hình:
+- Cấu hình:
 
-    iptables -t nat -A POSTROUTING -o eth0 -s 192.168.0.1-192.168.0.5 -j SNAT --to-source 1.1.1.1-1.1.1.5
+      iptables -t nat -A POSTROUTING -o eth0 -s 192.168.0.1-192.168.0.5 -j SNAT --to-source 1.1.1.1-1.1.1.5
     
 3. **Dynamic NAT with PAT Overload (many-to-one mapping)**
-Hay còn được biết đến là IP Masquerading, chỉ dùng chung 1 địa chỉ IP ngoài cho nhiều IP cục bộ.
+- Hay còn được biết đến là IP Masquerading, chỉ dùng chung 1 địa chỉ IP ngoài cho nhiều IP cục bộ.
+- Dùng địa chỉ số cổng khác nhau để phân biệt từng chuyển đổi (PAT = Port Address Translation Overload). Như vậy, sẽ có tối đã 65536 địa chi nội bộ được sử dụng.
 
-Dùng địa chỉ số cổng khác nhau để phân biệt từng chuyển đổi (PAT = Port Address Translation Overload). Như vậy, sẽ có tối đã 65536 địa chi nội bộ được sử dụng.
-
-    iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+      iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
     
-Trong trường hợp IP ngoài không thay đổi, nên sử dụng SNAT để giảm bớt gánh nặng cho CPU:
+- Trong trường hợp IP ngoài không thay đổi, nên sử dụng SNAT để giảm bớt gánh nặng cho CPU:
 
-    iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to-source {outside_address}
+      iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to-source {outside_address}
