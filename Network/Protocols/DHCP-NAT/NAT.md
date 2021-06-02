@@ -10,7 +10,6 @@ Khi gửi một gói tin từ nội miền ra ngoài, NAT sẽ thực hiện tha
 Tương tự, ngược lại đối với các gói tin từ ngoài vào trong mạng nội bộ.
 
 - NAT cho phép người dùng bảo mật được thông tin IP máy tính, cũng như vừa tiết kiệm được số lượng IPv4 cần sử dụng.
-
 - Cũng vì vậy mà NAT yêu cầu nhiều tài nguyên CPU làm tăng khả năng trễ trong quá trình switching, và cũng có thể gây ra lỗi với một số ứng dụng cần sử dụng IP
 
 ## Các thuật ngữ
@@ -34,8 +33,8 @@ Tương tự, ngược lại đối với các gói tin từ ngoài vào trong m
 Là kỹ thuật dùng để biến đổi một IP này thành một IP khác. Sử dụng phương pháp cố định thủ công địa chỉ IP Private sang Public.
 
 Cấu hình:
-eth0 = outside network
-eth1 = inside network
+- eth0 = outside network
+- eth1 = inside network
 
     iptables -t nat -A PREROUTING -d {outside_address} -j DNAT --to-destination {inside_address}
     iptables -t nat -A POSTROUTING -d {inside_address} -j SNAT --to-destination {outside_address}
