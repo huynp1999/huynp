@@ -36,7 +36,7 @@ Restart để cập nhật các cấu hình:
 
 ![image](https://user-images.githubusercontent.com/83684068/120134698-e4d2c300-c1f8-11eb-9e71-fa4398564d77.png)
 
-# NAT
+# NAT Overload
 Để kích hoạt iptables forward các gói tin, sửa file /etc/sysctl.conf
 
     net.ipv4.ip_forward=1
