@@ -28,6 +28,16 @@ Tương tự, ngược lại đối với các gói tin từ ngoài vào trong m
 **Địa chỉ outside global**
 - Địa chỉ IP được đặt cho một thiết bị nằm ở mạng bên ngoài. Địa chỉ này là một IP hợp lệ trên mạng internet.
 
+## NAT table trong Linux
+Bảng NAT cho phép các gói tin đến các host khác nhau trong mạng NAT table bằng cách thay đổi IP nguồn và IP đích của gói tin.
+
+Bảng NAT bao gồm một số chain:
+- **PREROUTING**
+  - Dùng để thay đổi địa chỉ đích của gói tin, target được sử dụng là DNAT (destination NAT)
+- **POSTROUTING**
+  - Thay đổi địa chỉ nguồn của gói tin, target sử dụng là SNAT (source NAT)
+
+Hiểu rõ hơn về các table, chain của `iptables` tại [đây](https://github.com/huynp1999/huynp/tree/master/Network/iptables)
 ## Phân loại NAT
 1. **Static NAT (one-to-one mapping)**
 - Là kỹ thuật dùng để biến đổi một IP này thành một IP khác. Sử dụng phương pháp cố định thủ công địa chỉ IP Private sang Public.
