@@ -8,7 +8,9 @@ Là giao diện dòng lệnh để cho phép người dùng tương tác với c
 
 ![image](https://user-images.githubusercontent.com/83684068/120414873-d7e2da80-c384-11eb-8738-dfaa40d7ce93.png)
 
-Cơ chế packet filtering của iptables hoạt động bao gồm 3 thành phần: **table, chain** và** target**.
+Cơ chế packet filtering của iptables hoạt động bao gồm 3 thành phần: **table, chain** và **target**.
+
+![](https://raw.githubusercontent.com/ImKifu/thuctapsinh/master/HungNK/Basic_Linux_Command/Picture/netfilter1.png)
 
 ### 1. Table
 Iptables Firewall sử dụng các bảng để tổ chức các quy tắc của nó. Các bảng này phân loại các quy tắc theo loại quyết định mà chúng được sử dụng để đưa ra. Mặc định sử dụng là bảng filter.
@@ -61,8 +63,22 @@ Các hành động áp dụng cho các gói tin. Sử dụng qua option `-j`.
 | ------------- |:-------------:|
 | ACCEPT | chấp nhận gói tin, cho phép gói tin đi vào hệ thống.    |
 | DROP | Loại bỏ gói tin, không có gói tin trả lời, hay hệ thống không tồn tại.    |
-| REJECT | Loại bỏ gói tin nhưng có trả lời table gói tin khác.  |
+| REJECT | loại bỏ gói tin nhưng có trả lời table gói tin khác.  |
 | LOG | chấp nhận gói tin nhưng sẽ ghi lại log     |
 | DNAT      | chỉ được dùng trong chain PREROUTING và OUTPUT của nat table    |
 | SNAT      | chỉ được dùng trong chain POSTROUTING của nat table    |
 | MASQUERADE      |tương tự như SNAT nhưng sử dụng interface ra ngoài, thay vì 1 IP cố định như SNAT     |
+
+#### 4. Rule
+Kiểm tra các rule trong iptables: `iptables -L -v`
+
+| Rule  | Đại diện |
+| ------------- |:-------------:|
+| TARGET      | Hành động sẽ thực thi    |
+| PROT     | giao thức hoạt động    |
+| IN | rule áp dụng cho gói tin từ interface đi nào |
+| OUT | rule áp dụng cho các gói tin từ interface ra |
+| DESTINATION | địa chỉ các lượt truy cập được phép áp dụng quy tắc |
+
+
+
