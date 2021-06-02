@@ -55,7 +55,7 @@ Mỗi table được tạo với 1 số chain nhất định.
 ![image](https://user-images.githubusercontent.com/83684068/120418155-35c5f100-c38a-11eb-84e9-c876651ce81f.png)
 
 #### 3. Target
-Các hành động áp dụng cho các gói tin. Sử dụng qua option `-j` và gói tin sẽ đi qua tất cả các rule chứ không dừng lại khi đã đúng với 1 rule được đặt ra.
+Các hành động áp dụng cho các gói tin. Sử dụng qua option `-j`.
 
 | Target | Chức năng |
 | ------------- |:-------------:|
