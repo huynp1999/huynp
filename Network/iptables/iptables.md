@@ -110,10 +110,33 @@ Kiểm tra các rule trong iptables: `iptables -L -v`
 - `-I` (insert) chèn thêm rule
 
 ### <a name="2.4">2.4 Ví dụ</a>
-NAT static, ánh xạ tất cả các kết nối của LAN ra ngoài bằng port 1337:
+- Cho phép tất cả các truy cập
 
-    iptables -A PREROUTING -t nat -i ens3 -p tcp --dport 1337 -j DNAT --to 192.168.1.2:1337
-    iptables -A FORWARD -p tcp -d 192.168.1.2 --dport 1337 -j ACCEPT
+      iptables -A INPUT -i ens3 -j ACCEPT
+      
+- Cho phép tất cả các truy cập tcp trên cổng ssh
+
+      iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+      
+- Chặn các truy cập bằng IP
+
+      iptables -A INPUT -s 192.168.1.3 -j DROP
+
+- NAT static, ánh xạ tất cả các kết nối của LAN ra ngoài bằng port 1337:
+
+      iptables -A PREROUTING -t nat -i ens3 -p tcp --dport 1337 -j DNAT --to 192.168.1.2:1337
+      iptables -A FORWARD -p tcp -d 192.168.1.2 --dport 1337 -j ACCEPT
     
 Với `ens3` là interface ra mạng ngoài (WAN) và `192.168.1.2` là IP mạng cục bộ của máy (LAN)
 
+- Kiểm tra các rule 
+
+      iptables -L -v
+
+- Xóa các rule
+      
+      iptables -F
+
+- Lưu các rule
+
+      /sbin/iptables-save
