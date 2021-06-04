@@ -1,4 +1,4 @@
-# LAB 1 - Webserver forward
+# Lab - iptables webserver
 ![image](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/network/iptables/ip3.png)
 
 ## Mục tiêu
@@ -41,7 +41,9 @@
 
         iptables -t nat -A PREROUTING -i ens4 -p tcp -d 192.168.53.117 --dport 443 -j DNAT --to 10.2.2.20:443
         iptables -A FORWARD -p tcp -d 10.2.2.20 —dport 443 -j ACCEPT
-            
+
+![image](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/network/iptables/ip1.png) 
+
 - Kiểm tra kết nối, ping 5 lần mỗi phút từ mạng trong ra ngoài
             
       iptables -A INPUT -p icmp --icmp-type echo-request -m limit --limit 5/m --limit-burst 5 -s 10.10.10.0/24 -d 10.10.10.11 -j ACCEPT
@@ -50,6 +52,4 @@
 
       iptables -A INPUT -p tcp -s 10.2.2.0/24 -d 10.2.2.1 --dport 22 -m state --state NEW -j ACCEPT
 
-
-
-# LAB 2 - 
+ 
