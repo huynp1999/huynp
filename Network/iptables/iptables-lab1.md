@@ -32,15 +32,15 @@
 ![image](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/network/iptables/ip2.png) 
 
 - Cấu hình forward từ ngoài vào trong
-  - Webserver 1 (HTTP:80)
+  - Backend 1 (HTTP:80)
 
-        iptables -t nat -A PREROUTING -i ens4 -p tcp -d 192.168.53.117 —dport 80 -j DNAT —to 10.2.2.30:80
+        iptables -t nat -A PREROUTING -i ens4 -p tcp -d 192.168.53.117 --dport 80 -j DNAT --to 10.2.2.30:80
         iptables -A FORWARD -p tcp -d 10.2.2.30 —dport 80 -j ACCEPT
  
-  - Webserver 2 (HTTPS:443)
+  - Backend 2 (HTTPS:443)
 
-        iptables -t nat -A PREROUTING -i ens4 -p tcp -d 192.168.53.117 —dport 443 -j DNAT —to 10.2.2.40:443
-        iptables -A FORWARD -p tcp -d 10.2.2.40 —dport 443 -j ACCEPT
+        iptables -t nat -A PREROUTING -i ens4 -p tcp -d 192.168.53.117 --dport 443 -j DNAT --to 10.2.2.20:443
+        iptables -A FORWARD -p tcp -d 10.2.2.20 —dport 443 -j ACCEPT
             
 - Kiểm tra kết nối, ping 5 lần mỗi phút từ mạng trong ra ngoài
             
@@ -48,7 +48,7 @@
 
 - ACCEPT kết nối SSH từ trong mạng LAN
 
-      iptables -A INPUT -p tcp -s 10.10.10.0/24 -d 10.10.10.11 --dport 22 -m state --state NEW -j ACCEPT
+      iptables -A INPUT -p tcp -s 10.2.2.0/24 -d 10.2.2.1 --dport 22 -m state --state NEW -j ACCEPT
 
 
 
