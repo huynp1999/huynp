@@ -2,18 +2,18 @@
 ![image](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/network/iptables/ip3.png)
 
 ## Mục tiêu
-- Webserver 1, 2 đã cài sẵn NGINX.
-      - Riêng webserver 2 được cấu hình thêm SSL (các bước cấu hình tại [đây](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-on-centos-7))
-- Backend1, webserver (apache2) lắng nghe port 80
-- Backend2, webserver (apache2) lắng nghe port 443
+- Webserver 1, 2 đã cài NGINX.
+  - Riêng webserver 2 được cấu hình thêm SSL (các bước cấu hình tại [đây](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-on-centos-7))
+- Backend 1 lắng nghe port 80
+- Backend 2 lắng nghe port 443
 - FORWARD gói tin đến port 80 trên e0 đến port tương tự trên Backend1
 - FORWARD gói tin đến port 443 trên e0 đến port tương tự trên Backend2
-- ACCEPT Outgoing Packets thông qua server từ mạng LAN(10.10.10.0/24) ra internet
+- ACCEPT các gói tin ra ngoài internet thông qua server
 - ACCEPT Kiểm tra kết nối 5 lần mỗi phút từ mạng LAN.
 - ACCEPT kết nối SSH từ trong mạng LAN
 
 ## Cấu hình
-### Tại backend và client
+### Tại backend
 - Đặt gateway: `10.2.2.1`
 
 ### Tại server
