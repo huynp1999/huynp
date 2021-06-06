@@ -34,8 +34,9 @@ Từ Router Linux ping được tới Linux-Router qua 2 interface (default gate
 ## Cấu hình
 
 1. Đặt IP tĩnh như theo topo
+
 | Router  | ens3 | ens4 |
-| ------------- |:-------------:|:-------------:
+| ------------- |:-------------:|:-------------:|
 | Router 1     | 10.2.13.1     | 10.2.12.1 |
 | ISP 1    | 10.2.12.2    | 10.2.24.2 |
 | ISP 2     | 10.2.13.3    | 10.2.34.3 |
