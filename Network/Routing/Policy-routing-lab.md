@@ -33,6 +33,8 @@ Từ Router Linux ping được tới Linux-Router qua 2 interface (default gate
 
 ## Cấu hình
 
+![](https://raw.githubusercontent.com/huynp1999/huynp/master/pic/network/policy/topo.png)
+
 1. Đặt IP tĩnh như theo topo
 
 | Router  | ens3 | ens4 |
@@ -70,7 +72,10 @@ Từ Router Linux ping được tới Linux-Router qua 2 interface (default gate
         ip route add default via 10.2.12.2 dev ens4 table test2
         ip rule add from 10.2.12.1/24 table test2
 
+![](https://github.com/huynp1999/huynp/blob/master/pic/network/policy/pr2.png)
+
 5. Ping kiểm tra 2 đường từ Router Linux 4
 
+![](https://github.com/huynp1999/huynp/blob/master/pic/network/policy/pr1.png)
 
 
