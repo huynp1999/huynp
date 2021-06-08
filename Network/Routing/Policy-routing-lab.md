@@ -33,7 +33,7 @@ Từ Router Linux ping được tới Linux-Router qua 2 interface (default gate
 
 ## Cấu hình
 
-![](https://github.com/huynp1999/huynp/blob/master/pic/network/policy/topo.png)
+![](https://github.com/huynp1999/huynp/blob/master/pic/network/policy/topo1.png)
 
 1. Đặt IP tĩnh như theo topo
 
