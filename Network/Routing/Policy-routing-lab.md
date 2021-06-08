@@ -39,9 +39,9 @@ Từ Router Linux ping được tới Linux-Router qua 2 interface (default gate
 
 | Router  | ens3 | ens4 |
 | ------------- |:-------------:|:-------------:|
-| Router 1     | 10.2.13.1     | 10.2.12.1 |
-| ISP 1    | 10.2.12.2    | 10.2.24.2 |
-| ISP 2     | 10.2.13.3    | 10.2.34.3 |
+| Router 1     | 10.2.12.1     | 10.2.13.1 |
+| ISP 2    | 10.2.24.2    | 10.2.12.2 |
+| ISP 3     | 10.2.34.3    | 10.2.13.3 |
 | Router 4     | 10.2.34.4    | 10.2.24.4 |
 
 2. Trên ISP1 và ISP2 cấu hình cho phép forward gói tin
@@ -60,16 +60,16 @@ Từ Router Linux ping được tới Linux-Router qua 2 interface (default gate
        echo "201 test2" >> etc/iproute2/rt_table
 
 - Cấu hình 
-  - Default gateway 1
+  - Default gateway 1 với table `test1`
 
         ip route add 10.2.13.0/24 dev ens3 src 10.2.13.1 table test1
-        ip route add default via 10.2.13.3 dev ens3 table test1
+        ip route add default via 10.2.13.3 dev ens4 table test1
         ip rule add from 10.2.13.1/24 table test1
        
-  - Default gateway 2
+  - Default gateway 2 với table `test2`
        
         ip route add 10.2.12.0/24 dev ens4 src 10.2.12.1 table test2
-        ip route add default via 10.2.12.2 dev ens4 table test2
+        ip route add default via 10.2.12.2 dev ens3 table test2
         ip rule add from 10.2.12.1/24 table test2
 
 ![](https://github.com/huynp1999/huynp/blob/master/pic/network/policy/pr2.png)
@@ -78,4 +78,11 @@ Từ Router Linux ping được tới Linux-Router qua 2 interface (default gate
 
 ![](https://github.com/huynp1999/huynp/blob/master/pic/network/policy/pr1.png)
 
+6. Gán 2 đường default gateway tương ứng cho 2 PC, dựa theo IP của chúng
+- VPC7 `192.168.1.7` sẽ đi theo interface `ens4` của Router Linux 1, tức phải gán vào table `test2`
+     
+      ip rule add pri 30000 from 192.168.1.7 table test2
 
+- VPC6 `192.168.1.6` sẽ đi theo interface `ens3` của Router Linux 1, tức phải gán vào table `test1`
+     
+      ip rule add pri 30001 from 192.168.1.6 table test1
