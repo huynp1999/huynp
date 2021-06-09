@@ -40,8 +40,16 @@ ví dụ như quyết định xem gói nào sẽ được chấp nhận, ở t�
   - Mỗi `class` đều có thể gán thêm `filter`, dùng để phân loại hoặc drop luồng
 - `filter`
   - Phần loại các gói tin tại hàng đợi đầu ra theo các rule
+  - ví dụ:
+    - Tất cả các gói đến port 22 sẽ được class 1:10 xử lý
+   
+          tc filter add dev eth0 protocol ip parent 1: prio 1 u32 match ip dport 22 0xffff flowid 1:10
+         
+    - Tất cả các gói từ ip 10.1.1.2 đến port 80 sẽ được class 1:11 xử lý
+   
+          tc filter add dev eth0 protocol ip parent 1: prio 1 u32 match ip src 10.1.1.2/32 match ip sport 80 0xffff flowid 1:11     
 - `classifier`
-  - Cho phép người dùng phân loại gói tin dựa theo thuộc tính
+  - Cho phép người dùng phân loại gói tin dựa theo thuộc tính, phổ biến `u32`
   - Là một phần của `filter`
 - `policier`
   - Là một phần của `filter`
