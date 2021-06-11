@@ -55,4 +55,10 @@ Health check đkiểm tra định kì 1 máy chủ trong backend có sẵn sa�
             server 10.10.20.20:80 max_fails=3 fail_timeout=5s;
             server 10.10.20.20:80;
         }
-        
+      
+## Kết hợp với KeepAlived
+Trong một hệ thống dùng chỉ 1 load balancer để điều khiển traffic tới nhiều backend server, khi load balancer bị lỗi dẫn đến việc dữ liệu sẽ bị ứ đọng và downtime. Keepalived được dành cho giải quyết vấn đề này.
+
+![](https://github.com/meditechopen/meditech-thuctap/blob/master/ThaoNV/HAProxy%20%2B%20KeepAlive/images/i4.gif)
+
+Ở ví dụ trên, khi có nhiều load balancer (1 active và một hoặc nhiều passive). Khi người dùng kết nối đến một server thông qua IP public của active load balancer, nếu active server fail, phương thức failover sẽ phát hiện và tự động gán IP tới 1 passive server khác.
