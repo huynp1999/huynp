@@ -6,7 +6,7 @@ Là một công cụ cân bằng tải TCP/HTTP và giải pháp proxy mã ng
 
 **Load Balancing** (Cân bằng tải) là một phương pháp phân phối luồng lưu lượng trên nhiều máy tính để có thể sử dụng tối đa tài nguyên, tối ưu thời gian đáp ứng, giảm độ trễ và đảm bảo tính chịu lỗi.
 
-HAProxy thường được kết hợp với [**KeepAlived**](https://github.com/huynp1999/huynp/new/master/Network/Keepalived.md) để tạo thành một giải pháp hiệu quả với giá thành thấp.
+HAProxy thường được kết hợp với [**KeepAlived**](https://github.com/huynp1999/huynp/new/master/Network/Load-balancing/Keepalived.md) để tạo thành một giải pháp hiệu quả với giá thành thấp.
 
 ## Các kiểu cân bằng tải
 ### 1. Không cân bằng tải
