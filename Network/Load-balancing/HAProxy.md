@@ -10,6 +10,27 @@ HAProxy thường được kết hợp với [**KeepAlived**](https://github.com
 
 ![](https://github.com/meditechopen/meditech-thuctap/blob/master/ThaoNV/HAProxy%20%2B%20KeepAlive/images/i2.png)
 
+## Các kiểu cân bằng tải
+### 1. Không cân bằng tải
+![](https://github.com/meditechopen/meditech-thuctap/blob/master/ThaoNV/HAProxy%20%2B%20KeepAlive/images/i1.png)
+
+Trong một môi trường ứng dụng web đơn giản không hỗ trợ cân bằng tải, người dùng kết nối trực tiếp đến ứng dụng web, tại yourdomain.com.
+Nếu máy chủ web (duy nhất) bị lỗi, người dùng sẽ không thể truy xuất đến website. Ngoài ra, nếu nhiều người dùng cùng truy xuất đến webserver cùng lúc nó sẽ không thể xử lý kịp lượng tải gây ra trễ hoặc không thể kết nối đến web.
+
+### 2. Cân bằng tải Layer 4
+![](https://github.com/meditechopen/meditech-thuctap/blob/master/ThaoNV/HAProxy%20%2B%20KeepAlive/images/i2.png)
+
+Cách đơn giản nhất để cân bằng lưu lượng mạng giữa nhiều backend server là dùng cân bằng tải layer 4 (transport layer).
+Cân bằng tải theo cách này sẽ chuyển hướng lưu lượng người dùng dựa trên IP range và port (vd: nếu 1 request đến http://yourdomain.com/anything, lưu lượng sẽ được chuyển hướng đến backend mà xử lý tất cả các request cho yourdomain.com trên port 80).
+
+### 3. Cân bằng tải layer 7
+![](https://github.com/meditechopen/meditech-thuctap/blob/master/ThaoNV/HAProxy%20%2B%20KeepAlive/images/i3.png)
+
+Tại layer 7 cho phép load balancer chuyển hướng request đến các máy chủ backend khác nhau dựa trên nội dung request. Chế độ cân bằng tải này cho phép chạy nhiều máy chủ ứng dụng web dưới cùng domain và port.
+
+Trong ví dụ này, nếu người dùng yêu cầu yourdomain.com/blog, họ sẽ được chuyển hướng đến blog-backend, là tập các máy chủ chạy ứng dụng blog.
+Các request khác được chuyển hướng đến web-backend, mà có thể sẽ chạy các ứng dụng khác. (cả 2 backend dùng cùng máy chủ database)
+
 ## Các thuật toán trong cân bằng tải
 ### 1. Round Robin
 Là thuật toán mặc định của NGINX, và không cần cấu hình thêm trong block `http`
