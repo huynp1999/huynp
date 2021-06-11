@@ -8,8 +8,6 @@ Là một công cụ cân bằng tải TCP/HTTP và giải pháp proxy mã ng
 
 HAProxy thường được kết hợp với [**KeepAlived**](https://github.com/huynp1999/huynp/new/master/Network/Keepalived.md) để tạo thành một giải pháp hiệu quả với giá thành thấp.
 
-![](https://github.com/meditechopen/meditech-thuctap/blob/master/ThaoNV/HAProxy%20%2B%20KeepAlive/images/i2.png)
-
 ## Các kiểu cân bằng tải
 ### 1. Không cân bằng tải
 ![](https://github.com/meditechopen/meditech-thuctap/blob/master/ThaoNV/HAProxy%20%2B%20KeepAlive/images/i1.png)
