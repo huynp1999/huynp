@@ -1,13 +1,24 @@
 #!/bin/bash
-if="ens4"
+if="ens3"
+if4="ens4"
+if5="ens5"
+down1="2mbit"
+down2="8mbit"
+up="2mbit"
 TC=$(which tc)
 
-echo "iptables nat outside";
+echo "iptable";
 iptables -t nat -A POSTROUTING -o ens3 -j MASQUERADE
 
-echo "root";
-$TC qdisc add dev $if root handle 1: htb default 10 
+echo "egress";
+$TC qdisc add dev $if4 root tbf rate $down1 latency 25ms burst $down1
+$TC qdisc add dev $if5 root tbf rate $down2 latency 25ms burst $down2
 
-echo "limit bandwidth";
-$TC class add dev $if parent 1:1 classid 1:1 htb rate 2mbit	
-$TC filter add dev $if protocol ip parent 1: prio 1 u32 match ip dst 192.168.0.0/24 flowid 1:1 
+echo "ingress";
+$TC qdisc add dev $if5 handle ffff: ingress
+$TC qdisc add dev $if4 handle ffff: ingress
+
+echo "limit up";
+$TC filter add dev $if4 parent ffff: protocol ip prio 1 u32 match ip src 192.168.1.0/24 police rate $up burst $up flowid :1
+$TC filter add dev $if5 parent ffff: protocol ip prio 1 u32 match ip src 192.168.2.0/24 police rate $up burst $up flowid :2
+
