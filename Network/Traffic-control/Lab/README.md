@@ -9,7 +9,7 @@ Giải thích script:
 - Tạo `root qdisc` theo từng interface và với gán TBF
 - TBF cho phép làm chậm luồng lưu lượng xuống một tốc độ cố định
   - Ví dụ ở đây với subnet `192.168.1.0` = 2mbps, `192.168.2.0` = 8 mpbs
-- Đính kèm qdisc ingress và set giới hạn là 2mbit cho uplink theo từng interface
+- Đính kèm qdisc ingress và set tốc độ uplink chung = 2mbit cho từng interface
 
 ```
 #!/bin/bash
@@ -47,8 +47,8 @@ Sau khi thực hiện limit:
 
 ![](https://github.com/huynp1999/huynp/blob/master/pic/network/tc/tc5.png)
 
--Tại client 2
+- Tại client 2
 
 ![](https://github.com/huynp1999/huynp/blob/master/pic/network/tc/tc4.png)
 
-**Có thể thấy tốc độ download bị giới hạn xuống dưới 2mpbs**
+**Có thể thấy tốc độ download của client 1 và 2 bị giới hạn xuống 2mpbs và 8mpbs**
