@@ -8,7 +8,7 @@
        sysctl -w net.ipv4.ip_forward=1
        /etc/init.d/procps restart
 
-### 3. Cài đặt NGINX trên các webserver
+### 3. Cài đặt NGINX trên các webbackend
 Sửa lại index để phân biệt giữa 2 webbackend:
 
 ![](https://github.com/huynp1999/huynp/blob/master/pic/network/ha-keep/keep7.png)
@@ -20,7 +20,7 @@ Cho phép tạo Virtual IP (VIP) dùng cho KeepAlived:
 
       sysctl -w net.ipv4.ip_nonlocal_bind=1
       
-Cấu hình webserver 1 và 2 tại `/etc/keepalived/keepalived.conf` với nội dung
+Cấu hình webbackend 1 và 2 tại `/etc/keepalived/keepalived.conf` với nội dung
       
       global_defs {
         router_id test1                #khai báo route_id của keepalived
