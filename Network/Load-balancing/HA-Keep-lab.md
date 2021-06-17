@@ -99,7 +99,7 @@ File cấu hình `/etc/haproxy/haproxy.cfg`
         server test2 192.168.1.20:8080 check
 
 Lưu ý:
-- Cần phải đổi port http nginx để tránh conflict với dịch vụ http
-- Đổi `listen port` trên mỗi server tại `/etc/nginx/sites-enabled/default`
+- Cần phải đổi port http của nginx để tránh conflict với dịch vụ HAProxy
+- Đổi `listen port` trên mỗi backend tại `/etc/nginx/sites-enabled/default`
 
 Như vậy HAProxy sẽ loadbalancing giữa 2 webbackend theo các lần truy cập (F5).
