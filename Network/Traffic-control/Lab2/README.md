@@ -10,9 +10,7 @@
 if="ens3"
 
 tc q del dev $if root
-
 tc q add dev $if root handle 1:0 htb default 10
-
 tc c add dev $if parent 1:0 classid 1:3 htb rate 10mbps
 
 #fastlink
