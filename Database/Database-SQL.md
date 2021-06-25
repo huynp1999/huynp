@@ -19,9 +19,23 @@ SQL là ngôn ngữ chung mà bất cứ hệ thống cơ sở dữ liệu quan 
 Mọi thứ trong cơ sở dữ liệu sẽ được quy ra thành nhiều bảng và có mối quan hệ với nhau. SQL giúp quản lý hiệu quả và truy vấn thông tin nhanh hơn, bảo trì thông tin dễ dàng hơn.
 Việc này được làm thông qua các query, truy vấn và lấy dữ liệu từ các bảng dữ liệu.
 
-## Các câu lệnh trong SQL
+## Các câu lệnh truy vấn trong SQL
 ![image](https://user-images.githubusercontent.com/83684068/123363105-04f96600-d59c-11eb-805a-a2a5f1fd323f.png)
 
+DDL là ngôn ngữ định nghĩa dữ liệu. Các truy vấn DDL bao gồm:
+- `CREATE` tạo một bảng, một View của bảng, hoặc đối tượng khác trong Database.
+- `ALTER` sửa đổi một đối tượng Database đang tồn tại, ví dụ như một bảng.
+- `DROP` xóa toàn bộ một bảng, một View của bảng hoặc đối tượng khác trong một Database.
+
+DML là ngôn ngữ thao tác dữ liệu. Các truy vấn DML bao gồm:
+- `SELECT` Lấy các bản ghi cụ thể từ một hoặc nhiều bảng.
+- `INSERT` Tạo một bản ghi.
+- `UPDATE` Sửa đổi các bản ghi đang tồn tại trong một bảng.
+- `DELETE` Xóa các bản ghi.
+
+DCL là ngôn ngữ điều khiển dữ liệu. Các truy vấn DCL bao gồm:
+- `GRANT` Trao một quyền tới người dùng.
+- `REVOKE` Thu hồi quyền đã trao cho người dùng.
 
 
 # NoSQL
