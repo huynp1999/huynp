@@ -78,11 +78,14 @@ Các hypervisor cho phép mỗi VM hoặc guest OS giao tiếp với lớp tài 
 
 ### 1.1 Native Hypervisor (Bare metal)
 Hypervisor ở dạng native sẽ chạy trực tiếp trên phần cứng. Nó nằm giữa phần cứng và một hoặc nhiều guest OS.
-Nó được khởi động trước cả hệ điều hành và tương tác trực tiếp với kernel. Điều này mang lại hiệu suất cao nhất có thể vì không có host OS chạy song song nào cạnh tranh tài nguyên máy tính với nó.
+Nó được khởi động trước cả hệ điều hành và tương tác trực tiếp với kernel.
+
+Điều này mang lại hiệu suất cao nhất có thể vì không có host OS chạy song song nào cạnh tranh tài nguyên máy tính với nó.
 Tuy nhiên, cũng đồng nghĩa với việc hệ thống chỉ có thể chạy các máy ảo vì hypervisor luôn chạy ngầm bên dưới.
 
 ### 1.2 Hosted Hypervisor
 Hypervisor dạng hosted được cài đặt trên một host OS chủ.
 Hoạt động như một phần mềm thông thường trên máy tính. Hầu hết các hosted hypervisor có thể quản lý và chạy nhiều máy ảo cùng một lúc.
+
 Lợi thế của một hosted hypervisor là có thể được bật, tạm dừng hoặc thoát ra khi cần thiết, giải phóng tài nguyên cho máy chủ.
 Tuy nhiên, vì hoạt động thông qua một hệ điều hành trung gian nên hiệu suất đem lại có thể không bằng một native hypervisor.
