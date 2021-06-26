@@ -2,8 +2,7 @@
 ## Các kiểu dữ liệu số trong MySQL
 - Kiểu dữ liệu số
   - INT, TINYINT, SMALLINT, MEDIUMINT, BIGINT
-  - FLOAT
-  - DOUBLE
+  - FLOAT, DOUBLE
   - DECIMAL
 - Kiểu dữ liệu Data và Time
   - DATE (YYYY-MM-DD)
@@ -19,11 +18,89 @@
   - ENUM
 
 ## Ví dụ
+### Tạo và nhập bảng dữ liệu
 Có sẵn một database tên `test123`, truy cập vào sử dụng nó
 
-    use teset123;
+    use test123;
     
 Tạo một bảng thông tin về sinh viên trong database này, bao gồm các biến về mã sinh viên, họ tên, tuổi và điểm trung bình
 
-    create table sinhvien ( mssv INT, hoten VARCHAR(255), tuoi INT, dtb FLOAT);
+    create table sinhvien ( mssv INT, hoten VARCHAR(255), tuoi INT, dtb FLOAT(3,2));
     
+Nhập liệu theo cú pháp
+
+    insert into table_name (mssv, hoten, tuoi,...) values (23, "Nguyen Van An", 24,...)
+    
+Bảng dữ liệu:
+
+    mysql> SELECT * FROM sinhvien;     
+    
+    +------+---------------+------+------+
+    | mssv | hoten         | tuoi | dtb  |
+    +------+---------------+------+------+
+    |   23 | Nguyen Van An |   24 | 8.12 |
+    |    2 | Cao Van Cuong |   21 | 7.40 |
+    |   69 | Tran Thi Binh |   20 | 7.00 |
+    +------+---------------+------+------+
+    3 rows in set (0,00 sec)
+
+    
+    
+## Lọc dữ liệu
+Sử dụng thêm câu lệnh `WHERE [condition]`
+    
+    SELECT * FROM sinhvien where dtb > 7.3;
+    
+    +------+---------------+------+------+
+    | mssv | hoten         | tuoi | dtb  |
+    +------+---------------+------+------+
+    |   23 | Nguyen Van An |   24 | 8.12 |
+    |    2 | Cao Van Cuong |   21 | 7.40 |
+    +------+---------------+------+------+
+    2 rows in set (0,00 sec)
+
+Sắp xếp theo alphabet hoặc theo các toán tử logic:
+    
+    mysql> SELECT * FROM sinhvien where dtb > 7.3 order by mssv;
+
+    +------+---------------+------+------+
+    | mssv | hoten         | tuoi | dtb  |
+    +------+---------------+------+------+
+    |    2 | Cao Van Cuong |   21 | 7.40 |
+    |   23 | Nguyen Van An |   24 | 8.12 |
+    +------+---------------+------+------+
+    2 rows in set (0,00 sec)
+
+## Chỉnh sửa, quản lý bảng dữ liệu
+Thêm một cột, đằng sau một cột cụ thể. Nếu không có AFTER mặc định sẽ được thêm vào sau cột cuối cùng
+
+    mysql> ALTER TABLE sinhvien add COLUMN `ten` VARCHAR(30) AFTER `hoten`;
+    Query OK, 0 rows affected (0,61 sec)
+    Records: 0  Duplicates: 0  Warnings: 0
+
+    mysql> SELECT * FROM sinhvien;
+    +------+---------------+------+------+------+
+    | mssv | hoten         | ten  | tuoi | dtb  |
+    +------+---------------+------+------+------+
+    |   23 | Nguyen Van An | NULL |   24 | 8.12 |
+    |    2 | Cao Van Cuong | NULL |   21 | 7.40 |
+    |   69 | Tran Thi Binh | NULL |   20 | 7.00 |
+    +------+---------------+------+------+------+
+    3 rows in set (0,00 sec)
+
+Tách cột dữ liệu thành 2 cột mới (tách theo ký tự " ")
+
+    UPDATE sinhvien SET ten = SUBSTRING_INDEX(hoten, ' ', -1);
+    UPDATE sinhvien SET ho = SUBSTRING_INDEX(hoten, ' ', 2);
+    ALTER TABLE sinhvien DROP COLUMN hoten;
+    
+    mysql> SELECT * FROM sinhvien;
+    +------+------------+-------+------+------+
+    | mssv | ho         | ten   | tuoi | dtb  |
+    +------+------------+-------+------+------+
+    |   23 | Nguyen Van | An    |   24 | 8.12 |
+    |    2 | Cao Van    | Cuong |   21 | 7.40 |
+    |   69 | Tran Thi   | Binh  |   20 | 7.00 |
+    +------+------------+-------+------+------+
+    3 rows in set (0,00 sec)
+
