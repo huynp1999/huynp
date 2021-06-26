@@ -72,16 +72,16 @@ Phương pháp này đều hướng đến việc xây dựng một CPU mode m�
 Là một chương trình phần mềm quản lý một hoặc nhiều máy ảo (VM). Hypervisor được sử dụng để tương tác với các máy ảo và giới hạn số lượng tài nguyên hệ thống cho mỗi máy ảo sử dụng.
 Các hypervisor cho phép mỗi VM hoặc guest OS giao tiếp với lớp tài nguyên phần cứng vật lý bên dưới, chẳng hạn như CPU, RAM và ổ cứng.
 
-## Phân loại Hypervisor
+## 1. Phân loại Hypervisor
 
 ![image](https://user-images.githubusercontent.com/83684068/123501638-a225ce80-d670-11eb-80f9-93ea94a08dc1.png)
 
-### Native Hypervisor (Bare metal)
+### 1.1 Native Hypervisor (Bare metal)
 Hypervisor ở dạng native sẽ chạy trực tiếp trên phần cứng. Nó nằm giữa phần cứng và một hoặc nhiều guest OS.
 Nó được khởi động trước cả hệ điều hành và tương tác trực tiếp với kernel. Điều này mang lại hiệu suất cao nhất có thể vì không có host OS chạy song song nào cạnh tranh tài nguyên máy tính với nó.
 Tuy nhiên, cũng đồng nghĩa với việc hệ thống chỉ có thể chạy các máy ảo vì hypervisor luôn chạy ngầm bên dưới.
 
-### Hosted Hypervisor
+### 1.2 Hosted Hypervisor
 Hypervisor dạng hosted được cài đặt trên một host OS chủ.
 Hoạt động như một phần mềm thông thường trên máy tính. Hầu hết các hosted hypervisor có thể quản lý và chạy nhiều máy ảo cùng một lúc.
 Lợi thế của một hosted hypervisor là có thể được bật, tạm dừng hoặc thoát ra khi cần thiết, giải phóng tài nguyên cho máy chủ.
