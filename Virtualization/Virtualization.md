@@ -15,13 +15,13 @@ Ví dụ:
 
 - Như vậy sẽ giảm được chi phí về phần cứng, chi phí bảo trì và làm mát cho các hệ thống server
 
-### Mục tiêu chính của ảo hóa
+## 1. Mục tiêu chính của ảo hóa
 - **Availability:** giúp các ứng dụng hoạt động liên tục bằng cách giảm thiểu, loại bỏ downtime khi gặp sự cố
 - **Scalability:** khả năng tùy biến, thu hẹp hoặc mở rộng mô hình server dễ dàng mà không làm gián đoạn ứng dụng
 - **Optimization:** sử dụng triệt để nguồn tài nguyên phần cứng và tránh lãng phí 
 - **Management:** khả năng quản lý tập trung thuận tiện
 
-### Thành phần chính của ảo hóa
+## 2. Thành phần chính của ảo hóa
 Một hệ thống ảo hóa bắt buộc phải có đầy đủ các thành phần: tài nguyên vật lý, phần mềm ảo hóa, máy chủ ảo và hệ điều hành khách.
 
 ![](https://raw.githubusercontent.com/khanhnt99/CCNA-LINUX-tips/master/Untitled%20Diagram.png)
@@ -37,3 +37,33 @@ Một hệ thống ảo hóa bắt buộc phải có đầy đủ các thành ph
 - **Mảy ảo (Virtual Machine)**
   - Hoạt động như một máy chủ vật lý thông thường với tài nguyên riêng, giao diện riêng, hệ điều hành riêng.
 
+## 3. Ring
+Hierarchial Protection Domains (Protection Rings) là cơ chế nhằm bảo vệ dữ liệu và chức năng của 1 chương trình tránh khỏi nguy cơ lỗi hoặc bị truy cập trái phép.
+
+<img src="https://user-images.githubusercontent.com/83684068/123500359-bc0ee380-d667-11eb-8f5c-9a68e10e95ad.png" alt="drawing" width="450"/>
+
+Mỗi một vòng ring tương đương với một quyền hạn (level) để truy cập tài nguyên hệ thống. Như vậy, ring 0 có đặc quyền cao nhất, tương tác trực tiếp với phần cứng CPU, Memory,...
+
+## 4. Phân loại ảo hóa
+- RAM virtualization
+- CPU virtualization
+- Network virtualization
+- Device I/O virtualization
+## 5. Các mức độ ảo hóa trong CPU virtualization
+Một số chỉ thị của guest OS ở ring 3 (user level) phải được thực hiện trong ring 0. Để làm được như vậy, yêu cầu các chỉ thị phải được translate xuống hardware ngay khi hệ thống đang hoạt động. Các giải pháp được đưa ra nhằm giải quyết vấn đề này gồm: Full virtualization sử dụng binary translation, hardware assist virtualization và paravirtualization.
+### 5.1 Ảo hóa toàn phần (full virtualization)
+Các chỉ thị trên guest OS sẽ không bị biến đổi mà được dịch nhị phân ở virtualization layer (ring 0). Bằng cách này Guest OS hoàn toàn không nhận ra nó đang nằm trên một lớp ảo hóa.
+
+Tuy nhiên, ảo hóa toàn phần có thể gặp một số vấn đề về hiệu năng và hiệu quả trong sử dụng tài nguyên hệ thống.
+
+![image](https://user-images.githubusercontent.com/83684068/123499875-f2e2fa80-d663-11eb-828b-8260c0fd02a8.png)
+
+### 5.2 Ảo hóa song song (Paravirtualization)
+Trong phương pháp này, hypervisor sẽ cung cấp hypercall interface. Guest OS sẽ được chỉnh sửa kernel code để thay thế các chỉ thị bằng các hypercall này. Do kernel code của guest OS phải chỉnh sửa nên giải pháp này không thể sử dụng được một số hệ điều hành mã nguồn đóng như windows. Và do guest OS sử dụng hypercall nên sẽ biết mình đang nằm trên một virtualization layer.
+
+![image](https://user-images.githubusercontent.com/83684068/123500638-c6ca7800-d669-11eb-87ae-4886cfaa6eb9.png)
+
+### 5.3 Hardware Assisted Virtualization
+Phương pháp này đều hướng đến việc xây dựng một CPU mode mới dành riêng cho virtualization layer gọi là root mode (ring -1). Bằng cách này, các chỉ thị từ guest OS sẽ được tự động đi xuyên qua virtualization layer và cũng không cần kỹ thuật dịch nhị phân vì guest OS đã nằm ở ring 0
+
+![image](https://user-images.githubusercontent.com/83684068/123500723-3e98a280-d66a-11eb-83c0-af4a1da8adf5.png)
