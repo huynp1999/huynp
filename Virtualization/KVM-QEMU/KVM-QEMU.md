@@ -50,3 +50,33 @@ Trong đó:
 - **Virtual machine:** Là các máy ảo người dùng tạo ra. Thông thường, nếu không sử dụng các công cụ như virsh hay virt-manager, KVM sẽ sử dụng phối hợp với một hypervisor khác, điển hình là QEMU.
 - **Kernel support:** Vị trí của KVM, cung cấp một module làm hạt nhân cho hạ tầng ảo hóa (kvm.ko).
 
+# Cài đặt KVM
+Bởi KVM chỉ làm việc trên CPU hỗ trợ ảo hóa phần cứng mở rộng Intel VT-x hoặc AMD-V nên cần phải kiểm tra trước khi cài đặt
+
+    grep -c -E ‘svm|vmx’ /proc/cpuinfo
+   
+- Nếu kết quả đầu ra lớn hơn 0 tức là CPU có hỗ trợ
+
+Cài KVM và các gói liên quan.
+
+    sudo apt-get install qemu-kvm libvirt-bin virt-manager -y
+    
+- qemu-kvm: phần phụ trợ cho KVM
+- libvirt-bin: cung cấp libvirtd để quản lý QEMU và KVM bằng cách sử dụng thư viện libvirt.
+- bridge-utils: tiện ích cần thiết để tạo và quản lý các thiết bị bridge.
+- virt-manager: cung cấp giao diện đồ họa để quản lý máy ảo.
+
+File cấu hình:
+        
+    /etc/libvirt/libvirtd.cònf
+        
+Pool chứa các VM
+        
+    /var/lib/libvirt/images
+File Log:
+        
+    /var/log/libvirt/qemu
+
+
+
+
