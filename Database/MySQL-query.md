@@ -46,7 +46,7 @@ Bảng dữ liệu:
 
     
     
-## Lọc dữ liệu
+### Lọc dữ liệu
 Sử dụng thêm câu lệnh `WHERE [condition]`
     
     SELECT * FROM sinhvien where dtb > 7.3;
@@ -71,7 +71,7 @@ Sắp xếp theo alphabet hoặc theo các toán tử logic:
     +------+---------------+------+------+
     2 rows in set (0,00 sec)
 
-## Chỉnh sửa, quản lý bảng dữ liệu
+### Chỉnh sửa, quản lý bảng dữ liệu
 Thêm một cột, đằng sau một cột cụ thể. Nếu không có AFTER mặc định sẽ được thêm vào sau cột cuối cùng
 
     mysql> ALTER TABLE sinhvien add COLUMN `ten` VARCHAR(30) AFTER `hoten`;
@@ -104,3 +104,13 @@ Tách cột dữ liệu thành 2 cột mới (tách theo ký tự " ")
     +------+------------+-------+------+------+
     3 rows in set (0,00 sec)
 
+### Backup/restore dữ liệu
+Cú pháp tạo file backup cho một hay nhiều database:
+
+    sudo mysqldump -u [user] -p [database_1] [database_2] > [filename].sql
+    
+Phục hồi dữ liệu từ file backup
+
+    mysql -u [user] -p [database_name] < [filename].sql
+    
+- Lưu ý, nếu không có thì cần phải tạo database trước khi phục hồi dữ liệu
