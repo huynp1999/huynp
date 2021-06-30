@@ -2,7 +2,7 @@
 Là một tập hợp của những data (dữ liệu) có liên quan với nhau.
 Database được duy trì dưới dạng tập hợp các tập tin trong hệ điều hành, hoặc được lưu trữ trong các hệ quản trị cơ sở dữ liệu.
 
-Có nhiều loại database chạy trên cả 2 nền tảng Linux và Windows (MySQL-MariaDB, Oracle, Postgres...vv), nhưng một số database chỉ chạy được trên 1 nền tảng, ví dụ Microsoft SQL Server chỉ dành cho Windows.
+Có nhiều loại database chạy trên cả 2 nền tảng Linux và Windows như MySQL-MariaDB, Oracle, Postgres,... hoặc có thể là cả Microsoft SQL Server.
 
 Phân loại database theo mục đích sử dụng
 - Database dạng file: dữ liệu được lưu dưới dạng file có thể là .mdb hoặc .accdb của Access, hay một số định dạng file khác như .txt, .dbf
