@@ -3,7 +3,7 @@ KeepAlived giải quyết vấn đề sự cố trên một máy chủ đảm nh
 
 Để làm được điều này, KeepAlive thao tác với LVS (Linux Virtual Server) cho phép thêm hoặc xóa các máy chủ thực dựa trên health check. Có thể tạo một hay nhiều Virtual IP để liên kết các máy chủ mở rộng hệ thống Load Balancing.
 
-## Các thuật toán trong cân bằng tải
+## Các thuật toán trong cân bằng tải (NGINX)
 ### 1. Round Robin
 Là thuật toán mặc định của NGINX, và không cần cấu hình thêm trong block `http`
 
