@@ -29,7 +29,7 @@ Tại layer 7 cho phép load balancer chuyển hướng request đến các 
 Trong ví dụ này, nếu người dùng yêu cầu yourdomain.com/blog, họ sẽ được chuyển hướng đến blog-backend, là tập các máy chủ chạy ứng dụng blog.
 Các request khác được chuyển hướng đến web-backend, mà có thể sẽ chạy các ứng dụng khác. (cả 2 backend dùng cùng máy chủ database)
 
-### 4. Khác biệt giữa layer 4 và layer 7
+### 4. Khác biệt giữa load balancer layer 4 và layer 7
 - **Layer 4**
   - Hoạt động ở lớp transport, quản lý lưu lượng truy cập dựa trên thông tin mạng như port và giao thức mà không quan tâm tới nội dung gói tin.
   - Layer 4 load balancer đơn giản chỉ chuyển tiếp gói dữ liệu mạng đến và đi mà không kiểm tra nội dung trong đó.
