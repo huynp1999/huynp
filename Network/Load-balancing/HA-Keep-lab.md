@@ -71,35 +71,80 @@ Down kết nối của webserver 1, khi này webserver 2 sẽ được giữ VIP
 ![](https://github.com/huynp1999/huynp/blob/master/pic/network/ha-keep/keep2.png)
 ![](https://github.com/huynp1999/huynp/blob/master/pic/network/ha-keep/keep4.png)
 # HAProxy
+![](https://github.com/huynp1999/huynp/blob/master/pic/network/ha-keep/ha4.png)
 ### 1. Cài đặt HAProxy tại gateway
     apt-get install haproxy
 
 ### 2. Cấu hình trên 2 webserver
 File cấu hình `/etc/haproxy/haproxy.cfg`
 
-    global
+     global
+        log /dev/log	local0
+        log /dev/log	local1 notice
+        chroot /var/lib/haproxy
+        stats socket /run/haproxy/admin.sock mode 660 level admin
+        stats timeout 30s
+        user haproxy
+        group haproxy
         daemon
-        maxconn 256
+
+        # Default SSL material locations
+        ca-base /etc/ssl/certs
+        crt-base /etc/ssl/private
+
+        # Default ciphers to use on SSL-enabled listening sockets.
+        # For more information, see ciphers(1SSL). This list is from:
+        #  https://hynek.me/articles/hardening-your-web-servers-ssl-ciphers/
+        ssl-default-bind-ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256::RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+        ssl-default-bind-options no-sslv3
 
     defaults
+        log	global
+        mode	http
+        option	httplog
+        option	dontlognull
+               timeout connect 5000
+               timeout client  50000
+               timeout server  50000
+        errorfile 400 /etc/haproxy/errors/400.http
+        errorfile 403 /etc/haproxy/errors/403.http
+        errorfile 408 /etc/haproxy/errors/408.http
+        errorfile 500 /etc/haproxy/errors/500.http
+        errorfile 502 /etc/haproxy/errors/502.http
+        errorfile 503 /etc/haproxy/errors/503.http
+        errorfile 504 /etc/haproxy/errors/504.http
+        
+    frontend HaSv
+        bind 192.168.1.10:80
         mode http
-        timeout connect 5000ms
-        timeout client 50000ms
-        timeout server 50000ms
-
-    frontend http-in
-        bind *:80
-        default_backend app
-    backend static
+        default_backend WebSV
+        
+    backend WebSv
+        mode http
         balance roundrobin
-        server static 192.168.1.254:80
-    backend app
-        balance roundrobin
-        server test1 192.168.1.10:8080 check
-        server test2 192.168.1.20:8080 check
+        option forwardfor
+        http-request set-header X-Forwarded-Port %[dst_port]
+        http-request add-header X-Forwarded-Proto https if { ssl_fc }
+        option httpchk HEAD / HTTP/1.1rnHost:localhost
+        server web1.example.com  192.168.1.1:80
+        server web2.example.com  192.168.1.2:80
+        server web3.example.com  192.168.1.3:80
 
-Lưu ý:
-- Cần phải đổi port http của nginx để tránh conflict với dịch vụ HAProxy
-- Đổi `listen port` trên mỗi backend tại `/etc/nginx/sites-enabled/default`
+Trong đó
+- Trường `frontend` để báo cho HAProxy biết phải lắng nghe kết nối đến ở đâu, tại đây là lắng nghe từ port 80 của chính nó.
+- Trường `backend` là nơi mà HAProxy sẽ gửi request tới.
 
-Như vậy HAProxy sẽ loadbalancing giữa 2 webbackend theo các lần truy cập (F5).
+Sau khi cấu hình, kiểm tra lại trước khi restart áp dụng các cài đặt:
+
+    haproxy -c -f /etc/haproxy/haproxy.cfg
+
+Nếu kết quả trả lại và `valid` tức không có lỗi thì restart:
+
+    service haproxy restart
+
+Như vậy HAProxy sẽ thực loadbalancing giữa 3 webbackend theo các lần truy cập (F5).
+![](https://github.com/huynp1999/huynp/blob/master/pic/network/ha-keep/ha1.png)
+![](https://github.com/huynp1999/huynp/blob/master/pic/network/ha-keep/ha2.png)
+![](https://github.com/huynp1999/huynp/blob/master/pic/network/ha-keep/ha3.png)
+
+- Các index ở webbackend đã được sửa lại theo IP để dễ quan sát quá trình điều hướng kết nối.
