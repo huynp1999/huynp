@@ -132,7 +132,7 @@ File cấu hình `/etc/haproxy/haproxy.cfg`
 
 Trong đó
 - Trường `frontend` để báo cho HAProxy biết phải lắng nghe kết nối đến ở đâu, tại đây là lắng nghe từ port 80 của chính nó.
-- Trường `backend` là nơi mà HAProxy sẽ gửi request tới.
+- Trường `backend` là nơi mà HAProxy sẽ gửi request tới, tức là 3 web backend 1.1, 1.2, 1.3
 
 Sau khi cấu hình, kiểm tra lại trước khi restart áp dụng các cài đặt:
 
