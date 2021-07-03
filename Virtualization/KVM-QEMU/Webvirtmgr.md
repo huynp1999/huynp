@@ -122,7 +122,7 @@ Restart để áp dụng các cấu hình
 ## Tạo và quản lý VM
 Thêm host mới
 
-![image](https://github.com/huynp1999/huynp/blob/master/pic/virt/webvirt2.png)
+![image](https://github.com/huynp1999/huynp/blob/master/pic/virt/webvirt1.png)
 
 Tạo đường dẫn cho tới các file image cho VM, cụ thể là `/var/lib/libvirt/images`
 - Tuy nhiên ban đầu đây là thư mục trống và cần download hoặc copy file vào
@@ -133,7 +133,7 @@ Tạo đường dẫn cho tới các file image cho VM, cụ thể là `/var/lib
  
 File image sẽ được hiển thị trên webvirt
 
-![](https://github.com/huynp1999/huynp/blob/master/pic/virt/webvirt1.png)
+![](https://github.com/huynp1999/huynp/blob/master/pic/virt/webvirt2.png)
 
 Tạo máy ảo
 
