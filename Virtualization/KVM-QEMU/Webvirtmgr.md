@@ -1,6 +1,15 @@
 # WebvirtMgr(Web panel)
 Là một công cụ quản lí ảo hóa của libvirt giống như virt manager, nhưng dựa trên giao diện web và có ít tính năng hơn virt manager.
 
+Cho phép tạo và phân bổ tài nguyên của một domain. Hỗ trợ viewer VNC qua một tunnel SSH đưa ra một giao diện điều khiển đồ họa đầy đủ tính năng đến các guest domain. Hiện Webvirt chỉ hỗ trợ KVM.
+
+## Cài đặt và cấu hình
+![](https://github.com/huynp1999/huynp/blob/master/pic/virt/webvirt6.png)
+
+Topo gồm 2 node
+- WebvirtMgr: cài đặt giao diện quản lí web bằng NGINX.
+- QEMU: cài đặt QEMU và chịu trách nhiệm lưu máy ảo và các image.
+
 Cài đặt các gói cần thiết:
     
     sudo apt-get install git python-pip python-libvirt python-libxml2 novnc supervisor nginx
@@ -110,29 +119,31 @@ Restart để áp dụng các cấu hình
 
 
 
+## Tạo và quản lý VM
+Thêm host mới
 
+![image](https://user-images.githubusercontent.com/83684068/124342284-0dc9e780-dbed-11eb-9656-69fb4582f833.png)
 
+Tạo đường dẫn cho tới các file image cho VM, cụ thể là `/var/lib/libvirt/images`
+- Tuy nhiên ban đầu đây là thư mục trống và cần download hoặc copy file vào
 
+        huynp@huyComputer:~$ scp Downloads/ubuntu-16.04.7-server-amd64.iso root@192.168.53.191:/var/lib/libvirt/images
+        root@192.168.53.191's password: 
+        ubuntu-16.04.7-server-amd64.iso                                        100%  880MB   2.3MB/s   06:28    
+ 
+File image sẽ được hiển thị trên webvirt
 
+![](https://github.com/huynp1999/huynp/blob/master/pic/virt/webvirt1.png)
 
+Tạo máy ảo
 
+![](https://github.com/huynp1999/huynp/blob/master/pic/virt/webvirt5.png)
 
+Chọn file image để load trên máy ảo
 
+![](https://github.com/huynp1999/huynp/blob/master/pic/virt/webvirt3.png)
 
+Chọn **Console** để hiện thị giao diện đồ họa của máy ảo thông qua màn hình VNC viewer
 
+![](https://github.com/huynp1999/huynp/blob/master/pic/virt/webvirt4.png)
 
-
-
-
-
-
-
-
-
-
-
-
-
-    huynp@huyComputer:~$ scp Downloads/ubuntu-16.04.7-server-amd64.iso root@192.168.53.191:/var/lib/libvirt/images
-    root@192.168.53.191's password: 
-    ubuntu-16.04.7-server-amd64.iso                                        100%  880MB   2.3MB/s   06:28    
