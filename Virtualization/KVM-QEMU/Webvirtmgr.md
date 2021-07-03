@@ -117,7 +117,7 @@ Restart để áp dụng các cấu hình
 
     service supervisor restart
 
-
+![image](https://github.com/huynp1999/huynp/blob/master/pic/virt/webvirt7.png)
 
 ## Tạo và quản lý VM
 Thêm host mới
