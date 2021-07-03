@@ -31,13 +31,10 @@ KVM kế thừa hiệu suất và khả năng mở rộng của Linux, hỗ tr�
 
 # QEMU
 QEMU (Quick Emulator) là một chương trình ảo hóa thuộc lớp 2 trong [Ring](https://github.com/huynp1999/huynp/blob/master/Virtualization/Virtualization-Hypervisor.md#3-ring) (chạy trên một host OS) để thực hiện việc ảo hóa phần cứng.
-Hai kiểu mô phỏng QEMU:
-- Toàn phần: QEMU sẽ tiến hành ảo hóa toàn bộ hệ thống, bao gồm CPU và các thành phần khác.
-- Một phần: ảo hóa ứng dụng trên 1 nền CPU khác.
 
 Quan hệ giữa QEMU và KVM là khi được kết hợp với nhau thì sẽ tạo thành type-1 hypervisor.
-- QEMU cần KVM để tăng hiệu năng hoạt động
-- KVM cần QEMU để hoàn thiện các tính năng ảo hóa hoàn chỉnh.
+- QEMU vẫn có thể chạy độc lập nhưng do quá trình mô phỏng được thực hiện hoàn toàn trong phần mềm nên rất chậm, do vậy mà cần kết hợp với KVM để tăng hiệu năng hoạt động
+- KVM cũng có thể tự tạo máy ảo mà không cần các hypervisor khác, nhưng để hoàn thiện các tính năng ảo hóa hoàn chỉnh thì điều này cần đến QEMU
 
 
 Mô hình hoạt động chung giữa KVM và QEMU:
