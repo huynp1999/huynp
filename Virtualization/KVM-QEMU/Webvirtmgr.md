@@ -4,7 +4,7 @@ Là một công cụ quản lí ảo hóa của libvirt giống như virt manage
 Cho phép tạo và phân bổ tài nguyên của một domain. Hỗ trợ viewer VNC qua một tunnel SSH đưa ra một giao diện điều khiển đồ họa đầy đủ tính năng đến các guest domain. Hiện Webvirt chỉ hỗ trợ KVM.
 
 ## Cài đặt và cấu hình
-![](https://github.com/huynp1999/huynp/blob/master/pic/virt/webvirt6.png)
+![image](https://user-images.githubusercontent.com/83684068/124342294-1a4e4000-dbed-11eb-94bf-47f0f3f72ef8.png)
 
 Topo gồm 2 node
 - WebvirtMgr: cài đặt giao diện quản lí web bằng NGINX.
@@ -122,7 +122,7 @@ Restart để áp dụng các cấu hình
 ## Tạo và quản lý VM
 Thêm host mới
 
-![image](https://user-images.githubusercontent.com/83684068/124342284-0dc9e780-dbed-11eb-9656-69fb4582f833.png)
+![image](https://github.com/huynp1999/huynp/blob/master/pic/virt/webvirt2.png)
 
 Tạo đường dẫn cho tới các file image cho VM, cụ thể là `/var/lib/libvirt/images`
 - Tuy nhiên ban đầu đây là thư mục trống và cần download hoặc copy file vào
