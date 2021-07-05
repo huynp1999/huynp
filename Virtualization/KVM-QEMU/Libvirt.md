@@ -54,7 +54,7 @@ Liệt kê tất cả các VM đang hoạt động (`--all` để hiển thị c
 Trước tiên cần tạo một file XML để định nghĩa thông tin máy ảo
 
       <domain type='kvm'>
-        <name>host</name>
+        <name>guest</name>
         <memory unit='MB'>512</memory>
         <currentMemory unit='MB'>512</currentMemory>
         <vcpu>1</vcpu>
@@ -73,7 +73,7 @@ Trước tiên cần tạo một file XML để định nghĩa thông tin máy �
           <emulator>/usr/bin/kvm</emulator>
           <disk type="file" device="disk">
             <driver name="qemu" type="raw"/>
-            <source file="/var/lib/libvirt/images/cirros-0.4.0-x86_64-disk.img"/>
+            <source file="/var/lib/libvirt/images/cirros-0.5.1-x86_64-disk.img"/>
             <target dev="hda" bus="ide"/>
             <address type="drive" controller="0" bus="0" target='0'/>
           </disk>
@@ -88,7 +88,7 @@ Trước tiên cần tạo một file XML để định nghĩa thông tin máy �
    
 Bao gồm các thông số sau:
 - 500MB RAM, 1 vCPU, 1 ổ đĩa
-- Đường dẫn tới file img để boot máy ảo: `/var/lib/libvirt/images/cirros-0.4.0-x86_64-disk.img`
+- Đường dẫn tới file img để boot máy ảo: `/var/lib/libvirt/images/cirros-0.5.1-x86_64-disk.img`
 - Interface mạng 
 
 Tạo VM từ file XML và kiểm tra
