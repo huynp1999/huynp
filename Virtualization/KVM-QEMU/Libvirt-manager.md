@@ -23,7 +23,10 @@ Quản lý, tạo mới mạng ảo (tên vmnet1)
 # Virsh
 Là một công cụ tương tác với libvirtd để quản lý virtual network và virtual machine, thông qua giao diện dòng lệnh.
 
-Cú pháp virsh:
+Cài đặt
+
+    apt install qemu-kvm libvirt-bin bridge-utils
+Cú pháp virsh
 
     virsh [OPTION]... <command> <domain> [ARG]...
     
@@ -38,7 +41,7 @@ Liệt kê tất cả các VM đang hoạt động (`--all` để hiển thị c
 Trước tiên cần tạo một file XML để định nghĩa thông tin máy ảo
 
       <domain type='kvm'>
-        <name>guest</name>
+        <name>cirros</name>
         <memory unit='MB'>512</memory>
         <currentMemory unit='MB'>512</currentMemory>
         <vcpu>1</vcpu>
@@ -66,6 +69,12 @@ Trước tiên cần tạo một file XML để định nghĩa thông tin máy �
             <target dev='vnet-'/>
             <address type='pci' domain='0x0000' bus='0x00' slot='0x03' function='0x0'/>
           </interface>
+          <serial type='pty'>                   #bat console
+            <target port='0'/>
+          </serial>
+          <console type='pty'>
+            <target type='serial' port='0'/>
+          </console>
           </devices>
           <seclabel type='none'/>
       </domain>
