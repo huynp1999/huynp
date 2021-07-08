@@ -31,7 +31,7 @@ RAID controller hỗ trợ các mode đọc dữ liệu sau:
   - Thay vào đó, nó chỉ đọc dữ liệu từ ổ đĩa ảo khi nhận được lệnh đọc dữ liệu. 
 
 ### Data Write Policies
-RAID controler hỗ trợ các mode ghi dữ liệu sau:
+RAID controller hỗ trợ các mode ghi dữ liệu sau:
 - **Write-back**
   - Khi mode này được sử dụng, dữ liệu sẽ được ghi trực tiếp vào cache.
   - Sau đó, controller sẽ cập nhật dữ liệu từ cache vào ổ cứng.
