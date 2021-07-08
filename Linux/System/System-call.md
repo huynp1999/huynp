@@ -15,3 +15,9 @@ Giả sử, với một chương trình đơn giản có tác vụ đọc dữ l
 Nếu có lỗi xảy ra, chương trình phải xuất một dòng báo lỗi ra màn hình cho người dùng (system call 2: ghi) và thoát chương trình (system call 3: thoát).
 Nếu không có lỗi sẽ tiến hành tạo file thứ B nếu không có sẵn (system call 4: tạo file) và thực hiện sao chép (system call 5: ghi file).
 
+## Phân loại các system call
+Các system call phổ biến có thể kể đến `open`, `read`, `write`, `close`, `wait`, `exec`, `fork`, `exit` và `kill`. Ngoài ra, Linux còn có hơn 300 call khác có thể xem tại ![**đây**](https://man7.org/linux/man-pages/man2/syscalls.2.html).
+
+### Open system call
+`open()` system call sẽ mở file được chỉ định theo đường dẫn. Nếu file không tồn tại, có thể thêm tag tùy chọn `O_CREAT` để tạo file mới và mở nó.
+Giá trị trả về của `open()` là một file descriptor (FD). Từ FD này, các syscall khác như read,write,... có thể khai thác sử dụng file đã được mở.
