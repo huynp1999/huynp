@@ -54,7 +54,7 @@ Sử dụng file `.xml` để tạo guest, trong đó đã được cấu hình 
         <seclabel type='none'/>
     </domain>
 
-Như vậy sao khi vào kiểm tra trong VM sẽ có thêm một disk 7GB
+Như vậy sau khi vào kiểm tra trong VM sẽ có thêm một disk 7GB
 
 ![](https://github.com/huynp1999/huynp/blob/master/pic/virt/lvmbased.png)
 
