@@ -42,7 +42,7 @@ RAID controler hỗ trợ các mode ghi dữ liệu sau:
   - Sau khi hệ thống của ổ đĩa nhận được tất cả dữ liệu cần truyền, controller báo hiệu cho máy chủ rằng quá trình đã hoàn tất.
   - Nhược điểm là tốc độ ghi thấp.
 - **BBU-related write-back**
-  - khi không có nguồn điện trong ổ cứng, BBU hỗ trợ lưu giữ data ở cache trong vòng 72h cho tới khi hệ thống hoạt động trở lại, và dữ liệu sẽ được ghi trở lại ổ cứng.
+  - Khi không có nguồn điện trong ổ cứng, BBU sẽ hỗ trợ lưu giữ data ở cache trong vòng 72h cho tới khi hệ thống hoạt động trở lại, và dữ liệu sẽ được ghi trở lại ổ cứng.
   - Mode này liên quan đến hai trường hợp:
   - Nếu BBU của RAID controller có sẵn và hoạt động bình thường, chính sách ghi sẽ được áp dụng theo write-back mode.
   - Nếu BBU của RAID controller không có hoặc bị lỗi, chính sách ghi sẽ được áp dụng theo write-through mode. 
