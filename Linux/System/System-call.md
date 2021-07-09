@@ -20,6 +20,8 @@ Nếu không có lỗi sẽ tiến hành tạo file thứ B nếu không có s�
 Các system call phổ biến có thể kể đến `open`, `read`, `write`, `close`, `wait`, `exec`, `fork`, `exit` và `kill`. Ngoài ra, Linux còn có hơn 300 call khác có thể xem tại [**đây**](https://man7.org/linux/man-pages/man2/syscalls.2.html). Trong bài này chỉ tập trung đến các call và tag dùng trong việc flush dữ liệu từ cache xuống disk.
 
 ### 2.1 Fsync, fdatasync system call
+Mặc định, `write` system call được trả về sau khi tất cả dữ liệu đã được sao chép từ user space vào cache trong system space. Không có gì đảm bảo rằng dữ liệu đã thực sự được lưu trữ. Trong trường hợp này, `fsync` và system call khác cùng loại được sử dụng để đảm bảo dữ liệu thực sự được chuyển từ cache vào ổ cứng. Các system call này được trả chỉ khi nào dữ liệu đã tới được nơi lưu trữ cố định, nếu phần cứng xảy ra lỗi sẽ được báo cáo lại.
+
 `fsync()` chuyển (flush) tất cả dữ liệu đã được sửa đổi của file tại bộ đệm nhờ file descriptor *fd* tham chiếu đến ổ cứng. Điều này nhằm truy xuất tất cả thông tin đã thay đổi ngay cả sau khi hệ thống gặp sự cố hoặc sau khi khởi động lại. Call sẽ chặn cho đến khi thiết bị báo rằng quá trình truyền đã hoàn tất. Nó cũng flush các thông tin metadata được liên kết với tệp.
 
 `fdatasync()` tương tự như `fsync()`, nhưng chỉ flush metadata nào cần thiết truy xuất dữ liệu tiếp theo. Mục tiêu của `fdatasync` nhằm giảm tải cho disk trong trường hợp ứng dụng không yêu cầu đồng bộ hóa **tất cả** metadata với disk.
@@ -38,18 +40,42 @@ Giá trị trả về của `open()` là một file descriptor (FD). Từ FD nà
   - Tại thời điểm dữ liệu được trả về, dữ liệu đầu ra sẽ được chuyển sang phần cứng bên dưới, cùng với bất kỳ metadata nào được yêu cầu để truy xuất dữ liệu đó (tức là sau mỗi lần dữ liệu được thay đổi sẽ là một lần call đến `fdatasync`).
   - Giảm tải cho ổ cứng trong trường hợp mà ứng dụng không yêu cầu đồng bộ hóa **tất cả** metadata với disk.
 - `O_DIRECT` 
-  - Linux cho phép ứng dụng bỏ qua cache mà truyền trực tiếp từ user space tới disk
+  - Linux cho phép ứng dụng bỏ qua cache mà truyền trực tiếp từ buffer của user space tới disk
   - Nhìn chung hiệu suất bị sẽ bị giảm nhưng lại trở nên hữu ích trong các trường hợp đặc biệt, chẳng hạn như khi ứng dụng muốn tự dùng cache riêng.
   - Flag `O_DIRECT` tự truyền dữ liệu đồng bộ, nhưng không có được sự đảm bảo về metadata giống như `O_SYNC`.
   - Để đảm bảo I/O đồng bộ, `O_DIRECT` phải được sử dụng cùng `O_SYNC` hoặc `fsync`.
+  - Do có đặc điểm như vậy mà `O_DIRECT` có thể dùng trong việc test hiệu năng disk, hoặc cũng phù hợp với những dữ liệu không cần dùng tới trong tương lai gần nhằm giảm thiểu những rủi ro có thể xảy ra trong quá trình truyền từ cache xuống disk.
 
 #### 2.2.1 Khác biệt
 Khác biệt giữa `O_SYNC` và `O_DSYNC` cũng tương tự như `fsync()` và `fdatasync()`, có thể xem ở mục 2.1.
 
 Về phần `O_DIRECT` là *direct I/O* còn `O_SYNC` và `O_DSYNC` thuộc kiểu *synchronized I/O*:
-- Từ cái tên đã cho thấy `O_DIRECT` khác biệt ở chỗ ghi trực tiếp vào vào disk từ user space, thay vì phải thông qua một lớp cache như của *synchronized I/O*.
-- Do có đặc điểm như vậy mà `O_DIRECT` có thể dùng trong việc test hiệu năng disk, hoặc cũng phù hợp với những dữ liệu không cần dùng tới trong tương lai gần nhằm giảm thiểu những rủi ro có thể xảy ra trong quá trình truyền từ cache xuống disk. Điều này cũng tiết kiệm cache cho những dữ liệu cần dùng thường xuyên.
-### 2.3 Flush call trong InnoDB
+- *Direct I/O* loại bỏ hoặc giảm thiểu sự tham gia của lớp cache và thực hiện các I/O thẳng tới disk, trong khi *synchronized I/O* tương tác với disk thông qua cache.
+- *Direct I/O* và disk controller tương tác với nhau thông qua *write-through* và *non-read-ahead* mode, còn *synchronized I/O* áp dụng [*write-back*, *read-ahead*](https://github.com/huynp1999/huynp/blob/master/Linux/Filesystem/RAID/RAID-card-function.md#data-write-policies) mode. (?)
+
+### 2.3 Flush system call trong InnoDB
+Trước tiên, flush là quá trình đẩy tất cả các sửa đổi file đang nằm trong nơi lưu trữ tạm thời như cache pages, xuống một nơi cố định là disk. Flushing cần thiết cho việc checkpoint data và giải phóng vùng nhớ sau một khoảng thời gian được lưu trữ tại cache.
+
+Các phương pháp flush được sử dụng trong InnoDB gồm:
+
+|  Method |  |
+| ------------- |-------------|
+| `fsync/fdatasync`      | Là flag mặc định của option `innodb_flush_method`. Với các nền tảng hỗ trợ `fdatasync()` system call, InnoDB sẽ sử dụng nó thay thế cho `fsync()`. Cụ thể 2 s tại mục 2.1.    |
+| `O_DSYNC`      | Dùng để mở và flush các log file và kết hợp với `fsync()` để flush các data log file. InnoDB không sử dụng `O_DSYNC` trực tiếp vì có vấn đề trên nhiều bản Unix.     |
+|   `littlesync`   |      |
+|   `nosync`   |      |
+|  `O_DIRECT`   |  Dùng để mở data file, kèm theo `fsync()` để flush data và log file. Sở dĩ flag này cần `fsync()` là vì một số file system như XFS chỉ sync metadata bằng `fsync()`.    |
+|    `O_DIRECT_NO_FSYNC`  |   sử dụng `O_DIRECT` để flush I/O nhưng không kèm theo `fsync()` nên metadata sẽ không được sync. Nếu flag này được dùng với một số file system như XFS hoặc EXT4 có thể dẫn đến sự cố crash cho MySQL |
 
 
 
+### Tài liệu tham khảo
+- https://linux.die.net/man/3/open
+- https://linux.die.net/man/2/open
+- https://man7.org/linux/man-pages/man2/open.2.html
+- https://linux.die.net/man/2/fdatasync
+- https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_flush_method
+- https://linuxkbs.blogspot.com/2014/01/what-are-exactly-odirect-osync-flags.html
+- https://blog.toadworld.com/2017/10/19/data-flushing-mechanisms-in-innodb
+- https://stackoverflow.com/questions/5055859/how-are-the-o-sync-and-o-direct-flags-in-open2-different-alike
+- https://stackoverflow.com/questions/41440492/why-mysql-still-use-fsync-to-flush-the-data-when-the-option-is-o-direct
