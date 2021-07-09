@@ -65,11 +65,10 @@ Các phương pháp flush được sử dụng trong InnoDB gồm:
 | ------------- |-------------|
 | `fsync/fdatasync`      | Là flag mặc định của option `innodb_flush_method`. Với các nền tảng hỗ trợ `fdatasync()` system call, InnoDB sẽ sử dụng nó thay thế cho `fsync()`. Cụ thể v2 system call này xem tại mục 2.1.    |
 | `O_DSYNC`      | Dùng để mở và flush các log file và kết hợp với `fsync()` để flush các data log file. InnoDB không sử dụng `O_DSYNC` trực tiếp vì có vấn đề trên nhiều bản Unix.     |
-|   `littlesync`   |      |
-|   `nosync`   |      |
-|  `O_DIRECT`   |  Dùng để mở data file, kèm theo `fsync()` để flush data và log file. Sở dĩ flag này cần `fsync()` là vì một số file system như XFS chỉ sync metadata bằng `fsync()`.    |
-|    `O_DIRECT_NO_FSYNC`  |   sử dụng `O_DIRECT` để flush I/O nhưng không kèm theo `fsync()` nên metadata sẽ không được sync. Nếu flag này được dùng với một số file system như XFS hoặc EXT4 có thể dẫn đến sự cố crash cho MySQL |
-
+|   `littlesync`   |  Option này được sử dụng để test hiệu năng và hiện không được hỗ trợ.  |
+|   `nosync`   |   Option này được sử dụng để test hiệu năng và hiện không được hỗ trợ. |
+|  `O_DIRECT`   |  Option này sử dụng `O_DIRECT` để mở data file, kèm theo `fsync()` để flush data và log file. Sở dĩ flag này cần `fsync()` là vì một số file system như XFS chỉ sync metadata bằng `fsync()`.    |
+|    `O_DIRECT_NO_FSYNC`  | Dùng`O_DIRECT` để flush I/O nhưng không kèm theo `fsync()` nên metadata sẽ không được sync. Nếu flag này được dùng với một số file system như XFS hoặc EXT4 có thể dẫn đến sự cố crash cho MySQL. |
 
 
 ### Tài liệu tham khảo
