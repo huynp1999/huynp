@@ -46,7 +46,9 @@ Giá trị trả về của `open()` là một file descriptor (FD). Từ FD nà
 #### 2.2.1 Khác biệt
 Khác biệt giữa `O_SYNC` và `O_DSYNC` cũng tương tự như `fsync()` và `fdatasync()`, có thể xem ở mục 2.1.
 
-Về phần `O_DIRECT` là *direct I/O* còn `O_SYNC` và `O_DSYNC` thuộc kiểu *synchronized I/O*, từ cái tên đã cho thấy `O_DIRECT` khác biệt ở chỗ ghi trực tiếp vào vào disk từ user space, thay vì phải thông qua một lớp cache như c *synchronized I/O*. Hơn nữa, trong  `O_DIRECT`
+Về phần `O_DIRECT` là *direct I/O* còn `O_SYNC` và `O_DSYNC` thuộc kiểu *synchronized I/O*:
+- Từ cái tên đã cho thấy `O_DIRECT` khác biệt ở chỗ ghi trực tiếp vào vào disk từ user space, thay vì phải thông qua một lớp cache như của *synchronized I/O*.
+- Do có đặc điểm như vậy mà `O_DIRECT` có thể dùng trong việc test hiệu năng disk, hoặc cũng phù hợp với những dữ liệu không cần dùng tới trong tương lai gần nhằm giảm thiểu những rủi ro có thể xảy ra trong quá trình truyền từ cache xuống disk. Điều này cũng tiết kiệm cache cho những dữ liệu cần dùng thường xuyên.
 ### 2.3 Flush call trong InnoDB
 
 
