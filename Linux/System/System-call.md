@@ -26,8 +26,12 @@ Mặc định, `write` system call được trả về sau khi tất cả dữ l
 
 `fdatasync()` tương tự như `fsync()`, nhưng chỉ flush metadata nào cần thiết truy xuất dữ liệu tiếp theo. Mục tiêu của `fdatasync` nhằm giảm tải cho disk trong trường hợp ứng dụng không yêu cầu đồng bộ hóa **tất cả** metadata với disk.
 
-Ví dụ: các thay đổi đối với thời gian (lần truy cập cuối cùng, lần sửa đổi cuối cùng) không yêu cầu flush vì chúng không cần thiết để việc đọc dữ liệu tới. Mặt khác, một thay đổi đối với kích thước tệp sẽ yêu cầu flush metadata
+#### 2.2.1 Khác biệt
+Ví dụ có hai loại metadata, một loại cung cấp các thay đổi về timestamp (lần truy cập cuối cùng, lần sửa đổi cuối cùng), và loại còn lại cung cấp các thay đổi về file length.
+- Có thể thấy, timestamp không cần thiết cho quá trình đọc file, vậy nên `fdatasync()` sẽ chỉ flush file length metadata
+- Còn đối với `fsync()` sẽ flush cả hai loại, mà không cần quan tâm tới mục đích sử dụng của chúng.
 
+Như vậy, `fdatasync()` sẽ phần nào giảm tải cho disk trong trường hợp mà ứng dụng không yêu cầu đồng bộ hóa **tất cả** metadata xuống disk.
 ### 2.2 Open system call
 `open()` system call sẽ mở file được chỉ định theo đường dẫn. Nếu file không tồn tại, có thể thêm tag tùy chọn `O_CREAT` để tạo file mới và mở nó.
 Giá trị trả về của `open()` là một file descriptor (FD). Từ FD này, các syscall khác như read, write,... có thể khai thác sử dụng file đã được mở.
@@ -38,7 +42,6 @@ Giá trị trả về của `open()` là một file descriptor (FD). Từ FD nà
 - `O_DSYNC`
   - Cung cấp đồng bộ hóa toàn vẹn cho **dữ liệu** I/O.
   - Tại thời điểm dữ liệu được trả về, dữ liệu đầu ra sẽ được chuyển sang phần cứng bên dưới, cùng với bất kỳ metadata nào được yêu cầu để truy xuất dữ liệu đó (tức là sau mỗi lần dữ liệu được thay đổi sẽ là một lần call đến `fdatasync`).
-  - Giảm tải cho ổ cứng trong trường hợp mà ứng dụng không yêu cầu đồng bộ hóa **tất cả** metadata với disk.
 - `O_DIRECT` 
   - Linux cho phép ứng dụng bỏ qua cache mà truyền trực tiếp từ buffer của user space tới disk
   - Nhìn chung hiệu suất bị sẽ bị giảm nhưng lại trở nên hữu ích trong các trường hợp đặc biệt, chẳng hạn như khi ứng dụng muốn tự dùng cache riêng.
@@ -60,7 +63,7 @@ Các phương pháp flush được sử dụng trong InnoDB gồm:
 
 |  Method |  |
 | ------------- |-------------|
-| `fsync/fdatasync`      | Là flag mặc định của option `innodb_flush_method`. Với các nền tảng hỗ trợ `fdatasync()` system call, InnoDB sẽ sử dụng nó thay thế cho `fsync()`. Cụ thể 2 s tại mục 2.1.    |
+| `fsync/fdatasync`      | Là flag mặc định của option `innodb_flush_method`. Với các nền tảng hỗ trợ `fdatasync()` system call, InnoDB sẽ sử dụng nó thay thế cho `fsync()`. Cụ thể v2 system call này xem tại mục 2.1.    |
 | `O_DSYNC`      | Dùng để mở và flush các log file và kết hợp với `fsync()` để flush các data log file. InnoDB không sử dụng `O_DSYNC` trực tiếp vì có vấn đề trên nhiều bản Unix.     |
 |   `littlesync`   |      |
 |   `nosync`   |      |
