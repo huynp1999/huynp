@@ -63,7 +63,7 @@ Các phương pháp flush được sử dụng trong InnoDB gồm:
 
 |  Method |  |
 | ------------- |-------------|
-| `fsync/fdatasync`      | Là flag mặc định của option `innodb_flush_method`. Với các nền tảng hỗ trợ `fdatasync()` system call, InnoDB sẽ sử dụng nó thay thế cho `fsync()`. Cụ thể v2 system call này xem tại mục 2.1.    |
+| `fsync/fdatasync`      | Là option mặc định của `innodb_flush_method`. Với các nền tảng hỗ trợ `fdatasync()` system call, InnoDB sẽ sử dụng nó để thay thế cho `fsync()`. Cụ thể v2 system call này xem tại mục 2.1.    |
 | `O_DSYNC`      | Dùng để mở và flush các log file và kết hợp với `fsync()` để flush các data log file. InnoDB không sử dụng `O_DSYNC` trực tiếp vì có vấn đề trên nhiều bản Unix.     |
 |   `littlesync`   |  Option này được sử dụng để test hiệu năng và hiện không được hỗ trợ.  |
 |   `nosync`   |   Option này được sử dụng để test hiệu năng và hiện không được hỗ trợ. |
