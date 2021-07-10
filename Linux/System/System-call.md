@@ -58,7 +58,7 @@ Về phần `O_DIRECT`, là *direct I/O* còn `O_SYNC` và `O_DSYNC` thuộc ki�
 
 
 ### 2.3 Liên hệ trong InnoDB flushing
-Trước tiên, flush là quá trình đẩy tất cả các sửa đổi file đang nằm trong nơi lưu trữ tạm thời như cache pages, xuống một nơi cố định là disk. Flushing cần thiết cho việc checkpoint data và giải phóng vùng nhớ sau một khoảng thời gian được lưu trữ tại cache.
+Trước tiên, flush là quá trình đẩy tất cả các sửa đổi file đang nằm trong nơi lưu trữ tạm thời như cache pages, xuống một nơi cố định là disk. Flushing cần thiết cho việc checkpoint và giải phóng vùng nhớ sau một khoảng thời gian data được lưu trữ tại cache.
 
 Các phương pháp flush được sử dụng trong InnoDB gồm:
 
