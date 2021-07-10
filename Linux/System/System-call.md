@@ -50,7 +50,7 @@ Giá trị trả về của `open()` là một file descriptor (FD). Từ FD nà
   - Do có đặc điểm như vậy mà `O_DIRECT` có thể dùng trong việc test hiệu năng disk, hoặc cũng phù hợp với những dữ liệu không cần dùng tới trong tương lai gần nhằm giảm thiểu những rủi ro có thể xảy ra trong quá trình truyền từ cache xuống disk.
 
 #### 2.2.1 Khác biệt giữa 3 flag 
-Khác biệt giữa `O_SYNC` và `O_DSYNC` cũng tương tự như `fsync()` và `fdatasync()`, có thể xem ở mục 2.1.
+Khác biệt giữa `O_SYNC` và `O_DSYNC` cũng tương tự như `fsync()` và `fdatasync()`, khác biệt ở đây là 2 flag này thuộc `open()` system call nên sẽ mở file trước.
 
 Về phần `O_DIRECT`, là *direct I/O* còn `O_SYNC` và `O_DSYNC` thuộc kiểu *synchronized I/O*:
 - *Direct I/O* loại bỏ hoặc giảm thiểu sự tham gia của lớp cache và thực hiện các I/O thẳng tới disk, trong khi *synchronized I/O* tương tác với disk thông qua cache.
