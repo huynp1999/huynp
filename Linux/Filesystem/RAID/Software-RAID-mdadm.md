@@ -1,20 +1,12 @@
 # mdadm
-Là một công cụ dùng để quản lý RAID mềm trong hầu hết các bản phân phối Linux.
-
-Các chế độ hoạt động:
-- Assemble: kết hợp những mảng đã tạo thành mảng hoạt động
-- Build: tạo một mảng mới không có superblock (là một khoảng được tạo trên mỗi thiết bị, chứa thông tin về thiết bị RAID và cho phép sửa chữa việc ghép mảng) 
-- Create: tạo một mảng mới có superblock
-- Monitor: theo dõi sự thay đổi của một hoặc nhiều thiết bị
-- Grow: thay đổi kích thước mảng 
-- Manage: quản lý các thiết bị như thêm mới hoặc xóa
-- Misc: xóa các superblock cũ và thu thập dữ liệu
-- Auto-detect: yêu cầu kernel Linux kích hoạt các mảng
-
+Là một công cụ dùng để quản lý RAID mềm trong hầu hết các bản phân phối Linux. Gói mdadm cũng được tích hợp và sử dụng trong các distro Linux hiện tại, thay thế có các tiện cũ như raidtools2 hoặc raidtools.
 
 Các option:
-- `-C` tạo RAID mới.
-- `-l` level của RAID.
+- `-C` tạo RAID mới
+- `-l` level của RAID
+- `-a` thêm device vào mảng có sẵn
+- `-r` gỡ device khỏi mảng
+- `-f` đánh dấu ổ bị lỗi
 - `-n` thiết bị dành RAID (là 2 phân vùng vừa tạo)
 - `-E` kiểm tra thông tin
 
