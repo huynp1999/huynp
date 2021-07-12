@@ -24,8 +24,8 @@ Khi một ổ đĩa ảo (virtual drive) được tạo ra, cần xác định c
 ### Data Read Policies
 RAID controller hỗ trợ các mode đọc dữ liệu sau:
 - **Read-ahead mode (Rahead)**
-  - Khi mode này được bật, RAID controller sẽ lưu vào cache dữ liệu phía sau của dữ liệu đang được đọc để truy cập nhanh hơn.
-  - Chính sách này giảm tải số lần tìm kiếm của ổ đĩa và rút ngắn thời gian đọc.
+  - Khi mode này được bật, RAID controller sẽ lưu sẵn vào cache dữ liệu phía sau của dữ liệu đang được đọc để việc truy xuất nhanh hơn.
+  - Giúp giảm tải số lần truy cập của ổ đĩa và rút ngắn thời gian đọc do hoạt động thông quá lớp cache.
 - **Non-read-ahead (NoRahead)**
   - Khi sử dụng mode này, RAID controller sẽ không đọc trước dữ liệu.
   - Thay vào đó, nó chỉ đọc dữ liệu từ ổ đĩa ảo khi nhận được lệnh đọc dữ liệu. 
