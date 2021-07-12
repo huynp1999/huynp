@@ -5,11 +5,11 @@ RAID được phân ra hai loại là RAID cứng (RAID Card - Hardware RAID) v�
 - **RAID cứng:** bao gồm các bộ xử lý và bộ nhớ riêng dành cho RAID. RAID cứng có thể có sẵn trong mainboard hoặc được tích hợp card add-in.
 
 **RAID Card** hay **RAID Controller** là một thiết bị phần cứng có chức năng điều khiển và kết nối các ổ cứng với nhau, giúp tăng tốc độ truy xuất dữ liệu, bảo vệ an toàn dữ liệu trên ổ cứng.
-Có nhiều loại card RAID Controller tương thích với chuẩn ổ cứng máy chủ, ổ cứng server thông dụng như HDD SAS, HDD SATA.
+Có nhiều loại card RAID Controller tương thích với chuẩn ổ cứng máy chủ, mấy chủ dữ liệu thông dụng như HDD SAS, HDD SATA.
 
 ![image](https://user-images.githubusercontent.com/83684068/124863687-c1fab200-dfe1-11eb-9f59-d149bd9c868f.png)
 
-Cụ thể hơn, RAID card hỗ trợ một số các chức năng chính như sau ( áp dụng cho RAID 1, 5, 6, 10, 50 và 60):
+Cụ thể hơn, RAID card hỗ trợ một số các chức năng chính như sau (áp dụng cho RAID 1, 5, 6, 10, 50 và 60):
 - **Fault Tolerance:** đảo bảm quá trình hoạt động của dữ liệu được nguyên vẹn khi có lỗi xảy ra ở ổ đĩa hoặc hệ thống
 - **Consistency Check:** kiểm tra tính toàn vẹn của dữ liệu, làm được nhờ các ổ phụ (redundancy)
 - **Hot Spares:** một hot spare drive sẽ được sử dụng để thay thế cho ổ cứng lỗi trong trường hợp sự cố xảy ra
