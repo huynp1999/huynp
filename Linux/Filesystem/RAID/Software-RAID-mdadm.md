@@ -18,15 +18,15 @@ Các option:
 - `-n` thiết bị dành RAID (là 2 phân vùng vừa tạo)
 - `-E` kiểm tra thông tin
 
-## Thay thế disk khi gặp sự cố với RAID 1
-Có sẵn một mảng RAID 1, giả sử vị trí ổ cứng bị lỗi nằm ở vdb, kết quả sẽ hiển thị `[U_]` (nếu hoạt động bình thường sẽ là `[UU]`)
+## Thay thế và đồng bộ disk khi gặp sự cố với RAID 1
+Có sẵn một mảng RAID 1, giả sử ổ cứng muốn thay thế là `/dev/vdb` (nếu một trong các ổ cứng bị lỗi kết quả sẽ hiển thị `[U_]`)
 
     huynp@ubuntu:~$ cat /proc/mdstat
     Personalities : [linear] [multipath] [raid0] [raid1] [raid6] [raid5] [raid4] [raid10] 
     md0 : active raid1 vdc[1] vdb[0]
-          1047552 blocks super 1.2 [2/2] [_U]
+          1047552 blocks super 1.2 [2/2] [UU]
 
-Để loại bỏ một ổ đĩa, trước tiên nó phải được đánh dấu là bị lỗi bằng flag `-f/–fail`.
+Để loại bỏ một thiết bị, trước tiên nó phải được đánh dấu là bị lỗi bằng flag `-f/–fail`.
 
     huynp@ubuntu:~$ sudo mdadm /dev/md0 -f /dev/vdb
     mdadm: set /dev/vdb faulty in /dev/md0
