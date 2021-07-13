@@ -73,10 +73,10 @@ Giả sử khi có 1 số luợng disk là X, thì việc lựa chọn chuẩn R
 
 - Note: đối với những hệ thống yêu cầu IOPS cao (Input - Output operation Per Second) như mail server, mà có chẵn số lượng disk và >4, thì luôn ưu tiên sử dụng RAID 10 để cho hiệu suất tốt nhất. Vì RAID 5 và 6 sẽ yêu cầu update lại parity với mỗi một lần truy xuất dữ liệu, điều này làm tiêu tốn hiệu năng hoạt động của hệ thống nhất là khi gặp một lượng truy xuất cao.
 
-#### X=2:
+#### X=2
 Về lý thuyết, 2 disk là đủ điều kiện để sử dụng RAID 0 và RAID 1. Tuy nhiên, một hệ thống trên thực tế sẽ luôn xảy ra sự cố bất kì lúc nào nên RAID 0 không được khuyên dùng. Vậy RAID 1 là phương án thực tế hơn, mặc dù sẽ yêu cầu tiêu tốn một nửa tải nguyên.
 
-#### X=3:
+#### X=3
 Với số lượng 3 disk, ngoài RAID 1 thì cũng đủ điều kiện cho RAID 5.
 - RAID 5 sử dụng phương pháp parity giúp vẫn giữ được khả năng khôi phục ngang bằng với RAID 1 mà lại không bị mất quá nhiều tài nguyên cho việc sao lưu.
 
@@ -86,7 +86,7 @@ Phương án này vẫn cung cấp khả năng chịu lỗi mà lại tối đa 
 Với số lượng disk này sẽ đảm bảo điều kiện dùng cho RAID 6.
 - RAID 6 sử dụng phương pháp double parity, giúp tăng gấp đôi khả năng chịu lỗi so với RAID 5.
 - Hiệu suất tái tạo dữ liệu khi gặp lỗi có thể sẽ cao hơn RAID 5, bởi dữ liệu sẽ được tái tạo từ 2 nguồn parity
-- Nhưng bù lại tốc độ ghi bị giảm đáng kể. Mỗi khi dữ liệu được ghi vào là một lần yêu cầu update parity, điều này làm giảm hiệu suất ghi tổng của hệ thống.Tốc độ tính toán parity **đơn** như RAID 5 vốn đã thấp, sử dụng parity **đôi** lại càng làm giảm hiệu suất ghi hơn, bởi khi dữ liệu được 
+- Nhưng bù lại tốc độ ghi bị giảm đáng kể. Mỗi khi dữ liệu được ghi vào là một lần yêu cầu update parity, điều này làm giảm hiệu suất ghi tổng của hệ thống. Hiệu suất ghi càng giảm thêm khi double parity, do cần phải update 2 parity.
 - Hiệu suất đọc giữa 2 loại này là tương tự như nhau.
 
 Như vậy, với số lượng từ 4 tới 6 disk có hai lựa chọn giữa RAID 5 hoặc RAID 6. Nhưng để chọn ra được loại nào phù hợp với mục đích sử dụng, cần phải xem xét các tiêu chí như đã được đưa ra bên trên. (chi phí, khả năng chịu lỗi, hiệu suất I/O và hiệu suất khi gặp lỗi)
