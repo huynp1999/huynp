@@ -38,8 +38,7 @@ Gỡ thiết bị ra khỏi mảng RAID
 Lúc này, ổ cứng đã có thể được gỡ ra khỏi hệ thống và thay thế bằng thiết bị mới. 
 Thực hiện đồng bộ hóa từ ổ cứng hiện còn lại sang ổ cứng mới gắn (Lưu ý: cần xác định chính xác ổ cứng đang có và ổ cứng mới gắn vào trước khi thực thi lệnh sau):
 
-    sudo sfdisk -d /dev/vdc
-    sudo sfdisk /dev/vdd
+    sudo sfdisk -d /dev/vdc | sudo sfdisk /dev/vdd
 
 Hoàn thành đồng bộ hóa
     
