@@ -17,32 +17,32 @@ Mỗi một loại RAID kèm theo những tính năng như
 ### RAID 0
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/RAID_0.svg/800px-RAID_0.svg.png" alt="drawing" width="200"/>
 
-- **Ưu điểm**: Striping, phân chia khối dữ liệu và trải chúng qua các ổ cứng. Tăng hiệu quả thực thi.
-- **Nhược điểm**: tiềm ẩn rủi ro về dữ liệu, tỉ lệ mất dữ liệu càng cao khi càng có nhiều ổ cứng.
+- **Ưu điểm**: Striping, phân chia khối dữ liệu và trải chúng qua các ổ cứng. Tăng hiệu quả thực thi khi mà dữ liệu được trải đều giúp truy xuất nhanh hơn.
+- **Nhược điểm**: tiềm ẩn rủi ro về dữ liệu, chỉ cần một tỏng các ổ bị lỗi cũng gây ảnh hưởng tới hệ thống. Tỉ lệ mất dữ liệu càng cao khi càng có nhiều ổ cứng.
 
 Cần tối thiểu 2 ổ. Phù hợp với những dữ liệu không quan trọng, nếu mất có thể không cần hoặc lấy lại được từ nơi khác. Loại RAID này không được khuyên dùng.
 ### RAID 1
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/RAID_1.svg/800px-RAID_1.svg.png" alt="drawing" width="200"/>
 
-- **Ưu điểm**: Mirroring đảm bảo an toàn hơn về dữ liệu do dữ liệu được ghi vào 2 ổ giống hệt nhau
-- **Nhược điểm**: hiệu suất không cao và tốn kém chi phí do phải chia nửa bộ nhớ để sao lưu
+- **Ưu điểm**: Mirroring đảm bảo an toàn hơn về dữ liệu do dữ liệu được ghi vào 2 ổ giống hệt nhau, khi xảy ra lỗi vẫn có khả năng khôi phục miễn là vẫn còn một disk hoạt động.
+- **Nhược điểm**: hiệu suất không cao và tốn kém chi phí do phải dành ra nửa dung lượng bộ nhớ cho việc sao lưu
 
 Cần tối thiểu 2 ổ. Phù hợp với trường hợp không yêu cầu dung lượng lớn mà lại muốn đảm bảo 100% khôi phục.
 ### RAID 10
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/RAID_10.svg/800px-RAID_10.svg.png" alt="drawing" width="400"/>
 
 Kết hợp của RAID 1 và RAID 0 (RAID 1+0), làm cả hai công việc của Mirror và Striping.
-- **Ưu điểm**: lưu trữ nhanh nhẹn và an toàn, vừa nâng cao hiệu suất mà lại đảm bảo dữ liệu không bị thất thoát khi một trong các ổ cứng bị hỏng
-- **Nhược điểm**: chi phí cao
+- **Ưu điểm**: truy suất nhanh và an toàn, vừa nâng cao hiệu suất mà lại đảm bảo dữ liệu không bị thất thoát khi một trong các ổ cứng bị hỏng
+- **Nhược điểm**: chi phí cao vì cần số lượng disk nhất định để đảm bảo đủ điều kiện cho cả hai công việc, và số disk cũng phải là số chẵn
 
-Yêu cầu tối thiểu 4 ổ và và chỉ sử dụng 50% dung lượng (mirroring). Phù hợp cho database server hay những hệ thống yêu cầu tính sẵn sàng cao (high availability)
+Yêu cầu tối thiểu 4 ổ và chỉ sử dụng 50% dung lượng (mirroring). Phù hợp cho database server hay những hệ thống yêu cầu tính sẵn sàng cao (high availability)
 
 ### RAID 5
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/RAID_5.svg/800px-RAID_5.svg.png" alt="drawing" width="400"/>
 
 Hoạt động theo kỹ thuật Parity. Nếu một ổ cứng bị hỏng, dữ liệu được xây dựng lại dựa trên các thông tin còn lại trên các ổ đĩa tốt còn lại. Điều này sẽ bảo vệ dữ liệu của chúng ta khi ổ đĩa bị lỗi. 
-- **Ưu điểm**: nâng cao hiệu suất, an toàn dữ liệu
-- **Nhược điểm**: giá thành cao, hiệu quả thực thi giảm trong quá trình phục hồi. Nếu 2 ổ cứng bị lỗi cùng lúc thì không thể khôi phục dữ liệu, nhược điểm này được RAID 6 bù lại.
+- **Ưu điểm**: nâng cao hiệu suất, an toàn dữ liệu nhờ parity trải đều các disk, hỗ trợ phục hồi khi bất cứ một disk nào bị lỗi
+- **Nhược điểm**: giá thành cao, hiệu suất sẽ bị giảm trong quá trình phục hồi. Nếu 2 ổ cứng bị lỗi cùng lúc thì không thể khôi phục dữ liệu, nhược điểm này được RAID 6 bù lại.
 
 Cần tối thiểu 3 ổ, 2 ổ để striping, 1 ổ để phân phối parity.
 - Phù hợp cho những fileserver, backup server, server lưu trữ,... đáp ứng hiệu suất phù hợp nhất với giá thành.
@@ -53,12 +53,20 @@ Ngoài ra còn có RAID 50 (5+0), đáp ứng nhu cầu cho những hệ thống
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/RAID_6.svg/1024px-RAID_6.svg.png" alt="drawing" width="500"/>
 
 Hoạt động tương tự như RAID 5 nhưng với double Parity
-- **Ưu điểm**: sử dụng trong mảng lớn với khả năng khôi hồi lớn
-- **Nhược điểm**: tốc độ, hiệu suất kém so với RAID 5
+- **Ưu điểm**: phù hợp với hệ thống lớn, cung cấp khả năng chịu lỗi cao kể cả khi 2 disk cùng lỗi một lúc
+- **Nhược điểm**: tốc độ, hiệu suất kém so với RAID 5 do phải dành ra một dung lượng nhất định cho double parity
 
 Cần tối thiểu 4 ổ để đáp ứng double parity.
 
 Ngoài ra cũng có RAID 60 (6+0), có tốc độ đọc và khả năng chịu lỗi tốt hơn, nhưng lại có tốc độ ghi và hiệu quả lưu trữ thấp hơn so với RAID 50.
+
+| Level  | Ổ cứng tối thiểu | Hiệu suất đọc/ghi | Tối đa dung lượng | Khả năng chịu lỗi  | Ứng dụng |
+| -------------|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
+| RAID 0     |  2    |   Cao   |  100%    |  Không có    |   Gaming, các máy trạm làm việc với video, hình ảnh   |  
+| RAID 1      |   2   |   Cao/Tb   |   50%   |   Một ổ bị lỗi   |   Các server nhỏ, kho dữ liệu quan trọng như sổ sách, kế toán  |      
+| RAID 10      |   4   |   Cao/Tb   |   50%   |   Một ổ bị lỗi trong mỗi mảng   |  Database server, app server |     
+| RAID 5      |    3  |   Cao/Thấp   |   67%-94%   |   Một ổ bị lỗi   | Các file server, kho lưu trữ dữ liệu     |        
+| RAID 6      |    4  |   Cao/Thấp   |   50%-88%   |   Hai ổ bị lỗi   |   Các server có số lượng ổ cứng lớn, kho lưu trữ dữ liệu   |  
 
 ## Tối ưu tài nguyên dựa theo số lượng disk sẵn có
 Giả sử khi có 1 số luợng disk là X, thì việc lựa chọn chuẩn RAID nào sẽ tùy thuộc các điều kiện disk tối thiểu của RAID đó, cũng như các ưu điểm mà RAID đó đưa ra.
@@ -68,14 +76,19 @@ Giả sử khi có 1 số luợng disk là X, thì việc lựa chọn chuẩn R
 #### X=2:
 Về lý thuyết, 2 disk là đủ điều kiện để sử dụng RAID 0 và RAID 1. Tuy nhiên, một hệ thống trên thực tế sẽ luôn xảy ra sự cố bất kì lúc nào nên RAID 0 không được khuyên dùng. Vậy RAID 1 là phương án thực tế hơn, mặc dù sẽ yêu cầu tiêu tốn một nửa tải nguyên.
 
-#### 2<X<29:
-Với số lượng từ 2 disk trở lên, ngoài RAID 1 thì cũng đủ điều kiện cho RAID 5 và 6.
+#### X=3:
+Với số lượng 3 disk, ngoài RAID 1 thì cũng đủ điều kiện cho RAID 5.
 - RAID 5 sử dụng phương pháp parity giúp vẫn giữ được khả năng khôi phục ngang bằng với RAID 1 mà lại không bị mất quá nhiều tài nguyên cho việc sao lưu.
-- RAID 6 thì được bổ sung thêm một dung lượng parity nữa tăng khả năng chịu lỗi.
 
-Bởi RAID 5 hỗ trợ tối đa 30 ổ cứng trong một volume group nên mốc 30 là phù hợp để sử dụng tối đa hiệu năng của RAID 5 (RAID 50). Phương án này vừa cho phép khôi phục dữ liệu, tiết kiệm chi phí so với RAID 6 mà lại tối đa dung lượng sử dụng hơn so với RAID 1.
+Phương án này vẫn cung cấp khả năng chịu lỗi mà lại tối đa dung lượng sử dụng hơn so với RAID 1.
 
-#### 30<X<60
-RAID 6 cũng hỗ trợ tối đa 30 ổ cứng trong một volume group nên mốc 30 tới 60 là phù hợp dành do RAID 6 (RAID 60). Bởi khi một hệ thống sử dụng số lượng lớn các disk đồng nghĩa với việc sẽ càng cần nhiều ưu tiên cho khả năng chịu lỗi.
+#### 3<X<=6
+Với số lượng disk này sẽ đảm bảo điều kiện dùng cho RAID 6.
+- RAID 6 sử dụng phương pháp double parity, giúp tăng gấp đôi khả năng chịu lỗi so với RAID 5.
+- Hiệu suất tái tạo dữ liệu khi gặp lỗi có thể sẽ cao hơn RAID 5, bởi dữ liệu sẽ được tái tạo từ 2 nguồn parity
+- Nhưng bù lại tốc độ ghi bị giảm đáng kể. Mỗi khi dữ liệu được ghi vào là một lần yêu cầu update parity, điều này làm giảm hiệu suất ghi tổng của hệ thống.Tốc độ tính toán parity **đơn** như RAID 5 vốn đã thấp, sử dụng parity **đôi** lại càng làm giảm hiệu suất ghi hơn, bởi khi dữ liệu được 
+- Hiệu suất đọc giữa 2 loại này là tương tự như nhau.
 
-Các mốc số luợng sử dụng cũng được tham khảo tại [đây](https://www.netgear.com/media/WP-ReadyNAS-FlexRAID-Optimization-Guide_tcm148-56499.pdf) (17)
+Như vậy, với số lượng từ 4 tới 6 disk có hai lựa chọn giữa RAID 5 hoặc RAID 6. Nhưng để chọn ra được loại nào phù hợp với mục đích sử dụng, cần phải xem xét các tiêu chí như đã được đưa ra bên trên. (chi phí, khả năng chịu lỗi, hiệu suất I/O và hiệu suất khi gặp lỗi)
+
+Ngoài ra với số lượng disk cao hơn có thể tham khảo tại [đây](https://www.netgear.com/media/WP-ReadyNAS-FlexRAID-Optimization-Guide_tcm148-56499.pdf) (17)
