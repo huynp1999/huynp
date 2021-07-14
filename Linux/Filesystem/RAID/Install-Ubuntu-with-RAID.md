@@ -1,4 +1,17 @@
-    
+# Cài đặt Ubuntu 16.04 với RAID 1
+
+Có sẵn hai drive là `vda` và `vdb`, thực hiện partition tương tự nhau:
+
+![](https://github.com/huynp1999/huynp/blob/master/pic/linux/raid1.png)
+
+Cấu hình 2 software RAID cho 2 phân vùng là `/` và swap:
+
+![](https://github.com/huynp1999/huynp/blob/master/pic/linux/raid2.png)
+
+Kết quả:
+
+![](https://github.com/huynp1999/huynp/blob/master/pic/linux/raid3.png)
+
 Kiểm tra:
 
     huynp@ubuntu:~$ cat /proc/mdstat
