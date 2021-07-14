@@ -83,12 +83,13 @@ Với số lượng 3 disk, ngoài RAID 1 thì cũng đủ điều kiện cho RA
 Phương án này vẫn cung cấp khả năng chịu lỗi mà lại tối đa dung lượng sử dụng hơn so với RAID 1.
 
 #### 3<X<=6
-Với số lượng disk này sẽ đảm bảo điều kiện dùng cho RAID 6.
-- RAID 6 sử dụng phương pháp double parity, giúp tăng gấp đôi khả năng chịu lỗi so với RAID 5.
+Với số lượng từ 4 tới 6 disk, đưa ra 2 lựa chọn chính về RAID 5 và RAID 6. Nhưng để chọn ra được loại nào phù hợp với mục đích cũng như tối ưu nhất dành cho người sử dụng, cần phải xem xét các tiêu chí như sau:
+- RAID 6 sử dụng phương pháp double parity, sẽ yêu cầu nhiều disk tối thiểu hơn cũng như giảm phần nào dung lượng tổng so với RAID 5
+- Lợi ích bù lại sẽ tăng gấp đôi khả năng chịu lỗi so với RAID 5.
 - Hiệu suất tái tạo dữ liệu khi gặp lỗi có thể sẽ cao hơn RAID 5, bởi dữ liệu sẽ được tái tạo từ 2 nguồn parity
-- Nhưng bù lại tốc độ ghi bị giảm đáng kể. Mỗi khi dữ liệu được ghi vào là một lần yêu cầu update parity, điều này làm giảm hiệu suất ghi tổng của hệ thống. Hiệu suất ghi càng giảm thêm khi double parity, do cần phải update 2 parity.
+- Hiệu suất ghi của RAID 6 bị giảm đáng kể. Mỗi khi dữ liệu được ghi vào là một lần yêu cầu update parity, điều này làm giảm hiệu suất ghi tổng của hệ thống. Tốc độ ghi càng giảm thêm khi sử dụng double parity, do cần phải update 2 parity.
 - Hiệu suất đọc giữa 2 loại này là tương tự như nhau.
 
-Như vậy, với số lượng từ 4 tới 6 disk có hai lựa chọn giữa RAID 5 hoặc RAID 6. Nhưng để chọn ra được loại nào phù hợp với mục đích sử dụng, cần phải xem xét các tiêu chí như đã được đưa ra bên trên. (chi phí, khả năng chịu lỗi, hiệu suất I/O và hiệu suất khi gặp lỗi)
+Như vậy, đối với dữ liệu yêu cần độ an toàn ở mức cao nhất thì sử dụng RAID 6. Còn không thì nên sử dụng RAID 5, do vẫn giữ được một mức an toàn dữ liệu nhất định mà lại bớt tốn kém chi phí hơn RAID 6.
 
 Ngoài ra với số lượng disk cao hơn có thể tham khảo tại [đây](https://www.netgear.com/media/WP-ReadyNAS-FlexRAID-Optimization-Guide_tcm148-56499.pdf) (17)
