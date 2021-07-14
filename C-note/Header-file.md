@@ -17,7 +17,6 @@ Ví dụ có `header.h` sau:
 Các chương trình khác chỉ cần gọi và sử dụng `write()` thông qua
 
     #include "header.h"
-    #include <stdio.h>
 
     int main(){
         write("hello");
