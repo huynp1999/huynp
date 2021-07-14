@@ -1,4 +1,4 @@
-Tệp header trong C có đuôi `.h` dùng để giữ tất cả các hằng số, các macro, các biến toàn cục để có thể include sử dụng ở bất kỳ đâu.
+Header file trong C có đuôi `.h` dùng để giữ tất cả các hằng số, các macro, các biến toàn cục để có thể include sử dụng ở bất kỳ đâu. Header file giúp source code dễ bảo trì, update, và tối ưu hóa chương trình.
 Có hai loại file header:
 - File có sẵn trong compiler, khai báo `#include <.h>`
   - `stdio.h` thư viện nhập xuất chuẩn
@@ -6,6 +6,7 @@ Có hai loại file header:
   - `string.h` thư viện làm việc với chuỗi
   - ...
 - File tự viết, khai báo `#include ".h"`
+
 
 
 Ví dụ có `header.h` sau:
