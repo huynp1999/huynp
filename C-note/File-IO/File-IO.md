@@ -11,7 +11,7 @@ Các luồng tiêu chuẩn là các kênh giao tiếp vào ra được kết n�
 Các hàm xử lý file trong thư viện C:
 
 | Hàm | Mô tả |
-| ------------- |:-------------:|
+| ------------- |:-------------|
 | fopen()      | Mở hoặc tạo file nếu không có sẵn   |
 | fprintf()      |  Ghi tập dữ liệu vào file    |
 | fscanf()      |  Đọc tập dữ liệu vào file  |
@@ -92,4 +92,6 @@ Các flag whence cho biết nơi bắt đầu tính offset:
 |  SEEK_CUR   |   Vị trí hiện tại của con trỏ file  |
 |   SEEK_END  |  Phần cuối file    |
 
+## rewind()
+Hàm rewind() trong thiết lập vị trí file tại phần đầu của file trong stream đã cho. Hàm này có chức năng tương tự với flag SEEK_END của fseek().
 
