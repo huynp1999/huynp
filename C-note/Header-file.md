@@ -9,17 +9,24 @@ Có hai loại file header:
 
 
 
-Ví dụ có `header.h` sau:
+Ví dụ có `header.h`, trong đó cho declaration sau:
 
-    void write(char *str){
+    void write(char *str);
+   
+Tại file định nghĩa:
+
+    #include "header.h"
+    #include <stdio.h>
+    
+    void write(char *str);{
         printf("%s",str);
     }
     
-Các chương trình khác chỉ cần gọi và sử dụng `write()` thông qua
+Các chương trình khác chỉ cần khai báo header file `header.h` và sử dụng `write()` khi được đặt tr
 
     #include "header.h"
 
     int main(){
-        write("hello");
+        write("Hello!");
     }
 
