@@ -3,11 +3,16 @@
 
 int main() {
     FILE *fp;
-    char a, fname[50];
+    char a, fname[50], path[50] = "/home/huynp/C/fileio2/test.txt";
     printf("File name: ");
     fgets(fname, 50, stdin);
     fp = fopen(fname,"w");
-
+    
+    if (!fp){
+        printf("error");
+        exit(1);
+    }
+    
     printf("Create file succesfully, enter some text:\n");
     while (a != '$') {
         a= getchar();
@@ -18,13 +23,16 @@ int main() {
 }
 
 /*
-huynp@huyComputer:~/C/fileio2$ gcc main.c -o main.o
-huynp@huyComputer:~/C/fileio2$ ./main.o 
-File name: test.txt
+Tham số truyền vào là tên file hoặc đường dẫn file
+
+huynp@huyComputer:~/C/fileio2$ ./main.o
+File name: /home/huynp/C/fileio2/test.txt
 Create file succesfully, enter some text:
 Hello World!!!
-Test
+123 456
 $
+
+Text được ghi tại đầu ra
 
 test.txt
 Hello World!!!
