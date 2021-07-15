@@ -4,9 +4,9 @@ Có hai loại file header:
   - `stdio.h` thư viện nhập xuất chuẩn
   - `math.h` thư viện định nghĩa các hàm toán học
   - `string.h` thư viện làm việc với chuỗi
+  - `stdlib.h` thư viện liên quan tới cấp phát bộ nhớ động 
   - ...
 - File tự viết, khai báo `#include ".h"`
-
 
 
 Ví dụ có `header.h`, trong đó cho declaration sau:
@@ -22,7 +22,7 @@ Tại file định nghĩa:
         printf("%s",str);
     }
     
-Các chương trình khác chỉ cần khai báo header file `header.h` và sử dụng `write()` khi được đặt tr
+Các chương trình khác chỉ cần khai báo header file `header.h` và sử dụng `write()` khi được đặt trong cùng folder
 
     #include "header.h"
 
@@ -30,3 +30,4 @@ Các chương trình khác chỉ cần khai báo header file `header.h` và sử
         write("Hello!");
     }
 
+Lý do là khi include header, compiler sẽ mang nội dung của header file thế chỗ vào `#include` và trở thành như một function thông thường.
