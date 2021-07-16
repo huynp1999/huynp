@@ -50,7 +50,7 @@ Ngoài ra, MySQL hỗ trợ tùy chọn chỉ định độ dài hiển thị:
   - Phạm vi '1970-01-01 00:00:01' UTC tới '2038-01-19 03:14:07' UTC
 
 #### 2.1.1 Khác biệt giữa DATETIME và TIMESTAMP
-Cả 2 đều hiển thị ngày tháng năm và thời gian. Nhưng TIMESTAMP ưu việt hơn tại ở cách dữ liệu khi lưu trữ sẽ được convert thành UTC. UTC là chuẩn giờ quốc tế hoạt động dựa trên đồng hồ nguyên tử (loại đồng hồ chính xác nhất hiện nay), điều này đảm bảo cho dữ liệu khi lấy ra sau một khoảng thời gian mà vẫn chạy chính xác.
+Cả 2 đều hiển thị ngày tháng năm và thời gian. Nhưng TIMESTAMP ưu việt hơn ở cách dữ liệu khi lưu trữ sẽ được convert thành UTC. UTC là chuẩn giờ quốc tế hoạt động dựa trên đồng hồ nguyên tử (loại đồng hồ chính xác nhất hiện nay), điều này đảm bảo cho dữ liệu khi lấy ra sau một khoảng thời gian mà vẫn chạy chính xác.
 
 Hơn nữa, TIMESTAMP hỗ trợ tự động đặt ngày giờ của sửa đổi gần đây nhất. Điều này giúp TIMESTAMP phù hợp với những hoạt động như INSERT và UPDATE.
 
