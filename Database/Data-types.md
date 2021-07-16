@@ -15,6 +15,7 @@ Giả sử, tạo ra một ứng dụng để quản lý các thiết bị cho m
   - Một số nguyên trung bình.
 - BIGINT (8 byte)
   - Một số nguyên lớn.
+
 | Kiểu dữ liệu | Độ dài (số byte) | Giá trị nhỏ nhất (Có dấu) | Giá trị lớn nhất (Có dấu) | Giá trị nhỏ nhất (Không dấu) | Giá trị lớn nhất (Không dấu) |
 |--------------|------------------|---------------------------|---------------------------|------------------------------|------------------------------|
 | TINYINT | 1 | -128 | 0 | 127 | 255 |
