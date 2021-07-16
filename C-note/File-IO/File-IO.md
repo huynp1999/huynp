@@ -61,17 +61,37 @@ Khi đã đọc xong file thì cần phải đóng lại. Có một giới hạn
     
 Hàm `fclose()` trả về 0 khi thực thi thành công hoặc EOF nếu có lỗi khi đóng file. EOF là một hằng số được định nghĩa trong header file stdio.h.
 
-## fscanf, fprintf
+## fscanf
 Hàm fscanf() được sử dụng để đọc tập các ký tự từ file. Nó đọc input đã được định dạng từ một stream và trả về EOF (End of File) ở vị trí kết thúc file.
-Hàm scanf() đọc từ luồng đầu vào chuẩn stdin, còn fscanf() sẽ đọc đầu vào từ con trỏ luồng,
+Hàm scanf() đọc từ luồng đầu vào chuẩn stdin, còn fscanf() sẽ đọc đầu vào từ con trỏ luồng.
 
+Khi thành công, hàm trả về một số bằng với số lượng các đối tượng đã được đọc thành công. Nếu ít hơn hoặc không khớp là do lỗi trong quá tình đọc hoặc do phạm vi
+của *end-of-file*
+
+    fscanf(f, "%s %s", s1, s2) == 2
+
+Nếu lỗi đọc xảy ra hoặc gặp EOF trong quá trình đọc, thì EOF sẽ được trả về.
+
+## fprintf
 Hàm fprintf() được sử dụng để ghi tập các ký tự vào file. Nó gửi dữ liệu output được định dạng tới một stream.
 Khác với hàm printf() ghi đầu ra vào luồng đầu ra chuẩn stdout.
 
-    fscanf(fp, "%s", str);
+    
     fprintf(fp, "Hello World!!");
 
-Trong đó `fp` là con trỏ tới một đối tượng FILE mà hoạt động Stream được thực hiện trên đó.
+- `fp` là con trỏ tới một đối tượng FILE để nhận dạng luồng (stream) đầu dùng cho việc đọc dữ liệu
+- `!Hello World!!"` chuỗi text để ghi vào luồng
+
+## feof
+Phát hiện chỉ thị *End-of-File* đã được đưa tới luồng chưa, nếu có thì trả về một giá trị khác 0.
+
+    while (fgetc(fp) != EOF) {
+      ++n;
+    }
+    if (feof(fp)) {
+      puts ("End-of-File reached.");
+      printf ("Total number of bytes read: %d\n", n);
+    }
 
 ## fgetc, fputc
 Hàm fgetc() đọc ký tự từ stream đã cho và tăng vị trí chỉ định cho Stream đó.
