@@ -1,20 +1,8 @@
 # Các kiểu dữ liệu số trong MySQL
 Mỗi kiểu dữ liệu đều có các yêu cầu lưu trữ tương ứng, việc lựa chọn kiểu dữ liệu hợp lý không chỉ tiết kiệm dung lượng mà còn cải thiện hiệu năng cho ổ đĩa.
 
-
-
 ## 1. Kiểu dữ liệu số
 ### 1.1 Kiểu số nguyên
-- TINYINT (1 byte)
-  - Một số nguyên rất nhỏ.
-- SMALLINT (2 byte)
-  - Một số nguyên nhỏ.
-- MEDIUMINT (3 byte)
-  - Một số nguyên trung bình.
-- INT (4 byte)
-  - Một số nguyên trung bình.
-- BIGINT (8 byte)
-  - Một số nguyên lớn.
 
 | Kiểu dữ liệu | Độ dài (số byte) | Giá trị nhỏ nhất (Có dấu) | Giá trị lớn nhất (Có dấu) | Giá trị nhỏ nhất (Không dấu) | Giá trị lớn nhất (Không dấu) |
 |--------------|------------------|---------------------------|---------------------------|------------------------------|------------------------------|
@@ -48,7 +36,7 @@ Ngoài ra, MySQL hỗ trợ tùy chọn chỉ định độ dài hiển thị:
 - ZEROFILL các khoảng đệm (padding) được thay thế bởi số 0. Ví dụ với cột kiểu INT(4) ZEROFILL, số 1 sẽ hiển thị thành 0001.
 
 ## 2. Kiểu dữ liệu về thời gian
-### 2.1 Kiểu dữ liệu chung
+### 2.1 Kiểu dữ liệu thời gian đầy đủ
 - DATE
   - Sử dụng khi chỉ muốn lưu trữ thông tin ngày tháng năm.
   - Định dạng hiển thị YYYY-MM-DD, phạm vi '1000-01-01' tới '9999-12-31'.
@@ -66,7 +54,7 @@ Cả 2 đều hiển thị ngày tháng năm và thời gian. Nhưng TIMESTAMP �
 
 Hơn nữa, TIMESTAMP hỗ trợ tự động đặt ngày giờ của sửa đổi gần đây nhất. Điều này giúp TIMESTAMP phù hợp với những hoạt động như INSERT và UPDATE.
 
-### 2.2 Kiểu dữ liệu riêng
+### 2.2 Kiểu dữ liệu thời gian riêng
 - TIME
   - MySQL lấy và hiển thị thời gian theo định dạng 'HH:MM:SS' (hoặc 'HHH:MM:SS' khi cần giá trị giờ lớn).
   - Phạm vi '-838:59:59' tới '838:59:59'.
@@ -75,10 +63,8 @@ Hơn nữa, TIMESTAMP hỗ trợ tự động đặt ngày giờ của sửa đ�
   - Sử dụng 1-byte để mô tả giá trị. Có thể khai báo YEAR(2) hoặc YEAR(4) chỉ định rõ chiều rộng hiển thị là 2 hay 4 ký tự nhưng không khác nhau về giá trị, mặc định là 4.
  
 
-### Kiểu dữ liệu chuỗi trong MySQL
-Nhìn chung, kiểu dữ liệu CHAR và VARCHAR là tương tự nhau. Một số điểm khác nhau ở cách chúng được lưu trữ và truy xuất. Chúng cũng khác nhau về chiều dài tối đa và giữ lại hay không khoảng trắng phía trước (trailing spaces).
-
-![image](https://user-images.githubusercontent.com/83684068/125927311-72ba2714-e8da-4c67-822a-69ec43a1e3df.png)
+## 3. Kiểu dữ liệu chuỗi trong MySQL
+### 3.1 Kiểu VAR và VARCHAR
 
 - CHAR
   - Chứa chuỗi không phải nhị phân (non-binary strings). Độ dài là cố định theo khai báo. Khi lưu trữ chúng được độn thêm bên phải (right-padded) để có độ dài theo chỉ định
@@ -87,8 +73,40 @@ Nhìn chung, kiểu dữ liệu CHAR và VARCHAR là tương tự nhau. Một s�
   - Chứa các chuỗi không phải nhị phân (non-binary strings). Chuỗi có chiều dài thay đổi.
   - Phạm vi các ký tự từ 0 -> 65,535
 
+#### 3.1.1 Khác biệt giữa VAR và VARCHAR
+Nhìn chung, kiểu dữ liệu CHAR và VARCHAR là tương tự nhau. Một số điểm khác nhau ở cách chúng được lưu trữ và truy xuất. Chúng cũng khác nhau về chiều dài tối đa và giữ lại hay không khoảng trắng phía trước (trailing spaces). Hơn nữa, CHAR độ dài cố định nên tốc độ truy xuất cũng nhanh hơn.
 
-- BLOB, TINYBLOB, MEDIUMBLOB, LONGBLOB: chuỗi được lưu ở dạng nhị phân
-  - 
-- TEXT, TINYTEXT, MEDIUMTEXT, LONGTEXT: tương đương với BLOB nhưng sử dụng bộ ký tự khác, thay vì là nhị phân của BLOB
-  - ENUM
+![image](https://user-images.githubusercontent.com/83684068/125927311-72ba2714-e8da-4c67-822a-69ec43a1e3df.png)
+
+### 3.2 Kiểu BLOB và TEXT
+BLOB và TEXT đều không cần chỉ định độ dài. Thay vào đó sẽ được chia thành những kiểu dữ liệu cụ thể như TINY, MEDIUM, LONG.
+- BLOB
+  - BLOB được sử dụng để lưu trữ các lượng dữ liệu nhị phân lớn, chẳng hạn như dữ liệu file hình ảnh hoặc các loại tệp khác.
+  - chuỗi được lưu ở dạng nhị phân
+- TEXT
+  - tương đương với BLOB nhưng sử dụng bộ ký tự riêng (nonbinary strings) thay vì là nhị phân như của BLOB.
+  - TEXT thường được sử dụng các dữ liệu văn bản
+
+| Loại | Độ dài|
+| --- | --- |
+| TINYBLOB/TINYTEXT | Chiều dài tối đa 256 ký tự. |
+| MEDIUMBLOB/MEDIUMTEXT | Chiều dài tối đa 16777215 ký tự. |
+| LONGBLOB/MEDIUMTEXT | Chiều dài tối đa 4294967295 ký tự. |
+
+### 3.3 Kiểu ENUM
+- ENUM
+  - Một kiểu chỉ định hằng số. ENUM là một đối tượng chuỗi có giá trị được chọn từ một danh sách các giá trị được cho trước (có thể là NULL) ở thời điểm tạo ra bảng. Ví dụ:
+
+        CREATE TABLE shirts (
+            name VARCHAR(40),
+            size ENUM('small', 'medium', 'large'));
+        INSERT INTO shirts (name, size) VALUES ('dress','large'), ('t-shirt','medium'),
+          ('polo','small');
+        SELECT name, size FROM shirts;
+        +-------------+--------+
+        | name        | size   |
+        +-------------+--------+
+        | dress       | large  |
+        | t-shirt     | medium |
+        | polo        | small  |
+        +-------------+--------+
