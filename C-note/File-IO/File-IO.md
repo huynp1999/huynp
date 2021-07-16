@@ -27,13 +27,13 @@ Khai báo một file con trỏ dùng để trỏ đến kiểu FILE. Đồng th�
     FILE *fptr;
     
 ## fopen
-Trước khi có thể đọc hoặc ghi một file từ disk, cần phải mở được file:
+Trước khi có thể đọc hoặc ghi một file từ disk, hàm fopen() gọi open() system call để mở file:
 
     fptr = fopen("path/filename","mode");
+    
+Hàm fopen() mở ra một luồng tới file để sử dụng nó và trả lại con trỏ file. Con trỏ này có thể bị ngắt liên kết tới file nhờ fclose() hoặc freopen() (tái sử dụng lại luồng để mở file mới hoặc mode mới). `path/filename` là một con trỏ tới chuỗi ký tự filename hoặc đường dẫn hợp lệ. 
 
-Hàm `fopen()` mở ra một luồng liên kết tới file để sử dụng nó. `Path/filename` là một con trỏ tới chuỗi ký tự filename hoặc đường dẫn hợp lệ. 
-
-**Các mode quyết định file** sẽ được mở như thế nào:
+**Các mode thao tác với file** dựa trên những tag của open() system call như O_RDONLY, O_WRONLY, O_WRONLY, O_APPEND, O_CREATE,...
 | Mode  | Mô tả |
 | --- |------|
 |   r  |  Mở file để đọc    |
@@ -44,7 +44,7 @@ Hàm `fopen()` mở ra một luồng liên kết tới file để sử dụng n�
 |   a+  |  Tạo hoặc mở file để đọc và ghi vào cuối. Nếu đọc thì sẽ bắt đầu từ đầu, còn ghi sẽ được thêm vào cuối   |
 |   rb, wb, ab  |  Chức năng tương tự, nhưng dùng cho mở binary file   |
 
-Tuy nhiên, trong quá trình mở file, `fopen()` có thể xảy ra fail như dung lượng không đủ để tạo tệp mới, disk được bảo vệ chống ghi hoặc bị hỏng, v.v. Để đảm bảo file được mở thành công
+Tuy nhiên, trong quá trình mở file, fopen có thể xảy ra fail như dung lượng không đủ để tạo tệp mới, disk được bảo vệ chống ghi hoặc bị hỏng, v.v. Để đảm bảo file được mở thành công
 
     FILE *fp;
     fp = fopen("file.C","r");
@@ -55,7 +55,7 @@ Tuy nhiên, trong quá trình mở file, `fopen()` có thể xảy ra fail như 
 
 
 ## fclose
-Khi đã đọc xong file thì cần phải đóng lại. Có một giới hạn về số lượng file được mở cùng lúc, và phải đóng trước khi muốn mở một file khác. Điều này được thực hiện bằng hàm `fclose()`. Hàm `fclose()` đóng một luồng liên kết tới file mà đã được mở bằng `fopen()`. Nó sẽ đẩy (flush) bất kỳ dữ liệu nào vẫn còn trong bộ đệm vào disk, và sau đó tất cả giải phóng memory được dùng cho file.
+Có một giới hạn về số lượng file được mở cùng lúc, và phải đóng trước khi muốn mở một file khác. Điều này được thực hiện bằng hàm fclose(). Hàm fclose() gọi close() syscall để đóng một luồng liên kết tới file mà đã được mở bằng fopen. Sau đó sẽ đẩy (flush) bất kỳ dữ liệu nào vẫn còn trong bộ đệm vào disk, và giải phóng tất cả memory được dùng cho file.
 
     fclose(fptr);
     
@@ -84,13 +84,10 @@ Khác với hàm printf() ghi đầu ra vào luồng đầu ra chuẩn stdout.
 
 ## feof
 Phát hiện chỉ thị *End-of-File* đã được đưa tới luồng chưa, nếu có thì trả về một giá trị khác 0.
-
-    while (fgetc(fp) != EOF) {
-      ++n;
-    }
-    if (feof(fp)) {
-      puts ("End-of-File reached.");
-      printf ("Total number of bytes read: %d\n", n);
+    
+    while(!feof(f)){
+        fscanf(f,"%s %s",s1,s2);
+        printf("%s %s\n",s1,s2);
     }
 
 ## fgetc, fputc
@@ -103,7 +100,7 @@ Nếu lỗi xuất hiện, EOF được trả về và chỉ thị Error đượ
 ## fseek
 Hàm fseek() thiết lập vị trí con trỏ file của Stream tới một whence (vị trí) đã cho cộng thêm offset (nếu có). Tham số offset tính số byte bắt đầu từ vị trí whence đã cho.
 
-    int fseek(FILE *stream, long int offset, int whence)
+    int fseek(FILE *stream, long int offset, int whence);
     
 Các flag whence cho biết nơi bắt đầu tính offset:
 |  Flag | M |
@@ -112,6 +109,13 @@ Các flag whence cho biết nơi bắt đầu tính offset:
 |  SEEK_CUR   |   Vị trí hiện tại của con trỏ file  |
 |   SEEK_END  |  Phần cuối file    |
 
-## rewind()
-Hàm rewind() trong thiết lập vị trí file tại phần đầu của file trong stream đã cho. Hàm này có chức năng tương tự với flag SEEK_END của fseek().
+## rewind
+Hàm rewind() trong thiết lập vị trí file tại phần đầu của file trong stream đã cho. Hàm này có chức năng tương tự với flag SEEK_SET của fseek().
+
+## fread/fwrite
+Đọc một mảng các `count` phần tử từ `stream`, mỗi phần tử có kích thước là `size` byte, và lưu trữ chúng trong khối bộ nhớ được chỉ định bởi `ptr`. Như vậy, tổng lượng byte nếu được đọc thành công là (size*count).
+
+    size_t fread (void * ptr, size_t size, size_t count, FILE * stream);
+
+Tương tự đối với fwrite(), chỉ khác là ghi từ `ptr` xuống vị trí hiện tải của `stream`.
 
