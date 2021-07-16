@@ -1,4 +1,4 @@
-# Các kiểu dữ liệu số trong MySQL
+# Các kiểu dữ liệu trong MySQL
 Mỗi kiểu dữ liệu đều có các yêu cầu lưu trữ tương ứng, việc lựa chọn kiểu dữ liệu hợp lý không chỉ tiết kiệm dung lượng mà còn cải thiện hiệu năng cho ổ đĩa.
 
 ## 1. Kiểu dữ liệu số
