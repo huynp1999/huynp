@@ -1,7 +1,9 @@
 ## Thao tác với file
 Ngôn ngữ C hỗ trợ đọc và ghi dữ liệu từ các tập tin. Những file này được lưu trong ổ cứng của hệ thống máy tính: như vậy dữ liệu sẽ được lưu lại cố định ngay cả sau khi dừng chương trình hoặc tắt máy tính. Từ các file này có thể thao tác bình thường với con trỏ, cấu trúc, chuỗi, ký tự,... Làm việc với file cho phép lưu trữ và copy dễ dàng, nhất là đối với những tập dữ liệu lớn.
 
-## Luồng dữ liệu
+Hệ thống I/O của C cung cấp một liên kết logical giữa người lập trình và thiết bị thực, hay được gọi là luồng (stream) và thiết bị thực được gọi là tệp (file).
+
+## Luồng dữ liệu (Stream)
 Luồng dữ liệu (stream) là thành phần trung gian nối giữa ứng dụng và nguồn dữ liệu (file, network, v.v.). Stream giúp thống nhất, ổn định, tăng hiệu quả và đơn giản hơn trong việc đọc/ghi dữ liệu với các loại nguồn.
 
 ![image](https://user-images.githubusercontent.com/83684068/125764541-95da91e5-efec-4933-9b10-dd0be41f7be6.png)
