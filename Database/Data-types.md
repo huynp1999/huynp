@@ -25,14 +25,32 @@ Giả sử, tạo ra một ứng dụng để quản lý các thiết bị cho m
 - DECIMAL
   - Một dấu thập phân có dấu chấm cố định. Được sử dụng để đảm bảo độ chính xác (precision), ví dụ như với dữ liệu tiền tệ.
   - Độ dài tối đa các số cho DECIMAL là 65.
+  - Tham số (M,D) mặc định là (10,0), tức là là nó có thể lưu trữ một giá trị có 10 chữ số và 0 phần thập phân.
 
-- Kiểu dữ liệu Data và Time
-  - DATE (YYYY-MM-DD)
-  - DATETIME (YYYY-MM-DD HH:MM:SS)
-  - TIMESTAMP
-  - TIME
-  - YEAR(M)
-- Kiểu dữ liệu chuỗi trong MySQL
+Ngoài ra, MySQL hỗ trợ tùy chọn chỉ định độ dài hiển thị:
+- (N) tại đây N là một số nguyên hiển thị chiều rộng cho kiểu độ dài lên đến N chữ số.
+- ZEROFILL các khoảng đệm (padding) được thay thế bởi số 0. Ví dụ với cột kiểu INT(4) ZEROFILL, số 1 sẽ hiển thị thành 0001.
+
+### Kiểu dữ liệu Data và Time
+- DATE
+  - Sử dụng khi chỉ muốn lưu trữ thông tin ngày tháng năm.
+  - Định dạng hiển thị YYYY-MM-DD, phạm vi '1000-01-01' tới '9999-12-31'.
+- DATETIME (YYYY-MM-DD HH:MM:SS)\
+  - Sử dụng khi cần giá trị lưu trữ cả thông tin ngày tháng năm và thời gian.
+  - Định dạng hiển thị YYYY-MM-DD HH:MM:SS
+  - Phạm vi '1000-01-01 00:00:00' tới '9999-12-31 23:59:59'.
+- TIMESTAMP
+  - Lưu trữ cả hai thông tin ngày tháng và thời gian. Giá trị này sẽ chuyển đổi từ múi giờ hiện tại sang UTC trong khi lưu trữ, và chuyển trở lại múi giờ hiện tại khi lấy dữ liệu ra.
+  - Nếu không được chỉ định, cột TIMESTAMP đầu tiên trong bảng sẽ được xác định để tự động đặt thành ngày và giờ của sửa đổi gần đây nhất. Điều này giúp TIMESTAMP phù hợp với những hoạt động như INSERT và UPDATE.
+  - Phạm vi '1970-01-01 00:00:01' UTC tới '2038-01-19 03:14:07' UTC
+- TIME
+  - MySQL lấy và hiển thị thời gian theo định dạng 'HH:MM:SS' (hoặc 'HHH:MM:SS' khi cần giá trị giờ lớn).
+  - Phạm vi '-838:59:59' tới '838:59:59'.
+  - Kiểu TIME không đơn thuần chỉ mô tả thời gian trong ngày (24 giờ), mà nó có thể là thời gian trôi qua hoặc khoảng thời gian giữa hai sự kiện (thậm trí có giá trị âm).
+- YEAR(M)
+  - Sử dụng 1-byte để mô tả giá trị. Có thể khai báo YEAR(2) hoặc YEAR(4) chỉ định rõ chiều rộng hiển thị là 2 hay 4 ký tự, mặc định là 4.
+  - 
+### Kiểu dữ liệu chuỗi trong MySQL
   - CHAR: chiều dài chuỗi cố định, nhanh hơn so với VARCHAR
   - VARCHAR: chiều dài chuỗi thay đổi
   - BLOB, TINYBLOB, MEDIUMBLOB, LONGBLOB: chuỗi được lưu ở dạng nhị phân
