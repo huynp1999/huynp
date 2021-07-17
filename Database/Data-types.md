@@ -35,6 +35,10 @@ Ngoài ra, MySQL hỗ trợ tùy chọn chỉ định độ dài hiển thị:
 - (N) tại đây N là một số nguyên hiển thị chiều rộng cho kiểu độ dài lên đến N chữ số.
 - ZEROFILL các khoảng đệm (padding) được thay thế bởi số 0. Ví dụ với cột kiểu INT(4) ZEROFILL, số 1 sẽ hiển thị thành 0001.
 
+#### 1.2.1 Khác biệt giữa FLOAT và DECIMAL
+Float lưu trữ giá trị ở một dạng sấp xỉ, còn decimal lưu trữ chính xác giá trị.
+
+Do vậy mà float thường được sử dụng trong các phép đo khoa học. Còn decimal thường được sử dụng cho loại số liệu yêu cầu giá trị chính xác như tiền, được sử dụng trong lĩnh vực tài chính, ngân hàng.
 ## 2. Kiểu dữ liệu về thời gian
 ### 2.1 Kiểu dữ liệu thời gian đầy đủ
 - DATE
