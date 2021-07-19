@@ -9,4 +9,34 @@
 | Tương tác với disk controller thông qua write-through và non-read-ahead mode  |   Áp dụng write-back, read-ahead mode   | 
 
 ## Benchmark
+Sử dụng `fio` để test hiệu suất ghi (tương tự như đọc) giữa hai kiểu direct và sync I/O.
 
+Fio job file:
+
+    [global]
+    bs=1M
+    ioengine=sync
+    iodepth=4
+    size=2g
+    direct=[0/1]
+    runtime=60
+    filename=/home/huynp/fio/t
+    sync=[0/1]
+
+    [rand-write]
+    rw=randwrite
+    stonewall
+
+Kiểm tra hiệu năng với sync I/O (sync = 1 tức là sử dụng O_SYNC):
+    
+    WRITE: bw=22.2MiB/s (23.3MB/s), 22.2MiB/s-22.2MiB/s (23.3MB/s-23.3MB/s), io=1333MiB (1398MB), run=60016-60016msec
+    
+Còn với direct I/O (direct = 1, sync = 0)
+
+    WRITE: bw=42.2MiB/s (44.2MB/s), 42.2MiB/s-42.2MiB/s (44.2MB/s-44.2MB/s), io=2048MiB (2147MB), run=48537-48537msec
+    
+Có thể thấy tốc độ ghi ghi sử dụng sync bị giảm gần nửa so với khi sử dụng direct, bởi sync cần xác nhận của disk controller mỗi khi đẩy dữ liệu xuống.
+
+Xét về tài nguyên CPU và MEM khi sử dụng sync:
+
+    
