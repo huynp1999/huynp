@@ -3,9 +3,7 @@
 Note: O_DIRECT yêu cầu cụ thể độ dài và địa chỉ căn chỉnh dành cho user-space buffer (không phải kernel buffer).
 Cụ thể trong test này, buffer được căn chỉnh là 512, và dung lượng của nó phải là bội của 512. (ví dụ 64*512 = 65536)
 
-**Kết quả**:
-
-Khi so sánh kết quả đầu ra:
+**So sánh kết quả**:
 
     ./direct.out /home/huynp/C/systemcall/benchmarkDirect/test 200 65536
     Write rate: 66MB/s
