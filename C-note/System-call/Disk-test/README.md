@@ -1,7 +1,11 @@
 ## So sánh hiệu năng ghi giữa direct và sync I/O
 
 Note: O_DIRECT yêu cầu cụ thể độ dài và địa chỉ căn chỉnh dành cho user-space buffer (không phải kernel buffer).
-Cụ thể trong test này, buffer được căn chỉnh là 512, và dung lượng của nó phải là bội của 512. (ví dụ 64*512 = 65536)
+
+![](https://github.com/huynp1999/huynp/blob/master/pic/storage/directman.png)
+
+Cụ thể trong test này, buffer được căn chỉnh là 512, và dung lượng của nó phải là bội của 512 (ví dụ 64*512 = 65536), nếu không chương trình sẽ bị fail.
+Có thể sử dụng hàm `posix_memalign` để làm được việc này.
 
 **So sánh kết quả**:
 
