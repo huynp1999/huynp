@@ -15,6 +15,6 @@ Program sử dụng `O_DIRECT` cho kết quả nhanh hơn hẳn khi sử dụng 
 
     ./sync.out /home/huynp/C/systemcall/benchmarkSync/test 200 65536
     Write rate: 2MB/s
-    Execute time: 105s
+    Execute time: 89s
     
-Dung lượng user buffer càng cao sẽ cho tốc độ ghi càng cao v
+Dung lượng user buffer càng cao sẽ cho tốc độ ghi càng cao và ngược lại.
