@@ -32,17 +32,3 @@ int main(int argc, char * argv[]){
     close(fo);
     return 0;
 }
-
-
-/*
-Đầu vào là filename và dung lượng file (200MB)
-
-./a.out /home/huynp/C/systemcall/benchmark/test 200
-Write rate: 2MB/s
-Execute time: 106s
-
-Tốc độ thấp hơn nhiều khi test bằng tiện ích fio (?)
-
-WRITE: bw=21.9MiB/s (22.9MB/s), 21.9MiB/s-21.9MiB/s (22.9MB/s-22.9MB/s), io=200MiB (210MB), run=9146-9146msec
-
-*/
