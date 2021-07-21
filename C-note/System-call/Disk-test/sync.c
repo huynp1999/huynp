@@ -3,25 +3,25 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/timeb.h>
+#include <string.h>
 
-#define BUFFERSIZE (60000)
 #define MEGABYTE (1024*1024)
 
 int main(int argc, char * argv[]){
-    long megabytes,i;
+    long megabytes, i, buf_size;
     int fo;
-    char buffer[BUFFERSIZE];
+    char buffer[buf_size];
     struct timeb start,end;
     
-    for (i=0; i < BUFFERSIZE ; i++)
-        buffer[i]='A'; //tao du lieu tren buffer de sau day vao file
+    memset(buffer, 'A', buf_size);
 
     fo = open(argv[1], O_CREAT | O_WRONLY | O_SYNC);
     megabytes=atol(argv[2]); //lay dung luong file
+    buf_size=atol(argv[3]);
     ftime(&start);
 
-    for (i=0; i < ((MEGABYTE/BUFFERSIZE)*megabytes); i++) //ghi buffer vao fo theo megabytes lan
-        write(fo,buffer,BUFFERSIZE); //ghi tu buffer vao disk
+    for (i=0; i < ((MEGABYTE/buf_size)*megabytes); i++) //ghi buffer vao fo theo megabytes lan
+        write(fo,buffer,buf_size); //ghi tu buffer vao disk
 
     ftime(&end);
     long write_time=end.time-start.time; //tinh thoi gian ghi theo giay
