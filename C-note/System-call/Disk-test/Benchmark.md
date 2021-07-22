@@ -14,18 +14,20 @@ O_DSYNC
 | Buffer size | Write rate | Write time |
 | --- |:------:|:-----:|
 | 40MB    |     38MB/s | 1s |
-| 80MB    |     76MB/s | 1s |
+| 80MB    |     73MB/s | 1s |
 | 128MB    |     61MB/s | 2s |
 | 512MB    |     61MB/s | 8s |
 | 1GB    |     50.16MB/s | 19s |
-| 2GB    |     MB/s | |
+| 2GB    |    30.12 MB/s | 63s |
+
+O_DIRECT
 
 | Buffer size | Write rate | Write time |
 | --- |:------:|:-----:|
-| 40MB    |     MB/s | |
-| 80MB    |     MB/s | |
-| 128MB    |     MB/s | |
-| 512MB    |     MB/s | |
-| 1GB    |     MB/s | |
-| 2GB    |     MB/s | |
+| 40MB    |    40MB/s | >1s |
+| 80MB    |     76MB/s | 1s |
+| 128MB    |     61MB/s | 2s |
+| 512MB    |     54.22MB/s | 9s |
+| 1GB    |     59.56MB/s | 16s |
+| 2GB    |     40.57MB/s | 47s |
 
