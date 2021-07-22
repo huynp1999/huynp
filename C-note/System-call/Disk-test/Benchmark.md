@@ -24,7 +24,7 @@ O_DIRECT
 
 | Buffer size | Write rate | Write time |
 | --- |:------:|:-----:|
-| 40MB    |    40MB/s | >1s |
+| 40MB    |    40MB/s | <1s |
 | 80MB    |     76MB/s | 1s |
 | 128MB    |     61MB/s | 2s |
 | 512MB    |     54.22MB/s | 9s |
