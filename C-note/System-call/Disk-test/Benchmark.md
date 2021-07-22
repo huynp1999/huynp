@@ -29,5 +29,5 @@ O_DIRECT
 | 128MB    |     61MB/s | 2s |
 | 512MB    |     54.22MB/s | 9s |
 | 1GB    |     59.56MB/s | 16s |
-| 2GB    |     40.57MB/s | 47s |
+| 2GB    |     50.18MB/s | 39s |
 
