@@ -1,4 +1,3 @@
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
@@ -25,7 +24,7 @@ int main(int argc, char * argv[]){
         memset(buf, rand(), 1); //ghi du lieu vao buffer de sau day vao file
 
     ret= write(fo,buf,buf_size); //ghi du lieu tu buffer vao file
-    
+    //fs
     ftime(&end);
 
     float write_time=end.time-start.time; //tinh thoi gian ghi theo giay
