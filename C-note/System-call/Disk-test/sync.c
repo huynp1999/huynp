@@ -1,3 +1,4 @@
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
@@ -8,27 +9,32 @@
 #define MEGABYTE (1024*1024)
 
 int main(int argc, char * argv[]){
-    long megabytes, i, buf_size;
-    int fo;
-    char buffer[buf_size];
+    long i, buf_size;
+    int fo, ret;
+    // unsigned char *buf;
+    char *buf;
     struct timeb start,end;
-    
-    memset(buffer, 'A', buf_size);
 
-    fo = open(argv[1], O_CREAT | O_WRONLY | O_SYNC);
-    megabytes=atol(argv[2]); //lay dung luong file
-    buf_size=atol(argv[3]);
     ftime(&start);
 
-    for (i=0; i < ((MEGABYTE/buf_size)*megabytes); i++) //ghi buffer vao fo theo megabytes lan
-        write(fo,buffer,buf_size); //ghi tu buffer vao disk
+    fo = open(argv[1], O_CREAT | O_WRONLY | O_SYNC);
+    buf_size=atof(argv[2]);
+    buf= (char *) malloc (buf_size); //cap phat bo nho buffer dua tren dung luong file
+    
+    for(i=0; i < buf_size; i++)
+        memset(buf, rand(), 1); //ghi du lieu vao buffer de sau day vao file
 
+    ret= write(fo,buf,buf_size); //ghi du lieu tu buffer vao file
+    
     ftime(&end);
-    long write_time=end.time-start.time; //tinh thoi gian ghi theo giay
 
-    if (write_time > 0)
-        printf("Write rate: %ld MB/s\nExecute time: %ld s\n", megabytes/write_time, write_time );
+    float write_time=end.time-start.time; //tinh thoi gian ghi theo giay
+    if (write_time < 1)
+        printf("Write rate: %.2f KB/s\n\nExecute time: < 0 \n", buf_size/1000.0);
+    else
+        printf ("Write rate: %.2f MB/s\nExecute time: %.2f s\n", (ret/MEGABYTE)/write_time, write_time);
 
+    free(buf);
     close(fo);
     return 0;
 }
