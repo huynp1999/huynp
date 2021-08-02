@@ -70,3 +70,4 @@ Block storage cũng hỗ trợ các loại filesystem bao gồm NTFS, XFS hoặc
 |  Mặc dù tínnh linh hoạt và khả năng tùy chỉnh cao hơn, nhưng tốc độ lại chậm hơn vì bất kỳ thay đổi nhỏ đều yêu cầu viết lại toàn bộ object và như vậy sẽ cần làm việc với nhiều đối tượng hơn   |   Tốc độ nhanh hơn vì block storage cho phép sửa đổi tuỳ theo các thành phần của file |
 | Phù hợp với lưu trữ dữ liệu phi cấu trúc, lưu trữ tập dữ liệu lớn và lưu trữ dữ liệu với các chính sách bảo quản, xóa và lưu giữ dữ liệu tùy chỉnh.    | Phù hợp các ứng dụng và quy trình làm việc dựa vào hiệu suất lưu trữ và dữ liệu không yêu cầu phân tích metadata     |
 
+![image](https://user-images.githubusercontent.com/83684068/127823038-1d0b66d4-e215-4f6f-b736-f2454889110a.png)
