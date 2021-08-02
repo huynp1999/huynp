@@ -54,3 +54,27 @@ Block storage cũng hỗ trợ các loại filesystem bao gồm NTFS, XFS hoặc
 
 ## So sánh giữa file storage và block storage
 
+
+| File storage | Block storage |
+| --- |:------|
+|   Quen thuộc của người dùng với hệ thống file phân cấp  | Hỗ trợ các loại filesystem bao gồm NTFS, XFS hoặc ext4.  |
+|   Ít tùy biến hơn  |   tính linh hoạt cao hơn, có thể sửa đổi để tăng hiệu suất   |
+|   Phù hợp với mục đích sử dụng văn phòng hoặc thư mục, lưu trữ lượng dữ liệu có cấu trúc nhỏ hoặc lưu trữ file có yêu cầu tính đảm bảo cao.  | Phù hợp cho cơ sở dữ liệu, lưu trữ dữ liệu của các ứng dụng và các hệ thống ảo hóa.    |
+
+
+Sự khác biệt chính giữa lưu trữ đối tượng và lưu trữ khối là lưu trữ đối tượng bao gồm siêu dữ liệu, trong khi lưu trữ khối thì không. Điều này cho phép lưu trữ đối tượng bao gồm ngữ cảnh về tệp trong khi lưu trữ khối là không có ngữ cảnh. Ngoài ra, trong lưu trữ đối tượng, mỗi đối tượng có một mã định danh duy nhất, loại bỏ nhu cầu tìm kiếm dữ liệu theo vị trí như trong lưu trữ khối.
+
+Trong khi cả lưu trữ khối và lưu trữ đối tượng đều có thể được mở rộng, lưu trữ đối tượng ngày càng có khả năng mở rộng dễ dàng hơn. Để mở rộng quy mô lưu trữ đối tượng, bạn chỉ cần thêm nhiều nút hơn vào cụm lưu trữ của mình. Ngược lại, tùy thuộc vào dịch vụ khối bạn đang sử dụng, bạn có thể không mở rộng quy mô sau khi đạt đến bộ nhớ được phân bổ của mình.
+
+Mặc dù lưu trữ đối tượng cung cấp tính linh hoạt cao hơn và khả năng tùy chỉnh đối với lưu trữ chậm hơn so với lưu trữ khối. Điều này ít nhất là một phần vì lưu trữ khối cho phép bạn sửa đổi các phần gia tăng của tệp của mình. Trong khi đó, lưu trữ đối tượng yêu cầu các đối tượng được sửa đổi như một đơn vị duy nhất. Điều này có nghĩa là bất kỳ thay đổi nhỏ nào bạn thực hiện đều yêu cầu viết lại toàn bộ đối tượng. Điều này chậm hơn nhiều vì nó yêu cầu nhiều dữ liệu được truy cập và cập nhật hơn so với các phương pháp khối.
+
+Nói chung, lưu trữ khối tốt hơn cho các ứng dụng và quy trình làm việc dựa vào hiệu suất lưu trữ, lưu trữ dữ liệu giao dịch và dữ liệu không yêu cầu phân tích siêu dữ liệu. Trong khi đó, lưu trữ đối tượng tốt hơn để lưu trữ dữ liệu phi cấu trúc, lưu trữ tập dữ liệu lớn và lưu trữ dữ liệu với các chính sách bảo quản, xóa và lưu giữ dữ liệu tùy chỉnh.
+
+| Object storage | Block storage |
+| --- |:-----|
+|  Bao gồm metadata   |  Không có metadata nên sẽ ko có context cho file    |
+|  Khả năng mở rộng dễ dàng hơn, chỉ cần thêm nhiều nút hơn vào cụm lưu trữ của mình.   |  Tùy thuộc vào dịch vụ block mà có thể không mở rộng được sau khi đạt đến giới hạn phân bổ của bộ nhớ  |
+|   tính linh hoạt và khả năng tùy chỉnh cao hơn   |   Tốc độ nhanh hơn   |
+|     |      |
+|     |      |
+|     |      |
