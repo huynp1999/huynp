@@ -13,7 +13,7 @@ Dữ liệu này sau đó được đặt vào một vùng lưu trữ, một kh�
 - **Ưu điểm:** Hữu ích với metadata được đính kèm vào file.
 Metadata này có thể được tạo tự động hoặc do người dùng xác định, cho phép thực hiện nhiều kiểu phân tích.
 Một lợi ích khác là khả năng lưu trữ dữ liệu một cách linh hoạt mà không cần quan tâm đến hệ thống phân cấp.
-Điều này cho phép khả năng sử dụng tài nguyên lưu trữ ở mức tối đa cũng như việc mở rộng dễ dàng hơn.
+Điều này cho phép khả năng sử dụng tài nguyên lưu trữ ở mức tối đa cũng như việc mở rộng dễ dàng hơn bằng cách chỉ cần thêm node vào trong cụm storage.
 
 - **Nhược điểm:** Chậm hơn so với hệ thống lưu trữ tệp hoặc khối.
 Điều này làm cho nó trở thành một lựa chọn tồi cho các ứng dụng hoặc khối lượng công việc yêu cầu độ trễ thấp.
@@ -46,5 +46,11 @@ Trong mỗi khối sẽ lưu trữ một phần của một file. Khối này sa
 Khi muốn truy xuất một tệp, một request được thực hiện với thiết bị block storage.
 Sau khi request được dịch thành block request (yêu cầu khối), file sẽ được tập hợp lại sẽ được trả về máy, thiết bị block storage như vậy sẽ tương tự như một ổ cứng tiêu chuẩn.
 
-Lợi ích của block storage là nó cho phép các hoạt động có độ trễ thấp.
+- Ưu điểm: Các hoạt động có độ trễ thấp.
 Block storage cũng hỗ trợ các loại filesystem bao gồm NTFS, XFS hoặc ext4. Các block (khối) cũng thường được sao chép trên các thiết bị, đảm bảo rằng dữ liệu có thể khôi phục được nếu một thiết bị bị hỏng.
+
+- Nhược điểm: có thể sẽ không mở rộng được quy mô sau khi đạt đến giới hạn được phân bổ của bộ nhớ
+
+
+## So sánh giữa file storage và block storage
+
