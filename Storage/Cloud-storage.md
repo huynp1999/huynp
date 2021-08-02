@@ -31,10 +31,11 @@ Cho phép gắn kết tất cả hoặc một phần hệ thống tệp của m�
 Các giao thức này cũng thường được sử dụng với các thiết bị Network-Attached Storage (NAS).
 
 Thiết bị NAS thường được sử dụng để mở rộng quy mô lưu trữ file và cũng có thể được sử dụng dưới dạng bản sao lưu NAS để cung cấp dự phòng.
-- Ưu điểm: Quen thuộc với người dùng với hệ thống file phân cấp.
+
+- **Ưu điểm:** Quen thuộc với người dùng với hệ thống file phân cấp.
 File storage phù hợp với mục đích sử dụng văn phòng hoặc thư mục, lưu trữ lượng dữ liệu có cấu trúc nhỏ hoặc lưu trữ file có yêu cầu tính đảm bảo cao.
 
-- Nhược điểm: tính linh hoạt thấp và ít tùy biến hơn so với block storage.
+- **Nhược điểm:** tính linh hoạt thấp và ít tùy biến hơn so với block storage.
 
 ## Block storage
 ![image](https://user-images.githubusercontent.com/83684068/127802805-e7c72c6e-fc4b-4c27-9dbf-04dcf7897f79.png)
@@ -46,10 +47,10 @@ Trong mỗi khối sẽ lưu trữ một phần của một file. Khối này sa
 Khi muốn truy xuất một tệp, một request được thực hiện với thiết bị block storage.
 Sau khi request được dịch thành block request (yêu cầu khối), file sẽ được tập hợp lại sẽ được trả về máy, thiết bị block storage như vậy sẽ tương tự như một ổ cứng tiêu chuẩn.
 
-- Ưu điểm: Các hoạt động có độ trễ thấp.
+- **Ưu điểm:** Các hoạt động có độ trễ thấp.
 Block storage cũng hỗ trợ các loại filesystem bao gồm NTFS, XFS hoặc ext4. Các block (khối) cũng thường được sao chép trên các thiết bị, đảm bảo rằng dữ liệu có thể khôi phục được nếu một thiết bị bị hỏng.
 
-- Nhược điểm: có thể sẽ không mở rộng được quy mô sau khi đạt đến giới hạn được phân bổ của bộ nhớ
+- **Nhược điểm:** có thể sẽ không mở rộng được quy mô sau khi đạt đến giới hạn được phân bổ của bộ nhớ
 
 
 ## File Storage vs Block Storage
