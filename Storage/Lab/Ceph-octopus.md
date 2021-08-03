@@ -90,7 +90,7 @@ Kiểm tra:
     ceph03  192.168.1.53
 
 #### Add mon
-Một Ceph cluster điển hình có ba hoặc năm monitor daemon được phân phối trên các máy chủ. Số lượng được khuyên dùng là 5 mon.
+Một Ceph cluster điển hình có ba hoặc năm monitor daemon được phân phối trên các máy chủ.
 
     # ceph orch apply mon "ceph01,ceph02,ceph03"
 
@@ -144,5 +144,16 @@ Nếu xảy ra HEALTH_WARN MON_CLOCK_SKEW thì là do thời gian giữa các no
 #### Kiểm tra dashboard
 Điểm truy cập, tài khoản và mật khẩu được cung cấp trong quá trình bootstrap phía trên
 
+Màn hình trạng thái tổng thể của Ceph cluster
+
+![](https://github.com/huynp1999/huynp/blob/master/pic/storage/ceph1.PNG)
+
+Màn hình thành phần MON
+
+![](https://github.com/huynp1999/huynp/blob/master/pic/storage/ceph2.PNG)
+
+Các OSD disk
+
+![](https://github.com/huynp1999/huynp/blob/master/pic/storage/ceph3.PNG)
 
 
