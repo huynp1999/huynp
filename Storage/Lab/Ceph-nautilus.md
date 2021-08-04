@@ -23,3 +23,8 @@ Theem repo
     
     ceph-deploy --overwrite-conf mon create ceph01 ceph02 ceph03
     ceph-deploy mon create-initial
+
+
+sudo rpm -Uvh http://centos-hcm.viettelidc.com.vn/8/storage/x86_64/ceph-nautilus/Packages/c/ceph-grafana-dashboards-14.2.22-1.el8.noarch.rpm
+
+sudo rpm -Uvh http://centos-hcm.viettelidc.com.vn/8/storage/x86_64/ceph-nautilus/Packages/c/ceph-mgr-dashboard-14.2.22-1.el8.noarch.rpm
