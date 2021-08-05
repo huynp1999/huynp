@@ -1,5 +1,8 @@
 # Triển khai Ceph Octopus bằng chephadm
 ## Mô hình
+
+![](https://github.com/huynp1999/huynp/blob/master/pic/storage/ceph7.PNG)
+
 Quy hoạch IP
 |  Host name | Public IP | Cluster IP | Disk |
 | --- |:------:|:-----:|:-----:|
