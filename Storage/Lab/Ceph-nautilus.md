@@ -41,3 +41,20 @@ sudo rpm -Uvh http://centos-hcm.viettelidc.com.vn/8/storage/x86_64/ceph-nautilus
 sudo rpm -Uvh http://centos-hcm.viettelidc.com.vn/8/storage/x86_64/ceph-nautilus/Packages/c/ceph-mgr-dashboard-14.2.22-1.el8.noarch.rpm
 
 sudo alien -i /home/cephuser/ceph-mgr-dashboard-14.2.22-1.el8.noarch.rpm --scripts
+
+
+
+radosgw-admin user create --uid=gwadmin --display-name=RadosGWAdmin --system
+
+
+    "keys": [
+        {
+            "user": "gwadmin",
+            "access_key": "XRDWUYAGFHWZVZ2P5ZYZ",
+            "secret_key": "4DcDR3OxcZLpq0dGhOvWXLo8ghH5AdKEv3sC4FME"
+        }
+    ],
+
+ceph dashboard set-rgw-api-access-key -i ./acckey.txt
+ceph dashboard set-rgw-api-secret-key -i ./seckey.txt
+ceph dashboard set-rgw-api-ssl-verify False
