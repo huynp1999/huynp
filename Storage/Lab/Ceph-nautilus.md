@@ -211,11 +211,33 @@ Kiểm tra xem ceph-dashboard đã được cài đặt thành công hay chưa
         "dashboard": "https://ceph01:8443/"
     }
 
-Kiểm tra 
+Truy cập vào màn hình đăng nhập theo đường link trên
 
+![](https://github.com/huynp1999/huynp/blob/master/pic/storage/nau/ceph1.PNG)
+
+Màn hình trạng thái tổng thể của Ceph cluster
+
+![](https://github.com/huynp1999/huynp/blob/master/pic/storage/nau/ceph2.PNG)
+
+Thành phần các node trong cluster
+
+![](https://github.com/huynp1999/huynp/blob/master/pic/storage/nau/ceph3.PNG)
+
+### Cấu hình object storage
+Trong lab này sẽ sử dụng node ceph02 để cài đặt thành phần Radosgw giúp cung cấp object storage.
+Đứng trên ceph01 tiếp tục thực hiện lệnh dưới để triển khai thành phần radosgw. Lưu ý, lúc này vẫn đang dùng user `cephuser` và đứng ở thư mục `my-cluster`
+
+    ceph-deploy install --rgw ceph02
+    ceph-deploy rgw create ceph02
+    ...
+    ...
+    [ceph_deploy.rgw][INFO  ] The Ceph Object Gateway (RGW) is now running on host ceph2 and default port 7480
+
+Thực hiện khai báo user để có thể sử dụng được dashboard để quản lý object storage
 
     radosgw-admin user create --uid=gwadmin --display-name=RadosGWAdmin --system
-
+    
+Kết quả trả về sẽ là access_key và secret_key của user gwadmin
 
     "keys": [
         {
@@ -225,8 +247,17 @@ Kiểm tra
         }
     ],
 
+Tạo 2 file text chứa access key và secret key và tích hợp với dashboard của Ceph.
+    
+    echo "XRDWUYAGFHWZVZ2P5ZYZ" > acckey.txt
+    echo "4DcDR3OxcZLpq0dGhOvWXLo8ghH5AdKEv3sC4FME" > seckey.txt
+    
     ceph dashboard set-rgw-api-access-key -i ./acckey.txt
     ceph dashboard set-rgw-api-secret-key -i ./seckey.txt
     ceph dashboard set-rgw-api-ssl-verify False
 
+Kiểm tra trong dashboard
 
+![](https://github.com/huynp1999/huynp/blob/master/pic/storage/nau/ceph4.PNG)
+
+![](https://github.com/huynp1999/huynp/blob/master/pic/storage/nau/ceph5.PNG)
