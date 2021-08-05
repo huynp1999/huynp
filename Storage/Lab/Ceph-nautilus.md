@@ -36,15 +36,12 @@ Theem repo
     ceph-deploy osd create --data /dev/sdc ceph03
 
 
-sudo rpm -Uvh http://centos-hcm.viettelidc.com.vn/8/storage/x86_64/ceph-nautilus/Packages/c/ceph-grafana-dashboards-14.2.22-1.el8.noarch.rpm
-
-sudo rpm -Uvh http://centos-hcm.viettelidc.com.vn/8/storage/x86_64/ceph-nautilus/Packages/c/ceph-mgr-dashboard-14.2.22-1.el8.noarch.rpm
-
-sudo alien -i /home/cephuser/ceph-mgr-dashboard-14.2.22-1.el8.noarch.rpm --scripts
+    sudo rpm -Uvh http://centos-hcm.viettelidc.com.vn/8/storage/x86_64/ceph-nautilus/Packages/c/ceph-grafana-dashboards-14.2.22-1.el8.noarch.rpm
+    sudo alien -i /home/cephuser/ceph-mgr-dashboard-14.2.22-1.el8.noarch.rpm --scripts
 
 
 
-radosgw-admin user create --uid=gwadmin --display-name=RadosGWAdmin --system
+    radosgw-admin user create --uid=gwadmin --display-name=RadosGWAdmin --system
 
 
     "keys": [
@@ -55,6 +52,8 @@ radosgw-admin user create --uid=gwadmin --display-name=RadosGWAdmin --system
         }
     ],
 
-ceph dashboard set-rgw-api-access-key -i ./acckey.txt
-ceph dashboard set-rgw-api-secret-key -i ./seckey.txt
-ceph dashboard set-rgw-api-ssl-verify False
+    ceph dashboard set-rgw-api-access-key -i ./acckey.txt
+    ceph dashboard set-rgw-api-secret-key -i ./seckey.txt
+    ceph dashboard set-rgw-api-ssl-verify False
+
+
