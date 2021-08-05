@@ -13,7 +13,7 @@ Mô hình IP
 ## Triển khai trên 3 node
 Sau khi đặt IP theo mô hình bên trên, khai báo trên cả 3 node các hostname trong `/etc/hosts` để về sau Ceph sẽ dựa vào đó để cấu hình và kết nối tới các node.
 
-    cat << EOF > /etc/hosts
+    # cat << EOF > /etc/hosts
     10.10.10.21 ceph01
     10.10.10.22 ceph02
     10.10.10.23 ceph03
@@ -21,17 +21,17 @@ Sau khi đặt IP theo mô hình bên trên, khai báo trên cả 3 node các ho
 
 Đồng bộ thời gian cho 3 node:
 
-    apt install -y chrony
+    # apt install -y chrony
     
 Tạo user `cephuser` và nhập mật khẩu
 
-    sudo useradd -d /home/cephuser -m cephuser
-    sudo passwd cephuser
+    # sudo useradd -d /home/cephuser -m cephuser
+    # sudo passwd cephuser
     
 Cấp quyền sudo cho `cephuser`
 
-    echo "cephuser ALL = (root) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/cephuser
-    sudo chmod 0440 /etc/sudoers.d/cephuser
+    # echo "cephuser ALL = (root) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/cephuser
+    # sudo chmod 0440 /etc/sudoers.d/cephuser
 
 Khai báo repo của Ceph Nautilus
 
@@ -43,24 +43,24 @@ Khai báo repo của Ceph Nautilus
 ## Sử dụng ceph-deploy trên ceph01
 Đứng trên ceph01 (ceph-admin) để cài đặt ceph-deploy và thao tác với ceph02, ceph03 từ xa.
 
-    apt install -y ceph-deploy
+    # apt install -y ceph-deploy
     
 Từ đây sẽ chỉ làm việc bằng user `cephuser`
 
-    su - cephuser
+    # su - cephuser
     
 Tạo private key và public key cho user cephuser và copy sang các node còn lại
 
-    ssh-keygen
-    ssh-copy-id cephuser@ceph01
-    ssh-copy-id cephuser@ceph02
-    ssh-copy-id cephuser@ceph03
+    $ ssh-keygen
+    $ ssh-copy-id cephuser@ceph01
+    $ ssh-copy-id cephuser@ceph02
+    $ ssh-copy-id cephuser@ceph03
     
 Tạo thư mục nơi sẽ chứa các file cấu hình khi cài đặt Ceph
 
-    cd ~
-    mkdir my-cluster
-    cd my-cluster 
+    $ cd ~
+    $ mkdir my-cluster
+    $ cd my-cluster 
  
 Khởi tạo các node ceph trong cluser.
 
@@ -76,7 +76,14 @@ Sau khi khởi tạo, các file cấu hình sẽ được tạo ra trong thư m�
     -rw-rw-r-- 1 cephuser cephuser 5.1K Aug  3 07:58 ceph-deploy-ceph.log
     -rw------- 1 cephuser cephuser   73 Aug  3 07:58 ceph.mon.keyring
 
+Trong đó:
+- `ceph.conf` là file config được tự động khởi tạo
+- `ceph-deploy-ceph.log` là file log của toàn bộ thao tác đối với việc sử dụng lệnh ceph-deploy
+- `ceph.mon.keyring` là key monitoring được ceph sinh ra tự động để khởi tạo Cluster
+
 Cấu hình file `ceph.conf` trước khi thực hiện cài đặt các gói cần thiết cho ceph trên các node
+- public network: Đường trao đổi thông tin giữa các node Ceph và cũng là đường client kết nối vào
+- cluster network: Đường đồng bộ dữ liệu
 - Note: Các IP file `/etc/hosts` phải thuộc subnet của `public network`
 ```
 cat << EOF >> ceph.conf
@@ -90,7 +97,7 @@ EOF
 ```
 Tiến hình cài đặt Ceph Nautilus trên các node
 
-    ceph-deploy install --release nautilus ceph01 ceph02 ceph03
+    $ ceph-deploy install --release nautilus ceph01 ceph02 ceph03
  
 Khi cài đặt thành công thì sẽ có thể kiểm tra version của Ceph trên cả 3 node
 
@@ -100,7 +107,7 @@ Khi cài đặt thành công thì sẽ có thể kiểm tra version của Ceph t
 ### Thành phần Monitor
 Thiết lập thành phần MON cho cả 3 node
 
-    ceph-deploy mon create-initial
+    $ ceph-deploy mon create-initial
     
 Khi thực hiện thành công, các 4 file keyring sẽ được thêm vào thư mục hiện tại `my-cluster`, có thể kiểm tra bằng `ls -l`
 
@@ -111,24 +118,24 @@ Khi thực hiện thành công, các 4 file keyring sẽ được thêm vào th�
     
 Thực hiện copy file `ceph.client.admin.keyring` sang các node trong cụm Ceph cluster. File này sẽ được copy vào thư mục `/etc/ceph/` trên các node.
 
-    ceph-deploy admin ceph01 ceph02 ceph03
+    $ ceph-deploy admin ceph01 ceph02 ceph03
 
 Đứng trên node ceph01 phân quyền cho file `/etc/ceph/ceph.client.admin.keyring` trên cả 03 node.
 
-    ssh cephuser@ceph01 'sudo chmod +r /etc/ceph/ceph.client.admin.keyring'
-    ssh cephuser@ceph02 'sudo chmod +r /etc/ceph/ceph.client.admin.keyring'
-    ssh cephuser@ceph03 'sudo chmod +r /etc/ceph/ceph.client.admin.keyring'
+    $ ssh cephuser@ceph01 'sudo chmod +r /etc/ceph/ceph.client.admin.keyring'
+    $ ssh cephuser@ceph02 'sudo chmod +r /etc/ceph/ceph.client.admin.keyring'
+    $ ssh cephuser@ceph03 'sudo chmod +r /etc/ceph/ceph.client.admin.keyring'
 
 Đứng trên node ceph01 và thực hiện khai báo các OSD disk. Bước này sẽ thực hiện format các disk trên cả 3 node và join chúng vào làm các OSD (Thành phần chứa dữ liệu của CEPH).
 
-    ceph-deploy osd create --data /dev/sdb ceph01
-    ceph-deploy osd create --data /dev/sdc ceph01
+    $ ceph-deploy osd create --data /dev/sdb ceph01
+    $ ceph-deploy osd create --data /dev/sdc ceph01
 
-    ceph-deploy osd create --data /dev/sdb ceph02
-    ceph-deploy osd create --data /dev/sdc ceph02
+    $ ceph-deploy osd create --data /dev/sdb ceph02
+    $ ceph-deploy osd create --data /dev/sdc ceph02
 
-    ceph-deploy osd create --data /dev/sdb ceph03
-    ceph-deploy osd create --data /dev/sdc ceph03
+    $ ceph-deploy osd create --data /dev/sdb ceph03
+    $ ceph-deploy osd create --data /dev/sdc ceph03
 
 Có thể kiểm tra kết quả format này trên cả 3 node
 
@@ -169,13 +176,42 @@ Có thể thấy trạng thái sẽ là HEALTH_WARN, lý do là vì ceph-mgr ch�
 ### Thành phần Manager 
 Thực hiện trên node ceph01
 
-    sudo apt install -y python-jwt python-routes
+    $ sudo apt install -y python-jwt python-routes
     
 Cài đặt packet ceph-dashboad là `ceph-grafana-dashboards-14.2.22-1.el8.noarch.rpm` và `ceph-mgr-dashboard-14.2.22-1.el8.noarch.rpm`
 
-    sudo rpm -Uvh http://centos-hcm.viettelidc.com.vn/8/storage/x86_64/ceph-nautilus/Packages/c/ceph-grafana-dashboards-14.2.22-1.el8.noarch.rpm
-    sudo alien -i /home/cephuser/ceph-mgr-dashboard-14.2.22-1.el8.noarch.rpm --scripts
+    $ sudo rpm -Uvh http://centos-hcm.viettelidc.com.vn/8/storage/x86_64/ceph-nautilus/Packages/c/ceph-grafana-dashboards-14.2.22-1.el8.noarch.rpm
+    $ sudo alien -i /home/cephuser/ceph-mgr-dashboard-14.2.22-1.el8.noarch.rpm --scripts
 
+Kích hoạt ceph-mgr và ceph-dashboard trên node ceph01
+
+    $ ceph-deploy mgr create ceph01
+    $ ceph mgr module enable dashboard --force
+    $ ceph mgr module ls 
+    ...
+    ...
+    "enabled_modules": [
+        "dashboard",
+        "iostat",
+        "restful"
+        
+Tạo SSL cert cho ceph-dashboard (tuy nhiên đây chỉ là cert do ceph-dashboard tự tạo ra và trình duyệt có thể sẽ không tin tưởng CA này)
+
+    $ sudo ceph dashboard create-self-signed-cert 
+    Self-signed certificate created 
+
+Tạo tài khoản cho ceph-dashboard, username `cephadmin` và password `huy123`
+
+    $ ceph dashboard ac-user-create cephadmin huy123 administrator
+
+Kiểm tra xem ceph-dashboard đã được cài đặt thành công hay chưa
+
+    ceph mgr services 
+    {
+        "dashboard": "https://ceph01:8443/"
+    }
+
+Kiểm tra 
 
 
     radosgw-admin user create --uid=gwadmin --display-name=RadosGWAdmin --system
