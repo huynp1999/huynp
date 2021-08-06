@@ -129,25 +129,30 @@ Trong đó:
 - keyring: là đường dẫn file key được tạo ở bước trước đó.
 
 # Benchmark image RBD đã được mount sử dụng fio
-Sử dụng kiểu vào ra trực tiếp (direct I/O) để có được chính xác nhất hiệu năng disk, job file
+Test hiệu năng random read/write với 4k block size, job file:
 
     [global]
-    bs=1M
-    ioengine=sync
-    iodepth=4
-    size=2g
-    direct=1
-    runtime=60
-    filename=/opt/testfile
-    sync=0
-
-    [rand-write]
+    name=test-1
+    bs=4k
+    ioengine=rbd
+    pool=rbdpool1
+    rbdname=disk02
+    size=100m
+    runtime=600
     rw=randwrite
-    stonewall
+    rwmixread=40
+
+    [rbd_iodepth32]
+    iodepth=32
+
 
 Kết quả
 
-    WRITE: bw=7235KiB/s (7409kB/s), 7235KiB/s-7235KiB/s (7409kB/s-7409kB/s), io=425MiB (446MB), run=60153-60153msec
+    rbd_iodepth32: (groupid=0, jobs=1): err= 0: pid=1923: Fri Aug  6 14:44:24 2021
+      write: IOPS=646, BW=2586KiB/s (2649kB/s)(53.2MiB/21076msec)
+   
+    Run status group 0 (all jobs):
+      WRITE: bw=2586KiB/s (2649kB/s), 2586KiB/s-2586KiB/s (2649kB/s-2649kB/s), io=53.2MiB (55.8MB), run=21076-21076msec
     
     
 
