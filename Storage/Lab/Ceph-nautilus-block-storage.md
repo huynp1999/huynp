@@ -5,6 +5,8 @@ Block storage được dùng để chứa máy ảo trong môi trường cloud h
 
 Sử dụng mô hình từ phần trước thêm node client01 có public IP là `10.10.10.20`
 
+![image](https://github.com/huynp1999/huynp/blob/master/pic/storage/nau/ceph9.PNG)
+
 ## Setup client01
 Update thêm alias client01 trong file `/etc/hosts` của cả client và cluster
 
@@ -108,7 +110,7 @@ Format xfs cho device
 
 Kiểm tra trên dashboard
 
-
+![image](https://github.com/huynp1999/huynp/blob/master/pic/storage/nau/ceph8.PNG)
 
 Lưu ý: mountpoint của device RBD sẽ bị mất khi khởi động lại hệ thống, nên cần khai báo trong `/etc/fstab` với nội dung sau
 
