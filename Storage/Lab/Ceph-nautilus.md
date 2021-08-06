@@ -149,7 +149,7 @@ Có thể kiểm tra kết quả format này trên cả 3 node
     sdc                                                                                                     8:32   0   20G  0 disk
     └─ceph--7cdb4054--1ebe--4821--9ac6--3f924aae6a3d-osd--block--08e6237a--6679--4519--a84f--088ccaec4452 253:1    0   20G  0 lvm
 
-Kiểm tra tình của Ceph cluster
+Kiểm tra status của Ceph cluster lúc này thì có thể thấy trạng thái HEALTH_WARN, lý do bởi thành phần ceph-mgr vẫn chưa được khởi tạo.
 
     $ ceph -s
       cluster:
@@ -157,28 +157,12 @@ Kiểm tra tình của Ceph cluster
         health: HEALTH_WARN
                 no active mgr
 
-      services:
-        mon: 3 daemons, quorum ceph01,ceph02,ceph03 (age 103m)
-        mgr: ceph01(active, since 93m)
-        osd: 6 osds: 6 up (since 101m), 6 in (since 101m)
-        rgw: 1 daemon active (ceph02)
-
-      task status:
-
-      data:
-        pools:   4 pools, 128 pgs
-        objects: 189 objects, 1.6 KiB
-        usage:   6.0 GiB used, 114 GiB / 120 GiB avail
-        pgs:     128 active+clean
-
-Có thể thấy trạng thái sẽ là HEALTH_WARN, lý do là vì ceph-mgr chưa được tạo.
-
 ### Thành phần Manager 
-Thực hiện trên node ceph01
+Thực hiện khởi tạo mgr trên node ceph01. Trước tiên cần cài đặt các gói phụ trợ cho ceph-dashboard
 
     $ sudo apt install -y python-jwt python-routes
     
-Cài đặt packet ceph-dashboad là `ceph-grafana-dashboards-14.2.22-1.el8.noarch.rpm` và `ceph-mgr-dashboard-14.2.22-1.el8.noarch.rpm`
+Cài đặt packet ceph-dashboard là `ceph-grafana-dashboards-14.2.22-1.el8.noarch.rpm` và `ceph-mgr-dashboard-14.2.22-1.el8.noarch.rpm`. Hai gói này có thể lấy từ [đây](http://centos-hcm.viettelidc.com.vn/8/storage/x86_64/ceph-nautilus/Packages/c/)
 
     $ sudo rpm -Uvh http://centos-hcm.viettelidc.com.vn/8/storage/x86_64/ceph-nautilus/Packages/c/ceph-grafana-dashboards-14.2.22-1.el8.noarch.rpm
     $ sudo alien -i /home/cephuser/ceph-mgr-dashboard-14.2.22-1.el8.noarch.rpm --scripts
