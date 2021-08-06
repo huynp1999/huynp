@@ -1,4 +1,4 @@
-# Triển khai Ceph Octopus bằng chephadm
+# Triển khai Ceph Octopus bằng cephadm
 ## Mô hình
 
 ![](https://github.com/huynp1999/huynp/blob/master/pic/storage/ceph7.PNG)
