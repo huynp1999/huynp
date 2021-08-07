@@ -93,7 +93,7 @@ Format xfs cho device
     
  Và mount vào có thể sử dụng được
  
-    mount /dev/rbd0 /opt
+    mount /dev/rbd1 /opt
     
  Kiểm tra
  
@@ -116,7 +116,7 @@ Lưu ý: mountpoint của device RBD sẽ bị mất khi khởi động lại h�
 
     /dev/rbd/rbdpool1/disk02             /opt                    xfs     noauto          0 0
 
-Sửa file `vim /etc/ceph/rbdmap` bằng việc thêm dòng `rbd/disk01 id=admin,keyring=/etc/ceph/ceph.client.admin.keyring` vào cuối file
+Rbdmap cũng bị mất sau khi reboot, cập nhật file `vim /etc/ceph/rbdmap` bằng việc thêm dòng `rbd/disk02 id=admin,keyring=/etc/ceph/ceph.client.admin.keyring` vào cuối file
 
     [root@client1 ~]# cat /etc/ceph/rbdmap
     # RbdDevice             Parameters
