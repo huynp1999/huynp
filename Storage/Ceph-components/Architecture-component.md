@@ -10,27 +10,37 @@ Có 2 loại thành phần quan trọng trong một cluster, là OSD daemon và 
 
 ![image](https://user-images.githubusercontent.com/83684068/128685511-f26b234d-96ad-4c5c-87fc-670281812b0c.png)
 
-- **OSD** daemon chịu trách nhiệm cung cấp tới data, số lượng của chúng có thể từ 10 lên tới hàng ngàn trong một cluster.
+1. **OSD daemon:** chịu trách nhiệm cung cấp tới data, số lượng của chúng có thể từ 10 lên tới hàng ngàn trong một cluster.
 OSD cung cấp dịch vụ lưu trữ object tới client, vậy nên khi client yêu cầu truy cập một object, OSD sẽ có trách nhiệm trả về object đó cho client.
 Các OSD cũng có chức năng replicate và recovery với nhau để đảm bảo khả năng chịu lỗi và dữ liệu sẽ luôn được đảm bảo.
 
-- Thành phần quan trọng thứ 2 là **Monitor**, có trách nhiệm duy trì và kiểm soát tình trạng cho cluster. Thường có số lượng lẻ và từ 3 đến 5 monitor trong một cluster.
+![image](https://user-images.githubusercontent.com/83684068/128716151-07579c7b-aaa6-4724-8ed6-974636f0cfac.png)
+
+2. **Monitor:** có trách nhiệm duy trì và kiểm soát tình trạng cho cluster. Thường có số lượng lẻ và từ 3 đến 5 monitor trong một cluster.
 Các monitor dựa vào PASOX để vote và đưa ra quyết định xem một host trong cluster có bị lỗi hay không.
 Như vậy sẽ không cần quá nhiều MON cho việc vote này, cũng như việc có số lượng lẻ sẽ tránh được số lượng vote bằng nhau. Các monitor không lưu trữ và phục vụ dữ liệu tới client.
 
-- Ngoài ra còn có 2 thành phần khác là Manager và Metadata Server.
-  - **Manager** làm nền giám sát chính, nhằm cung cấp hệ thống giám sát và giao diện bổ sung cho các hệ thống quản lý và giám sát bên ngoài.
-  - **Metadata Server** sử dụng MDS daemon để quản lý metadata riêng biệt khỏi data, và daemon này dành cho Ceph Filesystem (CephFS)
+Ngoài ra còn có 2 thành phần khác là **Manager** và **Metadata Server**.
+
+3. **Manager:** làm nền giám sát chính, nhằm cung cấp hệ thống giám sát và giao diện bổ sung cho các hệ thống quản lý và giám sát bên ngoài.
+4. **Metadata Server:** sử dụng MDS daemon để quản lý metadata riêng biệt khỏi data, và daemon này dành riêng cho Ceph Filesystem (CephFS). Dùng để chứa các permission, đường dẫn, thông tin về dữ liệu, v.v
 ## Các thành phần bên trên RADOS
-- Bên trên RADOS, lớp LIBRADOS là thư viện C cho phép ứng dụng làm việc trực tiếp với RADOS.
+1. **LIBRADOS:** là thư viện C cho phép ứng dụng làm việc trực tiếp với RADOS.
 Librados là thư viện cho RADOS, cung cấp các hàm API, giúp ứng dụng tương tác trực tiếp và truy xuất song song vào cluster
 Ứng dụng có thể mở rộng các giao thức của nó để truy cập vào RADOS bằng cách sử dụng librados. Các thư viện tương tự cũng sẵn sàng cho C++, Java, Python, Ruby, PHP.
 librados là nền tảng cho các service giao diện khác chạy bên trên, gồm Ceph Block Device, Ceph Filesystem, Ceph RADOS Gateway. Và cả 3 dịch vụ này đều được lưu trong cùng một cụm lưu trữ.
 
-- Ceph RADOS Gateway: sử dụng RADOS để lưu trữ object 
+2. **Ceph RADOS Gateway:** sử dụng radosgw daemon để tương tác với librgw, và librados như một lớp trung gian để sử dụng RADOS lưu trữ object. Cung cấp RESTful object storage, tương thích với S3 và Swift
 
-![image](https://user-images.githubusercontent.com/83684068/128691134-2e49c5ea-12ad-47a5-9f9a-df882fb7413f.png)
+<img src="https://user-images.githubusercontent.com/83684068/128691134-2e49c5ea-12ad-47a5-9f9a-df882fb7413f.png" alt="drawing" width="550"/>
 
+3. **RADOS Block Device:** là interface dành cho block storage. Tương tự như một một ổ đĩa ảo với khả năng mapped, formated và mounted. Dữ liệu khi được lưu trữ trong RADOS sẽ được RBD bổ ra thành nhiều block và phân tán ra khắp cluster (pool). Và khi muốn truy cập và sử dụng chúng sẽ cần thông qua librbd. Ngoài ra cũng có thể map RBD image như một device trong Linux, vì RBD driver được tích hợp với Linux kenel.
+
+![image](https://user-images.githubusercontent.com/83684068/128717163-bc8e249f-678e-4790-a00f-db8633037fac.png)
+
+4. **Ceph Filesystem:** sử dụng metadata server để quản trị metadata, tách biệt khỏi data ở OSD. Metadata sẽ được lưu trong RADOS và khi một MDS down thì một MDS khác sẽ được up.
+
+<img src="https://user-images.githubusercontent.com/83684068/128718897-99464e7a-a263-4c63-b658-1f415d4b7228.png" alt="drawing" height="350"/>
 
 Ví dụ:
 - Nếu muốn giao tiếp với Ceph cluster sử dụng object thì sẽ cần thông qua Ceph Object Gateway (RADOSGw)
