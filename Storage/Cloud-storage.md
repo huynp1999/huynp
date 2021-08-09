@@ -2,8 +2,6 @@
 Mỗi giải pháp lưu trữ đều đi kèm với ưu và nhược điểm riêng, và việc tìm hiểu là cần thiết để chọn ra một giải pháp phù hợp tuỳ theo các trường hợp sử dụng khác nhau.
 
 ## Object storage - Cloud storage
-![image](https://user-images.githubusercontent.com/83684068/127800228-0f8ea22f-3661-47dd-b36d-13350012cdeb.png)
-
 Loại hình lưu trữ dành cho dữ liệu nhị phân, blob và bất kỳ các loại dữ liệu phi cấu trúc.
 Khi sử dụng kiểu lưu trữ này, các đối tượng dữ liệu được lưu giữ trong một kho lưu trữ duy nhất mà không có cấu trúc phân cấp hoặc lồng nhau.
 
@@ -19,8 +17,6 @@ Một lợi ích khác là khả năng lưu trữ dữ liệu một cách linh h
 Điều này làm cho nó trở thành một lựa chọn tồi cho các ứng dụng hoặc khối lượng công việc yêu cầu độ trễ thấp.
 
 ## File storage
-![image](https://user-images.githubusercontent.com/83684068/127801528-f70f8e32-7ebf-4d1c-a8ca-a830a58a120d.png)
-
 File storage là một phương pháp lưu trữ dữ liệu theo hệ thống phân cấp.
 File storage là phương pháp lưu trữ tiêu chuẩn mà hầu hết người dùng quen thuộc.
 Dữ liệu được lưu trữ ở định dạng giống như dữ liệu được truy xuất.
@@ -38,8 +34,6 @@ File storage phù hợp với mục đích sử dụng văn phòng hoặc thư m
 - **Nhược điểm:** tính linh hoạt thấp và ít tùy biến hơn so với block storage.
 
 ## Block storage
-![image](https://user-images.githubusercontent.com/83684068/127802805-e7c72c6e-fc4b-4c27-9dbf-04dcf7897f79.png)
-
 Block storage là một phương pháp lưu trữ trên thiết bị lưu trữ cấp thấp.
 Các thiết bị block storage được quản lý như một cụm các đơn vị được gọi là khối.
 Trong mỗi khối sẽ lưu trữ một phần của một file. Khối này sau đó được gán một địa chỉ duy nhất, cho phép các file được trải rộng trên nhiều máy để sử dụng lưu trữ hiệu quả hơn.
@@ -52,9 +46,8 @@ Block storage cũng hỗ trợ các loại filesystem bao gồm NTFS, XFS hoặc
 
 - **Nhược điểm:** có thể sẽ không mở rộng được quy mô sau khi đạt đến giới hạn được phân bổ của bộ nhớ
 
-
+# So sánh
 ## File Storage vs Block Storage
-
 
 | File storage | Block storage |
 | --- |:------|
@@ -71,4 +64,3 @@ Block storage cũng hỗ trợ các loại filesystem bao gồm NTFS, XFS hoặc
 |  Mặc dù tínnh linh hoạt và khả năng tùy chỉnh cao hơn, nhưng tốc độ lại chậm hơn vì bất kỳ thay đổi nhỏ đều yêu cầu viết lại toàn bộ object và như vậy sẽ cần làm việc với nhiều đối tượng hơn   |   Tốc độ nhanh hơn vì block storage cho phép sửa đổi tuỳ theo các thành phần của file |
 | Phù hợp với lưu trữ dữ liệu phi cấu trúc, lưu trữ tập dữ liệu lớn và lưu trữ dữ liệu với các chính sách bảo quản, xóa và lưu giữ dữ liệu tùy chỉnh.    | Phù hợp các ứng dụng và quy trình làm việc dựa vào hiệu suất lưu trữ và dữ liệu không yêu cầu phân tích metadata     |
 
-![image](https://user-images.githubusercontent.com/83684068/127823038-1d0b66d4-e215-4f6f-b736-f2454889110a.png)
