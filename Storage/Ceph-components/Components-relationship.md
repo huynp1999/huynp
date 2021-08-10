@@ -33,7 +33,7 @@ librados là nền tảng cho các service giao diện khác chạy bên trên, 
 
 <img src="https://user-images.githubusercontent.com/83684068/128691134-2e49c5ea-12ad-47a5-9f9a-df882fb7413f.png" alt="drawing" width="550"/>
 
-3. **RADOS Block Device ([ceph-rbd](./ceph-rdb)):** là interface dành cho block storage. Tương tự như một một ổ đĩa ảo với khả năng mapped, formated và mounted. Dữ liệu khi được lưu trữ trong RADOS sẽ được RBD bổ ra thành nhiều block và phân tán ra khắp cluster (pool). Và khi muốn truy cập và sử dụng chúng sẽ cần thông qua librbd. Ngoài ra cũng có thể map RBD image như một device trong Linux, vì RBD driver được tích hợp với Linux kenel.
+3. **RADOS Block Device ([ceph-rbd](./ceph-rbd)):** là interface dành cho block storage. Tương tự như một một ổ đĩa ảo với khả năng mapped, formated và mounted. Dữ liệu khi được lưu trữ trong RADOS sẽ được RBD bổ ra thành nhiều block và phân tán ra khắp cluster (pool). Và khi muốn truy cập và sử dụng chúng sẽ cần thông qua librbd. Ngoài ra cũng có thể map RBD image như một device trong Linux, vì RBD driver được tích hợp với Linux kenel.
 
 ![image](https://user-images.githubusercontent.com/83684068/128717163-bc8e249f-678e-4790-a00f-db8633037fac.png)
 
