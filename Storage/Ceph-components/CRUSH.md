@@ -14,6 +14,6 @@ Và như vậy thuật toán CRUSH sẽ dựa trên yêu cầu, tính toán vị
 
 <img src="https://user-images.githubusercontent.com/83684068/128807418-d8a259e0-e00b-4583-a275-0cd5643e3aea.png" alt="drawing" width="550"/>
 
-Trong trường hợp có lỗi xảy trong một node, các monitor sẽ thực hiện vote để xác nhận node này đã bị down ([PASOX](./PASOX.md) và cập nhật cluster map mới. OSD khi nhận diện được sẽ replicate dữ liệu bị mất từ các node còn sống và tái cân bằng lại cluster. 
+Trong trường hợp có lỗi xảy trong một node, các monitor sẽ thực hiện vote để xác nhận node này đã bị down ([PASOX](./PASOX.md)) và cập nhật cluster map mới. OSD khi nhận diện được sẽ replicate dữ liệu bị mất từ các node còn sống và tái cân bằng lại cluster. 
 
 <img src="https://user-images.githubusercontent.com/83684068/128808064-d382ba33-f95c-4aa9-8128-56c6022a71a1.png" alt="drawing" width="550"/>
