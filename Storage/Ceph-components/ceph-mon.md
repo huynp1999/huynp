@@ -4,7 +4,7 @@ Nó hoạt động như các daemon duy trì sự kết nối trong cluster bằ
 Ceph-mon thực hiện điều này bằng cách duy trì các bản sao của cluster map. Các cluster map này bao gồm monitor, OSD, PG, CRUSH và MDS map.
 
 Thông qua việc truy xuất cluster map của một ceph-mon, client có thể xác định vị trí của tất cả các ceph-mon và ceph-osd còn lại.
-Việc kết nối với ceph-mon cũng là cần thiết để client có thể đọc hoặc ghi vào ceph-osd.Từ các bản sao hiện tại của cluster map và thuật toán CRUSH, ứng dụng client có thể tính toán vị trí cho bất kỳ object nào và giao tiếp trực tiếp với ceph-osd đó.
+Việc kết nối với ceph-mon cũng là cần thiết để client có thể đọc hoặc ghi vào ceph-osd. Từ các bản sao hiện tại của cluster map và thuật toán CRUSH, ứng dụng client có thể tính toán vị trí cho bất kỳ object nào và giao tiếp trực tiếp với ceph-osd đó.
 Đây là một tính năng quan trọng liên quan tới hiệu suất và khả năng mở rộng cao của Ceph.
 
 Ngoài ra, ceph-mon cũng cung cấp các dịch vụ xác thực và ghi log.
