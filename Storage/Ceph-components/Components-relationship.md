@@ -1,4 +1,4 @@
-# Tổng quan về các thành phần trong cấu trúc Ceph
+# Liên hệ giữa các thành phần trong Ceph
 
 ![image](https://user-images.githubusercontent.com/83684068/128682228-94beda09-8622-4824-b7a0-711f5f6355e5.png)
 
