@@ -6,11 +6,11 @@ Có thể thấy nằm ở trung tâm là RADOS, giữ vai trò đặc biệt qu
 RADOS cung cấp tất cả các tính năng của Ceph như lưu trữ object phân tán, đảm bảo tính sẵn sàng cao, tin cậy, không có SPOF (Single point of failure), tự sửa lỗi, tự quản lý.
 
 ## Các thành phần bên dưới RADOS
-Có 2 loại thành phần quan trọng trong một RADOS cluster, là OSD daemon và Monitor. 
+Có 2 loại thành phần quan trọng trong một RADOS cluster, là **OSD** và **Monitor**. Ngoài ra còn có 2 thành phần khác là **Manager** mới được phát triển từ bản Luminous và **Metadata Server** dành riêng cho CephFS.
 
 <img src="https://user-images.githubusercontent.com/83684068/128800053-460d6983-b00f-482e-b7ba-4c2a488edc29.png" alt="drawing" width="550"/>
 
-1. **OSD daemon:** chịu trách nhiệm cung cấp tới data, số lượng của chúng có thể từ 10 lên tới hàng ngàn trong một cluster.
+1. **OSD:** chịu trách nhiệm cung cấp tới data, số lượng của chúng có thể từ 10 lên tới hàng ngàn trong một cluster.
 OSD cung cấp dịch vụ lưu trữ object tới client, vậy nên khi client yêu cầu truy cập một object, OSD sẽ có trách nhiệm trả về object đó cho client.
 Các OSD cũng có chức năng replicate và recovery với nhau để đảm bảo khả năng chịu lỗi và dữ liệu sẽ luôn được đảm bảo.
 
@@ -21,15 +21,13 @@ Các OSD cũng có chức năng replicate và recovery với nhau để đảm b
 Các monitor dựa vào PASOX để vote và đưa ra quyết định xem một host trong cluster có bị lỗi hay không.
 Như vậy sẽ không cần quá nhiều MON cho việc vote này, cũng như việc có số lượng lẻ sẽ tránh được số lượng vote bằng nhau. Các monitor không lưu trữ và phục vụ dữ liệu tới client.
 
-Ngoài ra còn có 2 thành phần khác là **Manager** và **Metadata Server**.
-
 3. **Manager:** làm nền giám sát chính, nhằm cung cấp hệ thống giám sát và giao diện bổ sung cho các hệ thống quản lý và giám sát bên ngoài.
 4. **Metadata Server:** sử dụng MDS daemon để quản lý metadata riêng biệt khỏi data, và daemon này dành riêng cho Ceph Filesystem (CephFS). Dùng để chứa các permission, đường dẫn, thông tin về dữ liệu, v.v
 ## Các thành phần bên trên RADOS
 1. **LIBRADOS:** là thư viện C cho phép ứng dụng làm việc trực tiếp với RADOS.
 Librados là thư viện cho RADOS, cung cấp các hàm API, giúp ứng dụng tương tác trực tiếp và truy xuất song song vào cluster
 Ứng dụng có thể mở rộng các giao thức của nó để truy cập vào RADOS bằng cách sử dụng librados. Các thư viện tương tự cũng sẵn sàng cho C++, Java, Python, Ruby, PHP.
-librados là nền tảng cho các service giao diện khác chạy bên trên, gồm Ceph Block Device, Ceph Filesystem, Ceph RADOS Gateway. Và cả 3 dịch vụ này đều được lưu trong cùng một cụm lưu trữ.
+librados là nền tảng cho các service giao diện khác chạy bên trên, gồm **Ceph RADOS Gateway**, **Ceph Block Device** và **Ceph Filesystem**. Cả 3 dịch vụ này đều có thể được lưu trong cùng một cụm lưu trữ.
 
 2. **Ceph RADOS Gateway:** sử dụng radosgw daemon để tương tác với librgw, và librados như một lớp trung gian để sử dụng RADOS lưu trữ object. Cung cấp RESTful object storage, tương thích với S3 và Swift.
 
