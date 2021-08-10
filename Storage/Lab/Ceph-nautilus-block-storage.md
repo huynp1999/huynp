@@ -49,7 +49,7 @@ Khai báo tên của pool block storage là `rbdpool1` để client sử dụng.
     
     $ rbd pool init rbdpool1
 
-Kiểm tra các pool
+Kiểm tra xem pool đã được tạo thành công chưa, còn lại là default pool của radosgw
 
     $ ceph osd pool ls
     .rgw.root
