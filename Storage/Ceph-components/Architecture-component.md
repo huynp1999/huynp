@@ -6,15 +6,16 @@ Có thể thấy nằm ở trung tâm là RADOS, giữ vai trò đặc biệt qu
 RADOS cung cấp tất cả các tính năng của Ceph như lưu trữ object phân tán, đảm bảo tính sẵn sàng cao, tin cậy, không có SPOF (Single point of failure), tự sửa lỗi, tự quản lý.
 
 ## Các thành phần bên dưới RADOS
-Có 2 loại thành phần quan trọng trong một cluster, là OSD daemon và Monitor. 
+Có 2 loại thành phần quan trọng trong một RADOS cluster, là OSD daemon và Monitor. 
 
-![image](https://user-images.githubusercontent.com/83684068/128685511-f26b234d-96ad-4c5c-87fc-670281812b0c.png)
+<img src="https://user-images.githubusercontent.com/83684068/128800053-460d6983-b00f-482e-b7ba-4c2a488edc29.png" alt="drawing" width="550"/>
 
 1. **OSD daemon:** chịu trách nhiệm cung cấp tới data, số lượng của chúng có thể từ 10 lên tới hàng ngàn trong một cluster.
 OSD cung cấp dịch vụ lưu trữ object tới client, vậy nên khi client yêu cầu truy cập một object, OSD sẽ có trách nhiệm trả về object đó cho client.
 Các OSD cũng có chức năng replicate và recovery với nhau để đảm bảo khả năng chịu lỗi và dữ liệu sẽ luôn được đảm bảo.
 
-![image](https://user-images.githubusercontent.com/83684068/128716151-07579c7b-aaa6-4724-8ed6-974636f0cfac.png)
+- Ceph OSD gồm 1 ổ cứng vật lý, được format theo 3 loại Linux filesystem bao gồm Btrfs, XFS, hoặc ext4. Và cuối cùng là Ceph OSD Service.
+<img src="https://user-images.githubusercontent.com/83684068/128716151-07579c7b-aaa6-4724-8ed6-974636f0cfac.png" alt="drawing" width="550"/>
 
 2. **Monitor:** có trách nhiệm duy trì và kiểm soát tình trạng cho cluster. Thường có số lượng lẻ và từ 3 đến 5 monitor trong một cluster.
 Các monitor dựa vào PASOX để vote và đưa ra quyết định xem một host trong cluster có bị lỗi hay không.
