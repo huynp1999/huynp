@@ -31,7 +31,7 @@ Librados là thư viện cho RADOS, cung cấp các hàm API, giúp ứng dụng
 Ứng dụng có thể mở rộng các giao thức của nó để truy cập vào RADOS bằng cách sử dụng librados. Các thư viện tương tự cũng sẵn sàng cho C++, Java, Python, Ruby, PHP.
 librados là nền tảng cho các service giao diện khác chạy bên trên, gồm Ceph Block Device, Ceph Filesystem, Ceph RADOS Gateway. Và cả 3 dịch vụ này đều được lưu trong cùng một cụm lưu trữ.
 
-2. **Ceph RADOS Gateway:** sử dụng radosgw daemon để tương tác với librgw, và librados như một lớp trung gian để sử dụng RADOS lưu trữ object. Cung cấp RESTful object storage, tương thích với S3 và Swift
+2. **Ceph RADOS Gateway:** sử dụng radosgw daemon để tương tác với librgw, và librados như một lớp trung gian để sử dụng RADOS lưu trữ object. Cung cấp RESTful object storage, tương thích với S3 và Swift.
 
 <img src="https://user-images.githubusercontent.com/83684068/128691134-2e49c5ea-12ad-47a5-9f9a-df882fb7413f.png" alt="drawing" width="550"/>
 
