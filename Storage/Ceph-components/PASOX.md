@@ -19,8 +19,8 @@ Cụ thể hơn, ví dụ có 3 node monitor trong đó node 1 sẽ đóng vai t
 Pha 1, chuẩn bị:
 - proposer: chọn một số duy nhất và quảng bá yêu cầu với nhãn N chuẩn bị cho acceptors.
 - acceptor: Khi một acceptor nhận một yêu cầu chuẩn bị với nhãn N sẽ xảy ra 2 trường hợp
-  - ACK: acceptor sẽ bỏ qua nếu nó đã nhận được yêu cầu chuẩn bị với nhãn cao hơn.
-  - NACK: Ngược lại, acceptor sẽ chấp nhận đề xuất và không không nhận bất kỳ yêu cầu nào có nhãn thấp hơn kể từ bây giờ.
+  - NACK: acceptor sẽ bỏ qua nếu nó đã nhận được yêu cầu chuẩn bị với nhãn cao hơn.
+  - ACK: Ngược lại, acceptor sẽ chấp nhận đề xuất và không không nhận bất kỳ yêu cầu nào có nhãn thấp hơn kể từ bây giờ.
 
 Pha 2, đồng ý:
 
