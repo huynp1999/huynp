@@ -8,3 +8,23 @@ Có 3 role mà các tiến trình (process) có thể có:
 - `proposer`: là process đề xuất các giá trị. Đa số thời gian, chỉ có một process đóng vai trò `proposer`, như vậy cũng được gọi là leader
 - `acceptor`: `acceptor` có thể accept các giá trị đề xuất. Một tập hợp các acceptor được gọi là quorum. Khi một đề xuất đã được chấp nhận bởi quorum, có nghĩa là đề xuất này đã được chọn.
 - `learner`: sau khi đề xuất được chọn, `proposer` thông báo giá trị đến xuất đến cho các process, các process đó được gọi là `learner`.
+
+## Giải quyết với 3 node
+Các giá trị đề xuất đều có một nhãn `N` duy nhất, nhãn là các số tự nhiên được sử dụng để sắp xếp các đề xuất.
+
+Cụ thể hơn, ví dụ có 3 node monitor trong đó node 1 sẽ đóng vai trò làm proposer đề xuất việc "OSD_1 đã bị down" với giá trị đại diện N=42, 2 node còn lại đóng vai trò acceptor:
+
+![image](https://user-images.githubusercontent.com/83684068/128969421-5f1ec787-2ea7-4811-a9ff-fdc763822b9f.png)
+
+Pha 1, chuẩn bị:
+- proposer: chọn một số duy nhất và quảng bá yêu cầu với nhãn N chuẩn bị cho acceptors.
+- acceptor: Khi một acceptor nhận một yêu cầu chuẩn bị với nhãn N sẽ xảy ra 2 trường hợp
+  - ACK: acceptor sẽ bỏ qua nếu nó đã nhận được yêu cầu chuẩn bị với nhãn cao hơn.
+  - NACK: Ngược lại, acceptor sẽ chấp nhận đề xuất và không không nhận bất kỳ yêu cầu nào có nhãn thấp hơn kể từ bây giờ.
+
+Pha 2, đồng ý:
+
+Trong pha này có 3 trường hợp xảy ra:
+- 2 acceptor đều đồng ý: khi cả 2 acceptor đều đồng ý nhận đề xuất, proposer để đưa ra để xuất và cả 3 node cùng thống nhất "OSD_1 đã bị down"
+- 1 acceptor đồng ý: ví dụ node 3 từ chối đề xuất, lúc này chỉ còn 2 acceptor là node 1 và node 2 (bản thân prososer cũng chính là 1 acceptor), và do có số vote đồng thuận cao hơn (2>1) nên đề xuất vẫn được thông qua "OSD_1 đã bị down"
+- 0 acceptor đồng ý: khi cả node 2 và 3 đều từ chối đề xuất, số vote không đồng thuận lúc này là 2 > 1 đồng thuận (của node 1). Và như vậy, đề xuất không được thông qua, OSD_1 vẫn đang up
