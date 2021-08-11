@@ -30,7 +30,6 @@ Ceph-mon tận dụng snapshot và trình vòng lặp để thực hiện đồn
 - **OSD map**: map này lưu giữ các trường như cluster ID, epoch cho việc tạo map OSD và lần sửa đổi cuối và thông tin liên quan đến pool như tên, ID, loại, mức nhân bản và PG. Nó cũng lưu các thông tin OSD như tình trạng, trọng số, thông tin host OSD. Kiểm tra OSD map:
 
       # ceph osd dump
-      
       epoch 72
       fsid 523677df-def2-4a84-90d2-9910ed6233f2
       created 2021-08-06 03:40:53.857657
