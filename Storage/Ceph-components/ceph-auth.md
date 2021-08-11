@@ -27,16 +27,16 @@ Users yêu cầu ceph client liên hệ với một monitor.  Mỗi monitor đ�
 
 
 
-- Thứ tự các bước như sau:
-- 1. Một user muốn sử dụng dịch vụ lưu trữ ceph sẽ gửi một yêu cầu tạo user cho người quản trị
-- 2. admin của hệ thống ceph, là client.admin user, sử dụng lệnh đề tạo user trên hệ thống.
-- 3. Khi admin gọi lệnh tạo user, monitor sẽ tạo ra một secret key. Key này sẽ được monitor lưu lại, sau đó chuyển key này về cho admin và đồng thời chia sẽ cho các daemon trong hệ thống. Định dạng key như sau
+Thứ tự các bước:
+1. Một user muốn sử dụng dịch vụ lưu trữ ceph sẽ gửi một yêu cầu tạo user cho người quản trị
+2. admin của hệ thống ceph, là client.admin user, sử dụng lệnh đề tạo user trên hệ thống.
+3. Khi admin gọi lệnh tạo user, monitor sẽ tạo ra một secret key. Key này sẽ được monitor lưu lại, sau đó chuyển key này về cho admin và đồng thời chia sẽ cho các daemon trong hệ thống. Định dạng key như sau
 
 ```sh
 [client.user1]
 key = AQAxTExa7LLVCxAAciEex6+YOOoneg5y7i822g==
 ```
 
-- 4. admin nhận được key sẽ phải xuất ra dạng file để chuyển key này cho user (người yêu cầu sử dụng dịch vụ).
-- 5. user sẽ sự dụng key này để tương tác với hệ thống. User được sử dụng những quyền gì trong hệ thống sẽ do admin cấp phát.
+4. admin nhận được key sẽ phải xuất ra dạng file để chuyển key này cho user (người yêu cầu sử dụng dịch vụ).
+5. user sẽ sự dụng key này để tương tác với hệ thống. User được sử dụng những quyền gì trong hệ thống sẽ do admin cấp phát.
 
