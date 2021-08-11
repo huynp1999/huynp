@@ -1,11 +1,9 @@
 # Ceph authentication.
-- Ceph là một hệ thống lưu trữ phân tán. Trên đó được cài đặt các daemon monitors, metadata server (MDs), và OSD. Các daemon được triển khai trên nhiều server. Ceph clients như là CephFS, Ceph Block device, và Ceph Gateway tương tác với Ceph object store. Tất cả Ceph object store clients sử dụng thư viện `librados` để tương tác với ceph object store. Hình sau đây minh họa cho tổ chức stack của ceph
-- Người dùng, có thể là end user hoặc là dịch vụ hệ thống như là các ứng dụng, sử dụng Ceph clients để tương tác với các Ceph server daemon.
+Client trong Ceph có thể hiểu là end-user, admin hoặc các dịch vụ / daemon liên quan đến Ceph, ví dụ OSD, monitor hoặc Object Gateways. Và để xác định chính xác client cũng như tránh khỏi can thiệp từ các bên thứ 3, Ceph cung cấp hệ thống xác thực tên `cephx`. 
 
-## Ceph authentication
-Xác thực mật mã mất vài chi phí cho việc tính toán, tuy nhiên chúng khá là thấp. Nếu môi trường kết nối mạng giữa client và server trong cluster của bạn rất an toàn và bạn không cho xác thực thì bạn có thể sử dụng tùy chọn để tắt cơ chế xác thực. Việc làm này không được khuyến khích.
+Xác thực mật mã sẽ yêu cầu tài nguyên cho việc tính toán, tuy nhiên ở mức độ thấp và không ảnh hưởng tới hiệu suất chung. Nếu môi trường kết nối mạng giữa client và server trong cluster đủ an toàn thì cũng có tùy chọn tắt cơ chế xác thực. Tuy nhiên việc này không được khuyến khích.
 
-Ceph tránh việc tập trung interface tới ceph object store, có nghĩa là ceph clients phải được tương tác trực tiếp với OSDs. Để bảo vệ dữ liệu, ceph cung cấp một hệ thống xác thực `cephx`, hệ thống để các thực users.
+Ceph tránh việc phụ thuộc quá nhiều tới interface của Ceph Object Store, có nghĩa là ceph clients phải được tương tác trực tiếp với OSDs. Để bảo vệ dữ liệu, ceph cung cấp một hệ thống xác thực `cephx`, hệ thống để các thực users.
 
 Users yêu cầu ceph client liên hệ với một monitor.  Mỗi monitor đều có khả năng xác thực người dùng và phân phối key, do vậy không có "single point of failure" hoặc bottleneck khi sử dụng cephx. Monitor trả về một bộ dữ liệu xác thực gọi là ticket chứa session key để sử dụng các service của ceph. Session key được mã hóa với các tham số bí mật của user, do vậy chỉ có user mới có thể yêu cầu dịch vụ từ ceph monitor. Client sử dụng session key này để yêu cầu dịch vụ từ monitor, và monitor cung cấp cho user một ticket, ticket này sẽ xác thực người dùng để sử dụng osd. Monitor và osd chia sẻ một bí mật, do đó client có thể sử dụng ticket đã được monitor cung cấp với bất kỳ osd hay là mds. Ticket này có giới hạn thời gian.
 
@@ -21,7 +19,7 @@ Users yêu cầu ceph client liên hệ với một monitor.  Mỗi monitor đ�
 
 - Giao thức xác thực cephx truyền thông giữa client và ceph server. Mỗi thông điệp được gửi giữa client và server được ký bởi ticket mà các monitor, OSD, MDS có thể xác thực bằng key chia sẻ:
 
-
+![image](https://user-images.githubusercontent.com/83684068/129059709-595b5a64-4da3-4a21-a4b8-61c6fc4035be.png)
 
 - Toàn bộ quá trình được mô tả trong hình sau:
 
