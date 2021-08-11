@@ -14,25 +14,61 @@ Ceph-mon tận dụng snapshot và trình vòng lặp để thực hiện đồn
 <img src="https://user-images.githubusercontent.com/83684068/128659461-df3007a9-2fb3-45ad-9548-e24a5c827135.png" alt="drawing" width="600"/>
 
 ## Cluster map
-- **Monitor map**: map này lưu giữ thông tin về các node monitor, gồm CEPH Cluster ID, monitor hostname, địa chỉ IP và số port. Nó cũng giữ epoch (phiên bản map tại một thời điểm) hiện tại để tạo map và thông tin về lần thay đổi map cuối cùng. Kiểm tra monitor map:
+- **Monitor map**: map này lưu giữ thông tin về các node monitor, theo thứ tự gồm: epoch là phiên bản map tại một thời điểm (ví dụ thêm hoặc bớt monitor sẽ +1 epoch), CEPH Cluster ID, lần sửa đổi cuối cùng, thời gian tạo, phiên bản của ceph, hostname các node kèm địa chỉ IP và số port. Kiểm tra monitor map:
 
-      ceph mon dump
+      # ceph mon dump
+      epoch 2                                                           #phiên bản map tại một thời điểm (ví dụ thêm hoặc bớt monitor sẽ +1 epoch)
+      fsid 523677df-def2-4a84-90d2-9910ed6233f2                         #CEPH Cluster ID
+      last_changed 2021-08-06 03:40:58.354095                           #lần sửa đổi cuối cùng
+      created 2021-08-06 03:40:34.970660                                #thời gian tạo mon
+      min_mon_release 14 (nautilus)                                     #phiên bản của ceph
+      0: [v2:10.10.10.21:3300/0,v1:10.10.10.21:6789/0] mon.ceph01       #hostname các node kèm địa chỉ IP và số port
+      1: [v2:10.10.10.22:3300/0,v1:10.10.10.22:6789/0] mon.ceph02
+      2: [v2:10.10.10.23:3300/0,v1:10.10.10.23:6789/0] mon.ceph03
+      dumped monmap epoch 2
 
-- **OSD map**: map này lưu giữ các trường như cluster ID, epoch cho việc tạo map OSD và lần thay đổi cuối., và thông tin liên quan đến pool như tên, ID, loại, mức nhân bản và PG. Nó cũng lưu các thông tin OSD như tình trạng, trọng số, thông tin host OSD. Kiểm tra OSD map:
+- **OSD map**: map này lưu giữ các trường như cluster ID, epoch cho việc tạo map OSD và lần sửa đổi cuối và thông tin liên quan đến pool như tên, ID, loại, mức nhân bản và PG. Nó cũng lưu các thông tin OSD như tình trạng, trọng số, thông tin host OSD. Kiểm tra OSD map:
 
-      ceph osd dump
+      # ceph osd dump
+      
+      epoch 72
+      fsid 523677df-def2-4a84-90d2-9910ed6233f2
+      created 2021-08-06 03:40:53.857657
+      modified 2021-08-11 02:26:14.090777
+      flags sortbitwise,recovery_deletes,purged_snapdirs,pglog_hardlimit
+      crush_version 13
+      full_ratio 0.95                                                       #các mức cảnh báo đầy bộ nhớ
+      backfillfull_ratio 0.9                                                #ví dụ như khi dung lượng đạt 85% thì sẽ warning gần đầy bộ nhớ, 95% sẽ báo hết bộ nhớ trống
+      nearfull_ratio 0.85
+      require_min_compat_client jewel                                       #yêu cầu client phải sử dụng từ phiên bản ceph jewel trở lên
+      min_compat_client jewel
+      require_osd_release nautilus
+      pool 1 '.rgw.root' replicated size 3 min_size 1 crush_rule 0 object_hash rjenkins pg_num 32 pgp_num 32 autoscale_mode warn last_change 28 flags hashpspool stripe_width 0 application rgw
+      pool 2 'default.rgw.control' replicated size 3 min_size 1 crush_rule 0 object_hash rjenkins pg_num 32 pgp_num 32 autoscale_mode warn last_change 30 flags hashpspool stripe_width 0 application rgw
+      pool 3 'default.rgw.meta' replicated size 3 min_size 1 crush_rule 0 object_hash rjenkins pg_num 32 pgp_num 32 autoscale_mode warn last_change 32 flags hashpspool stripe_width 0 application rgw
+      pool 4 'default.rgw.log' replicated size 3 min_size 1 crush_rule 0 object_hash rjenkins pg_num 32 pgp_num 32 autoscale_mode warn last_change 34 flags hashpspool stripe_width 0 application rgw
+      pool 5 'rbd' replicated size 3 min_size 1 crush_rule 0 object_hash rjenkins pg_num 128 pgp_num 128 autoscale_mode warn last_change 45 flags hashpspool,selfmanaged_snaps stripe_width 0 application rbd
+              removed_snaps [1~3]
+      pool 6 'rbdpool1' replicated size 3 min_size 1 crush_rule 0 object_hash rjenkins pg_num 128 pgp_num 128 autoscale_mode warn last_change 52 flags hashpspool,selfmanaged_snaps stripe_width 0 application rbd
+              removed_snaps [1~3]
+      max_osd 6
+      osd.0 up   in  weight 1 up_from 70 up_thru 71 down_at 69 last_clean_interval [61,68) [v2:10.10.10.21:6804/1849,v1:10.10.10.21:6805/1849] [v2:10.10.11.21:6804/1849,v1:10.10.11.21:6805/1849] exists,up 26f73ff2-5461-42c9-b70a-3e6e38b6a785
+      osd.1 up   in  weight 1 up_from 70 up_thru 71 down_at 69 last_clean_interval [58,68) [v2:10.10.10.21:6800/1851,v1:10.10.10.21:6801/1851] [v2:10.10.11.21:6800/1851,v1:10.10.11.21:6801/1851] exists,up 2135b85a-cb38-4275-a249-0d883c4acd48
+      ...
+      ...
+      
 
 - **PG map**: map này lưu giữ các phiên bản của PG (thành phần quản lý các object trong ceph), timestamp, bản OSD map cuối cùng, tỉ lệ đầy và gần đầy dung lượng. Nó cũng lưu các ID của PG, object count, tình trạng hoạt động và srub (hoạt động kiểm tra tính nhất quán của dữ liệu lưu trữ). Kiểm tra PG map:
 
-      ceph pg dump
+      # ceph pg dump
 
 - **CRUSH map**: map này lưu các thông tin của các thiết bị lưu trữ trong Cluster, các rule cho tưng vùng lưu trữ. Kiểm tra CRUSH map bằng lệnh:
 
-      ceph osd crush dump
+      # ceph osd crush dump
 
 - **MDS map**: lưu thông tin về thời gian tạo và chỉnh sửa, dữ liệu và metadata pool ID, cluster MDS count, tình trạng hoạt động của MDS, epoch của MDS map hiện tại. Kiểm tra MDS map:
 
-      ceph mds dump
+      #  ceph mds dump
 
 ## Vai trò
 Vai trò của monitor là cập nhật cluster map tới client cũng như các node trong cluster, chứ không phải lưu và phục vụ dữ liệu tới client.
