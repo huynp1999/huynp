@@ -83,7 +83,15 @@ Tạo key
 Cập nhật permission key đã có sẵn
 
     ceph auth caps {key-name} mon {permission} osd {permission} mds {permission}
+    
+    ceph auth caps client.user1 mon 'allow rw' osd 'allow r pool=prague'
+    
+Xoá caps
 
-Xóa key
+    ceph auth caps client.user1 mon ' ' osd ' '
+
+Xóa user, có thể là client, osd, mon, hoặc ID của daemon
  
-    ceph auth delete {key-name}
+    ceph auth delete {user}
+    
+    
