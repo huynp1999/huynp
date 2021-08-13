@@ -40,3 +40,55 @@ BlueStore ghi trực tiếp object lên thiết bị vật lý và quản lý me
 <img src="https://user-images.githubusercontent.com/83684068/128850502-93d7f9f9-1747-4c6e-83d8-1cb718249d5c.png" alt="drawing" width="750"/>
 
 **Điểm khác biệt chính** giữa 2 loại module là với FileStore, object phải ghi 2 lần: 1 lần vào journal và 1 lần vào disk. Đối với BlueStore ghi trực tiếp object lên disk và quá trình quản lý metadata cũng được tối giản hơn khi so với Filestore.
+
+# Kiểm tra kết nối giữa các OSD
+Có thể thấy các OSD của node ceph01 lăng nghe theo 8 port từ 6800 đến 6807, tức 4 port cho mỗi osd.0 và osd.1
+
+    root@ceph01:~# netstat -nlp | grep ceph
+    tcp        0      0 10.10.11.21:6807        0.0.0.0:*               LISTEN      1834/ceph-osd
+    tcp        0      0 10.10.10.21:6807        0.0.0.0:*               LISTEN      1834/ceph-osd
+    tcp        0      0 10.10.11.21:6800        0.0.0.0:*               LISTEN      1833/ceph-osd
+    tcp        0      0 10.10.10.21:6800        0.0.0.0:*               LISTEN      1833/ceph-osd
+    tcp        0      0 10.10.11.21:6801        0.0.0.0:*               LISTEN      1833/ceph-osd
+    tcp        0      0 10.10.10.21:6801        0.0.0.0:*               LISTEN      1833/ceph-osd
+    tcp        0      0 10.10.11.21:6802        0.0.0.0:*               LISTEN      1833/ceph-osd
+    tcp        0      0 10.10.10.21:6802        0.0.0.0:*               LISTEN      1833/ceph-osd
+    tcp        0      0 10.10.11.21:6803        0.0.0.0:*               LISTEN      1833/ceph-osd
+    tcp        0      0 10.10.10.21:6803        0.0.0.0:*               LISTEN      1833/ceph-osd
+    tcp        0      0 10.10.11.21:6804        0.0.0.0:*               LISTEN      1834/ceph-osd
+    tcp        0      0 10.10.10.21:6804        0.0.0.0:*               LISTEN      1834/ceph-osd
+    tcp        0      0 10.10.11.21:6805        0.0.0.0:*               LISTEN      1834/ceph-osd
+    tcp        0      0 10.10.10.21:6805        0.0.0.0:*               LISTEN      1834/ceph-osd
+    tcp        0      0 10.10.11.21:6806        0.0.0.0:*               LISTEN      1834/ceph-osd
+    tcp        0      0 10.10.10.21:6806        0.0.0.0:*               LISTEN      1834/ceph-osd
+    tcp6       0      0 :::8443                 :::*                    LISTEN      1103/ceph-mgr
+    unix  2      [ ACC ]     STREAM     LISTENING     30292    1029/ceph-mon        /var/run/ceph/ceph-mon.ceph01.asok
+    unix  2      [ ACC ]     STREAM     LISTENING     33901    1103/ceph-mgr        /var/run/ceph/ceph-mgr.ceph01.asok
+    unix  2      [ ACC ]     STREAM     LISTENING     33920    1834/ceph-osd        /var/run/ceph/ceph-osd.0.asok
+    unix  2      [ ACC ]     STREAM     LISTENING     33925    1833/ceph-osd        /var/run/ceph/ceph-osd.1.asok
+
+Kiểm tra tại node ceph02 thì có thể thấy các port của osd.0 và osd.1 đã được thiết lập thành công
+
+    root@ceph02:~# netstat -a | grep ceph01
+    tcp        0      0 ceph02:34190            ceph01:6808             ESTABLISHED
+    tcp        0      0 ceph02:46662            ceph01:6800             ESTABLISHED
+    tcp        0      0 ceph02:34198            ceph01:6808             ESTABLISHED
+    tcp        0      0 ceph02:46598            ceph01:6800             ESTABLISHED
+    tcp        0      0 ceph02:6806             ceph01:47740            ESTABLISHED
+    tcp        0      0 ceph02:3300             ceph01:39372            ESTABLISHED
+    tcp        0      0 ceph02:6802             ceph01:41282            ESTABLISHED
+    tcp        0      0 ceph02:6802             ceph01:41328            ESTABLISHED
+    tcp        0      0 ceph02:34192            ceph01:6808             ESTABLISHED
+    tcp        0      0 ceph02:6800             ceph01:42020            ESTABLISHED
+    tcp        0      0 ceph02:6806             ceph01:47684            ESTABLISHED
+    tcp        0      0 ceph02:3300             ceph01:39586            ESTABLISHED
+    tcp        0      0 ceph02:37310            ceph01:6802             ESTABLISHED
+    tcp        0      0 ceph02:34194            ceph01:6808             ESTABLISHED
+    tcp        0      0 ceph02:46976            ceph01:3300             ESTABLISHED
+    tcp        0      0 ceph02:6804             ceph01:41894            ESTABLISHED
+    tcp        0      0 ceph02:58576            ceph01:6804             ESTABLISHED
+    tcp        0      0 ceph02:58558            ceph01:6804             ESTABLISHED
+    tcp        0      0 ceph02:49590            ceph01:6806             ESTABLISHED
+    tcp        0      0 ceph02:49592            ceph01:6806             ESTABLISHED
+    tcp        0      0 ceph02:34196            ceph01:6808             ESTABLISHED
+    tcp        0      0 ceph02:37282            ceph01:6802             ESTABLISHED
