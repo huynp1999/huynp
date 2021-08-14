@@ -11,9 +11,25 @@ BlueStore ghi trực tiếp object lên thiết bị vật lý và quản lý me
 
 <img src="https://user-images.githubusercontent.com/83684068/128850502-93d7f9f9-1747-4c6e-83d8-1cb718249d5c.png" alt="drawing" width="750"/>
 
+Trong trường hợp đơn giản nhất, BlueStore sử dụng một thiết bị lưu trữ duy nhất hay còn gọi là thiết bị chính. Thiết bị lưu trữ sẽ được chiếm dụng toàn bộ và quản lý trực tiếp bởi BlueStore. Thiết bị này thường được xác định bởi một block symlink trong thư mục dữ liệu.
 
+Thư mục dữ liệu là một `tmpfs` mount để đặt với tất cả các thông tin cần thiết về OSD như: mã định danh của nó, thuộc về cluster nào và private keyring.
 
+Cũng có thể triển khai BlueStore trên một hoặc hai thiết bị bổ sung:
 
+- **Write-Ahead Log (WAL) device:** Được xác định là block.wal trong thư mục dữ liệu. Có thể sử dụng cho write-ahead log hoặc internal journal cho BlueStore. WAL device chỉ hữu ích khi nó nhanh hơn thiết bị chính (ví dụ khi thiết bị này nằm trên SSD còn thiết bị chính nằm trên HDD).
+
+- **DB device:** Được xác định là block.db trong thư mục dữ liệu. Có thể được sử dụng để lưu trữ internal metadata cho BlueStore. BlueStore (hay đúng hơn là RocksDB) sẽ đặt càng nhiều metadata càng tốt vào thiết bị DB để cải thiện hiệu suất cho thiết bị chính. Nếu thiết bị DB đầy, metadata sẽ tràn trở lại thiết bị chính. Và tương tự như WAL, DB device chỉ hữu ích nếu nó nhanh hơn thiết bị chính.
+
+Một thiết bị có thể triển khai Bluestore OSD bởi câu lệnh
+
+    ceph-volume lvm prepare --bluestore --data /path/to/device
+
+`block.db` và `block.wal` là optional trong bluestore, chúng có thể được chỉ định bằng `--block.db` và `--block.wal`
+
+Nếu logical volume đã được tạo sẵn (LV đơn và sử dụng 100% thiết bị) thì cũng có thể triển khai
+
+    ceph-volume lvm create --bluestore --data ceph-vg/lv
 
 ## FileStore
 Trong FileStore, các object được lưu với một file riêng lẻ.
@@ -28,28 +44,5 @@ Và trong FileStore, transaction sẽ được chia thành data và metadata. Da
 
 
 **Điểm khác biệt chính** giữa 2 loại module là với FileStore, object phải ghi 2 lần: 1 lần vào journal và 1 lần vào disk. Đối với BlueStore ghi trực tiếp object lên disk và quá trình quản lý metadata cũng được tối giản hơn khi so với Filestore.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
