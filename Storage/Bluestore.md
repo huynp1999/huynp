@@ -5,13 +5,17 @@ Trong ceph osd daemon có một module quan trọng được gọi là ObjectSto
 
 Đối với Ceph có 2 loại backend FileStore và BlueStore. Ngoài ra còn có KStore được thử nghiệm trong phiên bản Jewel nhưng đã không còn sử dụng.
 
-## BlueStore
+# BlueStore
 Được sử dụng từ bản Luminous. BlueStore ra đời để tránh các hạn chế của FileStore.
 BlueStore ghi trực tiếp object lên thiết bị vật lý và quản lý metada bằng RocksDB. RocksDB sử dụng một filesystem gọn nhẹ và tối giản tên là BlueFS
 
 <img src="https://user-images.githubusercontent.com/83684068/128850502-93d7f9f9-1747-4c6e-83d8-1cb718249d5c.png" alt="drawing" width="750"/>
 
-Trong trường hợp đơn giản nhất, BlueStore sử dụng một thiết bị lưu trữ duy nhất hay còn gọi là thiết bị chính. Thiết bị lưu trữ sẽ được chiếm dụng toàn bộ và quản lý trực tiếp bởi BlueStore. Thiết bị này thường được xác định bởi một block symlink trong thư mục dữ liệu.
+Trong trường hợp đơn giản nhất, BlueStore sử dụng một thiết bị lưu trữ duy nhất hay còn gọi là thiết bị chính. Thiết bị này sẽ áp dụng toàn bộ dung lượng lưu trữ của nó và được quản lý trực tiếp bởi BlueStore. Thiết bị này thường được xác định bởi một `block` symlink trong thư mục dữ liệu.
+
+```
+#
+```
 
 Thư mục dữ liệu là một `tmpfs` mount để đặt với tất cả các thông tin cần thiết về OSD như: mã định danh của nó, thuộc về cluster nào và private keyring.
 
@@ -23,7 +27,7 @@ Cũng có thể triển khai BlueStore trên một hoặc hai thiết bị bổ 
 
 Một thiết bị có thể triển khai Bluestore OSD bởi câu lệnh
 
-    ceph-volume lvm prepare --bluestore --data /path/to/device
+    ceph-volume lvm create --bluestore --data /path/to/device
 
 `block.db` và `block.wal` là optional trong bluestore, chúng có thể được chỉ định bằng `--block.db` và `--block.wal`
 
@@ -31,7 +35,27 @@ Nếu logical volume đã được tạo sẵn (LV đơn và sử dụng 100% th
 
     ceph-volume lvm create --bluestore --data ceph-vg/lv
 
-## FileStore
+Câu lệnh `create` trên sẽ thêm những LVM tag sau:
+
+- cluster_fsid
+- data_device
+- journal_device
+- encrypted
+- osd_fsid
+- osd_id
+- journal_uuid
+
+Quy trình thực hiện của câu lệnh `create`
+
+- Xác nhận volume hoặc device dành cho data và journal
+- Tạo UUID cho OSD
+- Yêu cầu Ceph Monitor nhận dạng OSD bằng UUID đã được tạo
+- Tạo thư mục dữ liệu OSD và mount data volume
+- Journal được symlink từ data volume đến vị trí dành cho journal
+- Kích hoạt `monmap`
+- Thiết bị được mount và thư mục dữ liệu được liên kết bởi ceph-osd
+- Gán LVM tag cho data và journal của OSD
+# FileStore
 Trong FileStore, các object được lưu với một file riêng lẻ.
 Sử dụng FileStore, ceph yêu cầu sử dụng journal bên ngoài để đảm bảo tính nhất quán.
 - Ceph đảm bảo tính nhất quán cao giữa các bản sao dữ liệu, tất cả các thao tác ghi được xem như đơn vị transaction.
