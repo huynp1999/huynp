@@ -61,17 +61,17 @@ Quy trình thực hiện của câu lệnh `create` bao gồm 2 phần là prepa
 7. Thiết bị được mount và thư mục dữ liệu được liên kết bởi ceph-osd
 8. Gán LVM tag cho data và journal của OSD
 
-Những LVM tag sau sẽ được thêm vào:
+Với backend là Bluestore thì những LVM tag sau sẽ được thêm vào:
 
+- block_device
+- block_uuid
 - cluster_fsid
-- data_device
-- journal_device
-- encrypted
+- 
 - osd_fsid
 - osd_id
-- journal_uuid
+- type
 
-Có thể check những LVM tag bằng câu lệnh `ceph-volume lvm list`
+Có thể check những LVM tag bằng câu lệnh `ceph-volume lvm list`. Các tham số này bao gồm `volume group/logical volume` của block device, cùng các uuid (id nhận dạng duy nhất) của block, cluster và osd. `encrypted` bằng 1 nếu sử dụng option mã hoá `--dmcrypt` khi tạo OSD, và `cephx lockbox secret` là nơi chứa auth key để xác thực cho `dmcrypt_key` trong việc mở khoá thiết bị mã hoá. `type` có thể là data, journal khi sử dụng WAL và db nhằm lưu journal và metadata ở một OSD riêng.
 
     root@ceph01:/var/lib/ceph/osd# ceph-volume lvm list
     
@@ -93,23 +93,8 @@ Có thể check những LVM tag bằng câu lệnh `ceph-volume lvm list`
           vdo                       0
           devices                   /dev/sdb
 
-    ====== osd.1 =======
+Show các LVM tag theo fomart JSON
 
-      [block]       /dev/ceph-aa7221d6-7879-4f2c-8e5d-f9ed131f21c4/osd-block-2135b85a-cb38-4275-a249-0d883c4acd48
-
-          block device              /dev/ceph-aa7221d6-7879-4f2c-8e5d-f9ed131f21c4/osd-block-2135b85a-cb38-4275-a249-0d883c4acd48
-          block uuid                mLCwfa-5xbP-XFxJ-zwnz-fi26-e9Uk-pyhmnj
-          cephx lockbox secret
-          cluster fsid              523677df-def2-4a84-90d2-9910ed6233f2
-          cluster name              ceph
-          crush device class        None
-          encrypted                 0
-          osd fsid                  2135b85a-cb38-4275-a249-0d883c4acd48
-          osd id                    1
-          osdspec affinity
-          type                      block
-          vdo                       0
-          devices                   /dev/sdc
 
 
 Tới phần active, sẽ sử dụng những gì đã được tạo sẵn để kích hoạt đưa vào sử dụng ceph-osd
