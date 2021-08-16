@@ -17,7 +17,7 @@ Ceph OSD hoạt động trên ổ đĩa vật lý có phân vùng Linux. Phân v
 - `Ext4`: đây cũng là một filesystem dạng journaling và cũng có thể sử dụng cho Ceph khi production; tuy nhiên không phổ biến bằng XFS. Ceph OSD sử dụng *extended attribute* của filesystem cho các thông tin của object và metadata. XATTRs cho phép lưu các thông tin liên quan tới object dưới dạng `xattr_name` và `xattr_value`, do vậy cho phép *tagging* object với nhiều thông tin metadata hơn. ext4 file system không cung cấp đủ dung lượng cho XATTRs do giới hạn về dung lượng bytes cho XATTRs. XFS có kích thước XATTRs lớn hơn.
 
 # Kiểm tra kết nối giữa các OSD
-Có thể thấy các OSD của node ceph01 lăng nghe theo 8 port từ 6800 đến 6807, tức 4 port cho mỗi osd.0 và osd.1
+Có thể thấy các OSD của node ceph01 listen theo 8 port từ 6800 đến 6807, tức 4 port cho mỗi osd.0 và osd.1
 
     root@ceph01:~# netstat -nlp | grep ceph
     tcp        0      0 10.10.11.21:6807        0.0.0.0:*               LISTEN      1834/ceph-osd
