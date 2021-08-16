@@ -10,7 +10,7 @@ Có 3 role mà các tiến trình (process) có thể có:
 - `learner`: sau khi đề xuất được chọn, `proposer` thông báo giá trị đến xuất đến cho các process, các process đó được gọi là `learner`.
 
 ## Giải quyết với 3 node mon
-Các giá trị đề xuất đều có một nhãn `N` duy nhất, nhãn là các số tự nhiên được sử dụng để sắp xếp các đề xuất. Trong ví dụ này là cách xử lý vote của 3 monitor khi một OSD bị down. (vậy monitor biết OSD bị down khi nào thì có thể xem tại [đây](https://docs.ceph.com/en/latest/rados/configuration/mon-osd-interaction/))
+Các giá trị đề xuất đều có một nhãn `N` duy nhất, nhãn là các số tự nhiên được sử dụng để sắp xếp các đề xuất. Trong ví dụ này là cách xử lý vote của 3 monitor khi một OSD bị down. (vậy một monitor đề xuất OSD bị down khi nào thì có thể xem tại [đây](https://docs.ceph.com/en/latest/rados/configuration/mon-osd-interaction/))
 
 Cụ thể hơn, có 3 node monitor trong đó node 1 sẽ đóng vai trò làm proposer đề xuất việc "OSD_1 đã bị down" với giá trị đại diện N=42, 2 node còn lại đóng vai trò acceptor:
 
