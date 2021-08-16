@@ -29,4 +29,4 @@ Pha 2, đồng ý:
 Trong pha này có 3 trường hợp xảy ra:
 - 2 acceptor đều đồng ý: khi cả 2 acceptor đều đồng ý nhận đề xuất, proposer để đưa ra để xuất và cả 3 node cùng thống nhất "OSD_1 đã bị down"
 - 1 acceptor đồng ý: ví dụ node 3 từ chối đề xuất, lúc này chỉ còn 2 acceptor là node 1 và node 2 (bản thân prososer cũng chính là 1 acceptor), và do có số vote đồng thuận cao hơn (2>1) nên đề xuất vẫn được thông qua "OSD_1 đã bị down"
-- 0 acceptor đồng ý: khi cả node 2 và 3 đều từ chối đề xuất, số vote không đồng thuận lúc này là 2 > 1 đồng thuận (của node 1). Và như vậy, đề xuất không được thông qua, OSD_1 vẫn đang up
+- 0 acceptor đồng ý: khi cả node 2 và 3 đều từ chối đề xuất, số vote không đồng thuận lúc này lớn hơn. Và như vậy, đề xuất không được thông qua, OSD_1 vẫn được coi như đang up
