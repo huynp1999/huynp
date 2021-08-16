@@ -9,7 +9,7 @@ Có 3 role mà các tiến trình (process) có thể có:
 - `acceptor`: `acceptor` có thể accept các giá trị đề xuất. Một tập hợp các acceptor được gọi là quorum. Khi một đề xuất đã được chấp nhận bởi quorum, có nghĩa là đề xuất này đã được chọn.
 - `learner`: sau khi đề xuất được chọn, `proposer` thông báo giá trị đến xuất đến cho các process, các process đó được gọi là `learner`.
 
-## Giải quyết với 3 node mon
+## Giải quyết với 3 node mon trong Ceph
 Trong ví dụ này là cách xử lý vote của 3 monitor khi một OSD bị down và đề xuất theo một giá trị nhãn đại diện `N` duy nhất. Nhãn cũng là các số tự nhiên được sử dụng để sắp xếp các đề xuất. (vậy một monitor đề xuất OSD bị down khi nào thì có thể xem tại [đây](https://docs.ceph.com/en/latest/rados/configuration/mon-osd-interaction/))
 
 Cụ thể hơn, có 3 node monitor trong đó:
