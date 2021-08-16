@@ -26,14 +26,13 @@ Một thiết bị có thể triển khai Bluestore OSD bằng câu lệnh
 
     ceph-volume lvm create --bluestore --data /path/to/device
 
-`block.db` và `block.wal` là optional trong bluestore, có thể chỉ định bằng `--block.db` và `--block.wal`
-
 Nếu logical volume đã được tạo sẵn (LV đơn và sử dụng 100% thiết bị) thì cũng có thể triển khai
 
     ceph-volume lvm create --bluestore --data ceph-vg/lv
 
-Sau khi được tạo một OSD thì thư mục dữ liệu sẽ như sau
+(`block.db` và `block.wal` là optional trong bluestore, có thể chỉ định bằng `--block.db` và `--block.wal`)
 
+Sau khi triển khai một OSD thì thư mục dữ liệu sẽ như sau
 
     # root@ceph01:~# ls -l /var/lib/ceph/osd/ceph-1
     total 24
@@ -46,7 +45,7 @@ Sau khi được tạo một OSD thì thư mục dữ liệu sẽ như sau
     -rw------- 1 ceph ceph  2 Aug 16 02:38 whoami
 
 
-Tại đây cũng có thể thấy symlink từ `block` tới `vg/lv` mà đã được `ceph-volume` tạo ra theo cú pháp:
+Tại đây có thể thấy symlink từ `block` tới `vg/lv` mà đã được `ceph-volume` tạo ra theo cú pháp:
 - Volume group name: `ceph-{cluster_fsid}` hoặc nếu vg đã tồn tại thì `ceph-{random_uuid}`
 - Logical volume name: `osd-block-{osd_fsid}`
 
