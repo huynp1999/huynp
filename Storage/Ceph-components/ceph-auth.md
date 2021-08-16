@@ -13,7 +13,6 @@ User yêu cầu ceph client liên hệ với một monitor.  Mỗi monitor đề
 
 ![image](https://user-images.githubusercontent.com/83684068/129035522-d3b24d7c-a158-47a5-a5b6-b5394975c29c.png)
 
-
 Giao thức xác thực cephx truyền thông giữa client và ceph server. Mỗi thông điệp được gửi giữa client và server được ký bởi ticket mà các monitor, OSD, MDS có thể xác thực bằng key chia sẻ:
 
 ![image](https://user-images.githubusercontent.com/83684068/129059709-595b5a64-4da3-4a21-a4b8-61c6fc4035be.png)
@@ -83,8 +82,8 @@ Tạo key
 Cập nhật permission key đã có sẵn
 
     ceph auth caps {key-name} mon {permission} osd {permission} mds {permission}
-    
-    ceph auth caps client.user1 mon 'allow rw' osd 'allow r pool=prague'
+    ví dụ
+    ceph auth caps client.user1 mon 'allow rw' osd 'allow r pool=rbdpool1'
     
 Xoá caps
 
