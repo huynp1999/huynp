@@ -21,7 +21,7 @@ Cũng có thể triển khai BlueStore trên một hoặc hai thiết bị bổ 
 
 - **DB device:** Được xác định là block.db trong thư mục dữ liệu. Có thể được sử dụng để lưu trữ internal metadata cho BlueStore. BlueStore (hay đúng hơn là RocksDB) sẽ đặt càng nhiều metadata càng tốt vào thiết bị DB để cải thiện hiệu suất cho thiết bị chính. Nếu thiết bị DB đầy, metadata sẽ tràn trở lại thiết bị chính. Và tương tự như WAL, DB device chỉ hữu ích nếu nó nhanh hơn thiết bị chính.
 
-## Triển khai Bluestore OSD
+## Config Bluestore OSD
 Một thiết bị có thể triển khai Bluestore OSD bằng câu lệnh
 
     ceph-volume lvm create --bluestore --data /path/to/device
@@ -123,12 +123,15 @@ Tới phần active, sẽ sử dụng những gì đã được tạo sẵn đ�
 # FileStore
 Trong FileStore, các object được lưu với một file riêng lẻ.
 Sử dụng FileStore, ceph yêu cầu sử dụng journal bên ngoài để đảm bảo tính nhất quán.
-- Ceph đảm bảo tính nhất quán cao giữa các bản sao dữ liệu, tất cả các thao tác ghi được xem như đơn vị transaction.
+
+Ceph đảm bảo tính nhất quán cao giữa các bản sao dữ liệu, tất cả các thao tác ghi được xem như đơn vị transaction.
 Các transactions được ghi vào journal trước giúp cải thiện hiệu năng. Sau khi được ghi xong vào journal, FileStore daemon thực hiện ghi xuống disk để lưu trữ cố định.
 
 Và trong FileStore, transaction sẽ được chia thành data và metadata. Data sẽ được ghi vào một XFS filesystem, còn metadata sẽ được lưu vào database (leveldb). Và database này cũng dựa trên XFS filesystem
 
 <img src="https://user-images.githubusercontent.com/83684068/128850540-b1fbc61d-6270-4545-95d0-a086fc9782de.png" alt="drawing" width="750"/>
+
+FileStore đã được thử nghiệm tốt và sử dụng rộng rãi trong thị trường. Tuy nhiên, nó có nhiều khiếm khuyết về hiệu suất do thiết kế tổng thể và sự phụ thuộc vào file system truyền thống để lưu trữ object data.
 
 **Điểm khác biệt chính** giữa 2 loại module là với FileStore, object phải ghi 2 lần: 1 lần vào journal và 1 lần vào disk. Đối với BlueStore ghi trực tiếp object lên disk và quá trình quản lý metadata cũng được tối giản hơn khi so với Filestore.
 
