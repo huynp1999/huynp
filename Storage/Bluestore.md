@@ -159,6 +159,11 @@ Và trong FileStore, transaction sẽ được chia thành data và metadata. Da
 
 FileStore đã được thử nghiệm tốt và sử dụng rộng rãi trong thị trường. Tuy nhiên, nó có nhiều khiếm khuyết về hiệu suất do thiết kế tổng thể và sự phụ thuộc vào file system truyền thống để lưu trữ object data.
 
+# So sánh giữa Filestore và Bluestore
+![image](https://user-images.githubusercontent.com/83684068/128842467-5439240c-f90d-46bf-a983-55f729de5708.png)
+
 **Điểm khác biệt chính** giữa 2 loại module là với FileStore, object phải ghi 2 lần: 1 lần vào journal và 1 lần vào disk. Đối với BlueStore ghi trực tiếp object lên disk và quá trình quản lý metadata cũng được tối giản hơn khi so với Filestore.
 
-![image](https://user-images.githubusercontent.com/83684068/128842467-5439240c-f90d-46bf-a983-55f729de5708.png)
+Benchmark hiệu năng bằng radosbench, với 7 client cùng write vào object store. Cột xanh là tốc độ ghi (mbps) của Filestore, cột đỏ là tốc độ ghi (mbps) của Bluestore. Dòng kẻ màu xanh lá biểu thị cho phần trăm hiệu suất vượt trội của Bluestore, bắt đầu từ 40% của client đầu tiên tới cao nhất 42%. Có thể thấy Bluestore về cơ bản có tốc độ hoạt động tốt hơn đáng kể so với Filestore.
+
+![image](https://user-images.githubusercontent.com/83684068/129704558-8585b415-21fc-493c-9d2e-ffbd9e62418b.png)
