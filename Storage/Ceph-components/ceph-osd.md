@@ -17,53 +17,36 @@ Ceph OSD hoạt động trên ổ đĩa vật lý có phân vùng Linux. Phân v
 - `Ext4`: đây cũng là một filesystem dạng journaling và cũng có thể sử dụng cho Ceph khi production; tuy nhiên không phổ biến bằng XFS. Ceph OSD sử dụng *extended attribute* của filesystem cho các thông tin của object và metadata. XATTRs cho phép lưu các thông tin liên quan tới object dưới dạng `xattr_name` và `xattr_value`, do vậy cho phép *tagging* object với nhiều thông tin metadata hơn. ext4 file system không cung cấp đủ dung lượng cho XATTRs do giới hạn về dung lượng bytes cho XATTRs. XFS có kích thước XATTRs lớn hơn.
 
 # Kiểm tra kết nối giữa các OSD
-Có thể thấy các OSD của node ceph01 listen theo 8 port từ 6800 đến 6807, tức 4 port cho mỗi osd.0 và osd.1
+Trước tiên cần kiểm tra PID của các OSD trên node, ví dụ ở đây là osd.0 và osd.1 tương ứng với 1669 và 1665
 
-    root@ceph01:~# netstat -nlp | grep ceph
-    tcp        0      0 10.10.11.21:6807        0.0.0.0:*               LISTEN      1834/ceph-osd
-    tcp        0      0 10.10.10.21:6807        0.0.0.0:*               LISTEN      1834/ceph-osd
-    tcp        0      0 10.10.11.21:6800        0.0.0.0:*               LISTEN      1833/ceph-osd
-    tcp        0      0 10.10.10.21:6800        0.0.0.0:*               LISTEN      1833/ceph-osd
-    tcp        0      0 10.10.11.21:6801        0.0.0.0:*               LISTEN      1833/ceph-osd
-    tcp        0      0 10.10.10.21:6801        0.0.0.0:*               LISTEN      1833/ceph-osd
-    tcp        0      0 10.10.11.21:6802        0.0.0.0:*               LISTEN      1833/ceph-osd
-    tcp        0      0 10.10.10.21:6802        0.0.0.0:*               LISTEN      1833/ceph-osd
-    tcp        0      0 10.10.11.21:6803        0.0.0.0:*               LISTEN      1833/ceph-osd
-    tcp        0      0 10.10.10.21:6803        0.0.0.0:*               LISTEN      1833/ceph-osd
-    tcp        0      0 10.10.11.21:6804        0.0.0.0:*               LISTEN      1834/ceph-osd
-    tcp        0      0 10.10.10.21:6804        0.0.0.0:*               LISTEN      1834/ceph-osd
-    tcp        0      0 10.10.11.21:6805        0.0.0.0:*               LISTEN      1834/ceph-osd
-    tcp        0      0 10.10.10.21:6805        0.0.0.0:*               LISTEN      1834/ceph-osd
-    tcp        0      0 10.10.11.21:6806        0.0.0.0:*               LISTEN      1834/ceph-osd
-    tcp        0      0 10.10.10.21:6806        0.0.0.0:*               LISTEN      1834/ceph-osd
-    tcp6       0      0 :::8443                 :::*                    LISTEN      1103/ceph-mgr
-    unix  2      [ ACC ]     STREAM     LISTENING     30292    1029/ceph-mon        /var/run/ceph/ceph-mon.ceph01.asok
-    unix  2      [ ACC ]     STREAM     LISTENING     33901    1103/ceph-mgr        /var/run/ceph/ceph-mgr.ceph01.asok
-    unix  2      [ ACC ]     STREAM     LISTENING     33920    1834/ceph-osd        /var/run/ceph/ceph-osd.0.asok
-    unix  2      [ ACC ]     STREAM     LISTENING     33925    1833/ceph-osd        /var/run/ceph/ceph-osd.1.asok
+    root@ceph01:~# ps aux
+    ceph        1665  1.2  6.2 898584 121852 ?       Ssl  08:39   0:05 /usr/bin/ceph-osd -f --cluster ceph --id 1 --setuser ceph --setgroup ceph
+    ceph        1669  1.2  5.7 889360 111396 ?       Ssl  08:39   0:05 /usr/bin/ceph-osd -f --cluster ceph --id 0 --setuser ceph --setgroup ceph
 
-Kiểm tra tại node ceph02 thì có thể thấy các port của osd.0 và osd.1 đã được thiết lập thành công
+2 OSD của node ceph01 listen theo 8 port từ 6800 đến 6807, tức 4 port cho mỗi OSD
+    
+    root@ceph01:~# netstat -nlp | grep ceph-osd
+    tcp        0      0 10.10.10.21:6800        0.0.0.0:*               LISTEN      1665/ceph-osd
+    tcp        0      0 10.10.10.21:6801        0.0.0.0:*               LISTEN      1665/ceph-osd
+    tcp        0      0 10.10.10.21:6802        0.0.0.0:*               LISTEN      1665/ceph-osd
+    tcp        0      0 10.10.10.21:6803        0.0.0.0:*               LISTEN      1665/ceph-osd
+    tcp        0      0 10.10.10.21:6804        0.0.0.0:*               LISTEN      1669/ceph-osd
+    tcp        0      0 10.10.10.21:6805        0.0.0.0:*               LISTEN      1669/ceph-osd
+    tcp        0      0 10.10.10.21:6806        0.0.0.0:*               LISTEN      1669/ceph-osd
+    tcp        0      0 10.10.10.21:6807        0.0.0.0:*               LISTEN      1669/ceph-osd
+    unix  2      [ ACC ]     STREAM     LISTENING     31791    1665/ceph-osd        /var/run/ceph/ceph-osd.1.asok
+    unix  2      [ ACC ]     STREAM     LISTENING     31796    1669/ceph-osd        /var/run/ceph/ceph-osd.0.asok
 
-    root@ceph02:~# netstat -a | grep ceph01
-    tcp        0      0 ceph02:34190            ceph01:6808             ESTABLISHED
-    tcp        0      0 ceph02:46662            ceph01:6800             ESTABLISHED
-    tcp        0      0 ceph02:34198            ceph01:6808             ESTABLISHED
-    tcp        0      0 ceph02:46598            ceph01:6800             ESTABLISHED
-    tcp        0      0 ceph02:6806             ceph01:47740            ESTABLISHED
-    tcp        0      0 ceph02:3300             ceph01:39372            ESTABLISHED
-    tcp        0      0 ceph02:6802             ceph01:41282            ESTABLISHED
-    tcp        0      0 ceph02:6802             ceph01:41328            ESTABLISHED
-    tcp        0      0 ceph02:34192            ceph01:6808             ESTABLISHED
-    tcp        0      0 ceph02:6800             ceph01:42020            ESTABLISHED
-    tcp        0      0 ceph02:6806             ceph01:47684            ESTABLISHED
-    tcp        0      0 ceph02:3300             ceph01:39586            ESTABLISHED
-    tcp        0      0 ceph02:37310            ceph01:6802             ESTABLISHED
-    tcp        0      0 ceph02:34194            ceph01:6808             ESTABLISHED
-    tcp        0      0 ceph02:46976            ceph01:3300             ESTABLISHED
-    tcp        0      0 ceph02:6804             ceph01:41894            ESTABLISHED
-    tcp        0      0 ceph02:58576            ceph01:6804             ESTABLISHED
-    tcp        0      0 ceph02:58558            ceph01:6804             ESTABLISHED
-    tcp        0      0 ceph02:49590            ceph01:6806             ESTABLISHED
-    tcp        0      0 ceph02:49592            ceph01:6806             ESTABLISHED
-    tcp        0      0 ceph02:34196            ceph01:6808             ESTABLISHED
-    tcp        0      0 ceph02:37282            ceph01:6802             ESTABLISHED
+Sau khi đã biết port tương ứng với 2 PID OSD, chuyển sang node ceph02 để kiểm tra các port đã được thiết lập thành công chưa.
+
+Cụ thể kiểm tra port 6802 của osd.1 đã thiết lập kết nối thành công tới osd.2 và osd.3 (tương ứng PID 1611 và 1607 của ceph02) thông qua qua 2 port 58160 và 58056.
+
+    root@ceph02:~# ps aux
+    ceph        1607  1.0  5.9 894480 116036 ?       Ssl  08:39   0:15 /usr/bin/ceph-osd -f --cluster ceph --id 3 --setuser ceph --setgroup ceph
+    ceph        1611  1.0  5.9 894480 116752 ?       Ssl  08:39   0:16 /usr/bin/ceph-osd -f --cluster ceph --id 2 --setuser ceph --setgroup ceph
+
+    root@ceph02:~# netstat -ap | grep ceph01:6802
+    tcp        0      0 ceph02:58160            ceph01:6802             ESTABLISHED 1611/ceph-osd
+    tcp        0      0 ceph02:58056            ceph01:6802             ESTABLISHED 1607/ceph-osd
+
+Với các port khác của các osd trong các node cũng kiểm tra tương tự.
