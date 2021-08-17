@@ -15,6 +15,11 @@ Trong trường hợp đơn giản nhất, BlueStore sử dụng một thiết b
 
 Thư mục dữ liệu là một `tmpfs` mount để đặt với tất cả các thông tin cần thiết về OSD như: mã định danh của nó, thuộc về cluster nào và private keyring.
 
+    # df -h
+    Filesystem      Size  Used Avail Use% Mounted on
+    tmpfs           953M   24K  953M   1% /var/lib/ceph/osd/ceph-1
+    tmpfs           953M   24K  953M   1% /var/lib/ceph/osd/ceph-0
+
 Cũng có thể triển khai BlueStore trên một hoặc hai thiết bị bổ sung:
 
 - **Write-Ahead Log (WAL) device:** Được xác định là block.wal trong thư mục dữ liệu. Có thể sử dụng cho write-ahead log hoặc internal journal cho BlueStore. WAL device chỉ hữu ích khi nó nhanh hơn thiết bị chính (ví dụ khi thiết bị này nằm trên SSD còn thiết bị chính nằm trên HDD).
@@ -136,8 +141,12 @@ Tới phần active, sẽ sử dụng những gì đã được tạo sẵn đ�
 
 1. Yêu cầu id OSD và uuid OSD
 2. Bật systemd unit theo với id và uuid tương thích
-3. Systemd unit sẽ đảm bảo tất cả các thiết bị đã được mount và sẵn sàng
-4. Systemd unit `ceph-osd` được khởi động
+3. Systemd unit sẽ đảm bảo tất cả các thiết bị nhận dạng đã được mount và sẵn sàng
+
+        #  systemctl | grep ceph
+        var-lib-ceph-osd-ceph\x2d0.mount                           loaded active mounted   /var/lib/ceph/osd/ceph-0
+        var-lib-ceph-osd-ceph\x2d1.mount                           loaded active mounted   /var/lib/ceph/osd/ceph-1
+5. Systemd unit `ceph-osd` được khởi động
 
 # FileStore
 Trong FileStore, các object được lưu với một file riêng lẻ.
