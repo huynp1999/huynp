@@ -61,17 +61,21 @@ Quy trình thực hiện của câu lệnh `create` bao gồm 2 phần là prepa
 7. Thiết bị được mount và thư mục dữ liệu được liên kết bởi ceph-osd
 8. Gán LVM tag cho data và journal của OSD
 
-Với backend là Bluestore thì những LVM tag sau sẽ được thêm vào:
+Với backend là Bluestore thì một số LVM tag sau sẽ được thêm vào:
 
-- block_device
-- block_uuid
-- cluster_fsid
-- 
-- osd_fsid
-- osd_id
-- type
+- `block_device` đường dẫn tới logical volume
+- `block_uuid` id nhận dạng duy nhất của logical volume
+- `cephx_lockbox_secret` là nơi chứa auth key để xác thực cho `dmcrypt_key` trong việc mở khoá thiết bị mã hoá
+- `cluster_fsid` id nhận dạng duy nhất của cluster
+- `cluster_name` tên cluster
+- `encrypted` bằng 1 nếu sử dụng option mã hoá `--dmcrypt` khi tạo OSD
+- `osd_fsid` id nhận dạng duy nhất của osd
+- `osdspec_affinity`
+- `vdo (Virtual Data Optimizer)` nếu có sẵn
 
-Có thể check những LVM tag bằng câu lệnh `ceph-volume lvm list`. Các tham số này bao gồm `volume group/logical volume` của block device, cùng các uuid (id nhận dạng duy nhất) của block, cluster và osd. `encrypted` bằng 1 nếu sử dụng option mã hoá `--dmcrypt` khi tạo OSD, và `cephx lockbox secret` là nơi chứa auth key để xác thực cho `dmcrypt_key` trong việc mở khoá thiết bị mã hoá. `type` có thể là data, journal khi sử dụng WAL và db nhằm lưu journal và metadata ở một OSD riêng.
+- Note: Với Filestore sẽ có thêm tag `journal_device` vì Filestore yêu cầu xử lý journal riêng biệt với data. Khi sử dụng thêm các thiết bị bổ sung như WAL hoặc DB thì cũng có tag `wal_device` và `db_device`
+
+Có thể check những LVM tag bằng câu lệnh `ceph-volume lvm list`.
 
     root@ceph01:/var/lib/ceph/osd# ceph-volume lvm list
     
@@ -93,9 +97,40 @@ Có thể check những LVM tag bằng câu lệnh `ceph-volume lvm list`. Các 
           vdo                       0
           devices                   /dev/sdb
 
-Show các LVM tag theo fomart JSON
+Show các LVM tag theo fomart JSON cũng nhận được những tag tương tự:
 
-
+    root@ceph01:~# ceph-volume lvm list --format=json
+    {
+        "0": [
+            {
+                "devices": [
+                    "/dev/sdb"
+                ],
+                "lv_name": "osd-block-26f73ff2-5461-42c9-b70a-3e6e38b6a785",
+                "lv_path": "/dev/ceph-0cbd51ad-a42d-49e0-96bb-d8160818a6c5/osd-block-26f73ff2-5461-42c9-b70a-3e6e38b6a785",
+                "lv_size": "21470642176",
+                "lv_tags": "ceph.block_device=/dev/ceph-0cbd51ad-a42d-49e0-96bb-d8160818a6c5/osd-block-26f73ff2-5461-42c9-b70a-3e6e38b6a785,ceph.block_uuid=r4883N-eDlP-inoG-ucWS-A9Gg-2dSj-eWE6WM,ceph.cephx_lockbox_secret=,ceph.cluster_fsid=523677df-def2-4a84-90d2-9910ed6233f2,ceph.cluster_name=ceph,ceph.crush_device_class=None,ceph.encrypted=0,ceph.osd_fsid=26f73ff2-5461-42c9-b70a-3e6e38b6a785,ceph.osd_id=0,ceph.osdspec_affinity=,ceph.type=block,ceph.vdo=0",
+                "lv_uuid": "r4883N-eDlP-inoG-ucWS-A9Gg-2dSj-eWE6WM",
+                "name": "osd-block-26f73ff2-5461-42c9-b70a-3e6e38b6a785",
+                "path": "/dev/ceph-0cbd51ad-a42d-49e0-96bb-d8160818a6c5/osd-block-26f73ff2-5461-42c9-b70a-3e6e38b6a785",
+                "tags": {
+                    "ceph.block_device": "/dev/ceph-0cbd51ad-a42d-49e0-96bb-d8160818a6c5/osd-block-26f73ff2-5461-42c9-b70a-3e6e38b6a785",
+                    "ceph.block_uuid": "r4883N-eDlP-inoG-ucWS-A9Gg-2dSj-eWE6WM",
+                    "ceph.cephx_lockbox_secret": "",
+                    "ceph.cluster_fsid": "523677df-def2-4a84-90d2-9910ed6233f2",
+                    "ceph.cluster_name": "ceph",
+                    "ceph.crush_device_class": "None",
+                    "ceph.encrypted": "0",
+                    "ceph.osd_fsid": "26f73ff2-5461-42c9-b70a-3e6e38b6a785",
+                    "ceph.osd_id": "0",
+                    "ceph.osdspec_affinity": "",
+                    "ceph.type": "block",
+                    "ceph.vdo": "0"
+                },
+                "type": "block",
+                "vg_name": "ceph-0cbd51ad-a42d-49e0-96bb-d8160818a6c5"
+            }
+        ],
 
 Tới phần active, sẽ sử dụng những gì đã được tạo sẵn để kích hoạt đưa vào sử dụng ceph-osd
 
@@ -103,7 +138,6 @@ Tới phần active, sẽ sử dụng những gì đã được tạo sẵn đ�
 2. Bật systemd unit theo với id và uuid tương thích
 3. Systemd unit sẽ đảm bảo tất cả các thiết bị đã được mount và sẵn sàng
 4. Systemd unit `ceph-osd` được khởi động
-
 
 # FileStore
 Trong FileStore, các object được lưu với một file riêng lẻ.
