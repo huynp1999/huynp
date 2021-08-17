@@ -78,6 +78,7 @@ Thêm user mới và return keyfile
     ceph auth get-or-create {key-name} mon {permission} osd {permission} mds {permission} -o {key-name}.keyring
     
     #ví dụ tạo một user1 với quyền đọc của monitor để nhận CRUSH map. Cùng với đó là quyền đọc ghi dữ liệu trong pool rbdpool1. Và cuối cùng là xuất username và key ra file user1.keyring:
+    
     ceph auth get-or-create client.user1 mon 'allow r' osd 'allow rw pool=rbdpool1' -o user1.keyring
 
 `caps` có thể hiểu là permission của user đối với từng service
