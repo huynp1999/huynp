@@ -65,26 +65,63 @@ Ceph-mon tận dụng snapshot và trình vòng lặp để thực hiện đồn
       6.26          0                  0        0         0       0        0           0          0 2265     2265 active+clean 2021-08-17 02:58:18.014467 68'2265  99:2381 [4,3,1]          4 [4,3,1]              4    68'2265 2021-08-16 02:43:26.991294         68'2265 2021-08-16 02:43:26.991294             0
       5.24          3                  0        0         0       0 12582912           0          0   52       52 active+clean 2021-08-17 02:58:17.348761   94'52   99:174 [5,0,3]          5 [5,0,3]              5      94'52 2021-08-16 02:44:34.068065           94'52 2021-08-16 02:44:34.068065             0
 
-- **CRUSH map**: map này lưu các thông tin của các thiết bị lưu trữ trong Cluster. Ngoài ra còn có buckets hierarchy cùng các rule cho từng vùng lưu trữ, ví dụ ở đây là `replicated_rule`
+- **CRUSH map**: map này lưu các thông tin của các thiết bị lưu trữ trong Cluster. Tiếp đến là các buckets hierarchy, chứa trong đó là các node phân cấp như osd, host, rack, root,... Cuối cùng là các rule xác định chính sách về cách dữ liệu được phân phối trên các node trong buckets hierarchy. Ví dụ ở đây là `replicated_rule` được mô tả qua các bước thực hiện `take`, `"chooseleaf_firstn", "num": 0, "type": "host"`. Ý nghĩa của tag `chooseleaf` này là là thực hiện replicate mỗi một OSD trong các host (một host có thể chứa nhiều OSD).
 
       # ceph osd crush dump
       {
-          "devices": [
-              {
-                  "id": 0,
-                  "name": "osd.0",
-                  "class": "hdd"
-              },
-              {
-                  "id": 1,
-                  "name": "osd.1",
-                  "class": "hdd"
+      "devices": [
+        {
+            "id": 0,
+            "name": "osd.0",
+            "class": "hdd"
+        },
+        {
+            "id": 1,
+            "name": "osd.1",
+            "class": "hdd"
+        },
+      ...
+      ...
+      "types": [
+        {
+            "type_id": 0,
+            "name": "osd"
+        },
+        {
+            "type_id": 1,
+            "name": "host"
+        },
+        {
+            "type_id": 2,
+            "name": "chassis"
+        },
+        {
+            "type_id": 3,
+            "name": "rack"
       ...
       ...
       "rules": [
         {
             "rule_id": 0,
             "rule_name": "replicated_rule",
+            "ruleset": 0,
+            "type": 1,
+            "min_size": 1,
+            "max_size": 10,
+            "steps": [
+                {
+                    "op": "take",
+                    "item": -1,
+                    "item_name": "default"
+                },
+                {
+                    "op": "chooseleaf_firstn",
+                    "num": 0,
+                    "type": "host"
+                },
+                {
+                    "op": "emit"
+                }          
 
 
 - **MDS map**: lưu thông tin về thời gian tạo và chỉnh sửa, dữ liệu và metadata pool ID, cluster MDS count, tình trạng hoạt động của MDS, epoch của MDS map hiện tại. Kiểm tra MDS map:
