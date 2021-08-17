@@ -73,19 +73,28 @@ Hiển thị toàn bộ các key authen của cụm Ceph
             caps: [mon] allow profile mgr
             caps: [osd] allow *
 
-Tạo key 
+Thêm user mới và return keyfile
 
-    ceph auth get-or-create {key-name} mon {permission} osd {permission} mds {permission} > {key-name}.keyring
+    ceph auth get-or-create {key-name} mon {permission} osd {permission} mds {permission} -o {key-name}.keyring
+    
+    #ví dụ tạo một user1 với quyền đọc của monitor để nhận CRUSH map. Cùng với đó là quyền đọc ghi dữ liệu trong pool rbdpool1. Và cuối cùng là xuất username và key ra file user1.keyring:
+    ceph auth get-or-create client.user1 mon 'allow r' osd 'allow rw pool=rbdpool1' -o user1.keyring
 
-`caps` có thể hiểu là permission của key trên đối với từng service
+`caps` có thể hiểu là permission của user đối với từng service
 
-Cập nhật permission key đã có sẵn
+Cập nhật, chỉnh sửa quyền của user
 
     ceph auth caps {key-name} mon {permission} osd {permission} mds {permission}
-    ví dụ
-    ceph auth caps client.user1 mon 'allow rw' osd 'allow r pool=rbdpool1'
+
+    #Tiếp tục ví dụ với user1 đã được tạo ở trên, nhưng ở đây cho phép thêm quyền write với monitor để chỉnh sửa map
+
+    ceph auth caps client.user1 mon 'allow rw' osd 'allow rw pool=rbdpool1'
     
-Xoá caps
+    #Ngoài ra cũng có thể sử dụng wildcard * để cấp quyền đọc, ghi và execute đối với tất cả pool
+    
+    ceph auth caps client.manager mon 'allow *' osd 'allow *'
+
+Khi muốn xoá một caps của user, cần phải reset lại tất cả quyền và thực hiện chỉnh sửa lại
 
     ceph auth caps client.user1 mon ' ' osd ' '
 
