@@ -56,14 +56,36 @@ Ceph-mon tận dụng snapshot và trình vòng lặp để thực hiện đồn
       ...
       ...
       
-
-- **PG map**: map này lưu giữ các phiên bản của PG (thành phần quản lý các object trong ceph), timestamp, bản OSD map cuối cùng, tỉ lệ đầy và gần đầy dung lượng. Nó cũng lưu các ID của PG, object count, tình trạng hoạt động và srub (hoạt động kiểm tra tính nhất quán của dữ liệu lưu trữ). Kiểm tra PG map:
+- **PG map**: map này lưu giữ các cột thông tin về PG (thành phần quản lý các object trong ceph) ví dụ như ID là 5.25, các object được chứa bên trong là [1,3,5], các timestamp về trạng thái và sửa đổi, lần sửa đổi OSD map cuối cùng là 37, tỉ lệ đầy và gần đầy dung lượng. Nó cũng lưu các object count, tình trạng hoạt động và srub (hoạt động kiểm tra tính nhất quán của dữ liệu lưu trữ).
 
       # ceph pg dump
+      
+      PG_STAT OBJECTS MISSING_ON_PRIMARY DEGRADED MISPLACED UNFOUND BYTES    OMAP_BYTES* OMAP_KEYS* LOG  DISK_LOG STATE        STATE_STAMP                VERSION REPORTED UP      UP_PRIMARY ACTING  ACTING_PRIMARY LAST_SCRUB SCRUB_STAMP                LAST_DEEP_SCRUB DEEP_SCRUB_STAMP           SNAPTRIMQ_LEN
+      5.25          1                  0        0         0       0    20480           0          0   37       37 active+clean 2021-08-17 02:58:17.590547   72'37   99:163 [1,3,5]          1 [1,3,5]              1      72'37 2021-08-16 02:43:03.186908           72'37 2021-08-11 02:32:27.061182             0
+      6.26          0                  0        0         0       0        0           0          0 2265     2265 active+clean 2021-08-17 02:58:18.014467 68'2265  99:2381 [4,3,1]          4 [4,3,1]              4    68'2265 2021-08-16 02:43:26.991294         68'2265 2021-08-16 02:43:26.991294             0
+      5.24          3                  0        0         0       0 12582912           0          0   52       52 active+clean 2021-08-17 02:58:17.348761   94'52   99:174 [5,0,3]          5 [5,0,3]              5      94'52 2021-08-16 02:44:34.068065           94'52 2021-08-16 02:44:34.068065             0
 
-- **CRUSH map**: map này lưu các thông tin của các thiết bị lưu trữ trong Cluster, các rule cho tưng vùng lưu trữ. Kiểm tra CRUSH map bằng lệnh:
+- **CRUSH map**: map này lưu các thông tin của các thiết bị lưu trữ trong Cluster. Ngoài ra còn có buckets hierarchy cùng các rule cho từng vùng lưu trữ, ví dụ ở đây là `replicated_rule`
 
       # ceph osd crush dump
+      {
+          "devices": [
+              {
+                  "id": 0,
+                  "name": "osd.0",
+                  "class": "hdd"
+              },
+              {
+                  "id": 1,
+                  "name": "osd.1",
+                  "class": "hdd"
+      ...
+      ...
+      "rules": [
+        {
+            "rule_id": 0,
+            "rule_name": "replicated_rule",
+
 
 - **MDS map**: lưu thông tin về thời gian tạo và chỉnh sửa, dữ liệu và metadata pool ID, cluster MDS count, tình trạng hoạt động của MDS, epoch của MDS map hiện tại. Kiểm tra MDS map:
 
