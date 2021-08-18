@@ -39,7 +39,7 @@ Sau khi triển khai một OSD thì thư mục dữ liệu sẽ như sau
 
     # root@ceph01:~# ls -l /var/lib/ceph/osd/ceph-1
     total 24
-    lrwxrwxrwx 1 ceph ceph 93 Aug 16 02:38 block -> /dev/ceph-aa7221d6-7879-4f2c-8e5d-f9ed131f21c4/osd-block-2135b85a-cb38-4275-a249-0d883c4acd48        #
+    lrwxrwxrwx 1 ceph ceph 93 Aug 16 02:38 block -> /dev/ceph-aa7221d6-7879-4f2c-8e5d-f9ed131f21c4/osd-block-2135b85a-cb38-4275-a249-0d883c4acd48        #symlink từ block tới lv đã được ceph-volume tạo
     -rw------- 1 ceph ceph 37 Aug 16 02:38 ceph_fsid                            #fsid tức là id nhận dạng duy nhất của một cluster
     -rw------- 1 ceph ceph 37 Aug 16 02:38 fsid                                 #tương tự như trên nhưng là fsid của osd, ceph-volume sẽ tạo lg và lv dựa trên 2 fsid này
     -rw------- 1 ceph ceph 55 Aug 16 02:38 keyring                              #khoá xác thực của OSD khi làm việc với ceph auth
