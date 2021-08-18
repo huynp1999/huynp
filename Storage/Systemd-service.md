@@ -1,4 +1,4 @@
-
+## Ceph-osd systemd service
 
     [Unit]
     Description=Ceph object storage daemon osd.%i
@@ -11,7 +11,7 @@
     LimitNOFILE=1048576
     LimitNPROC=1048576
     EnvironmentFile=-/etc/default/ceph                                                              #lấy biến cache size=128Mib trong file
-    Environment=CLUSTER=ceph                                                                        #đặt biến tên Cluster=ceph
+    Environment=CLUSTER=ceph                                                                        #đặt biến tên cluster, mặc định là ceph
     ExecStart=/usr/bin/ceph-osd -f --cluster ${CLUSTER} --id %i --setuser ceph --setgroup ceph      #lệnh khởi chạy service, bao gồm đường dẫn lệnh /usr/bin/ceph-osd và các arg để tuỳ chỉnh service. Ví dụ ${CLUSTER} là tên cluster, %i là id của osd
     ExecStartPre=/usr/lib/ceph/ceph-osd-prestart.sh --cluster ${CLUSTER} --id %i                    #lệnh bổ sung được thực hiện trước lệnh ExecStart, script prestart sẽ được làm rõ bên dưới
     ExecReload=/bin/kill -HUP $MAINPID                                                              #option -HUP của lệnh kill có ý nghĩa reload process theo PID
@@ -35,7 +35,8 @@
     WantedBy=ceph-osd.target
 
 
-File `/usr/lib/ceph/ceph-osd-prestart.sh`
+## File ceph-osd prestart
+`/usr/lib/ceph/ceph-osd-prestart.sh`
 
     #!/bin/sh
 
@@ -95,21 +96,3 @@ File `/usr/lib/ceph/ceph-osd-prestart.sh`
     fi
 
     exit 0
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
