@@ -100,40 +100,11 @@ Có thể check những LVM tag bằng câu lệnh `ceph-volume lvm list`.
           vdo                       0
           devices                   /dev/sdb
 
-Show các LVM tag theo fomart JSON cũng nhận được những tag tương tự:
+Ngoài ra các LVM tag có thể list theo fomart JSON cũng sẽ nhận được những tag tương tự `ceph-volume lvm list --format=json`. Hoặc theo lệnh lv show `lvs -o lv_tag /dev/ceph-vg/block-lv`, ví dụ xem lvm tag của osd.0:
 
-    root@ceph01:~# ceph-volume lvm list --format=json
-    {
-        "0": [
-            {
-                "devices": [
-                    "/dev/sdb"
-                ],
-                "lv_name": "osd-block-26f73ff2-5461-42c9-b70a-3e6e38b6a785",
-                "lv_path": "/dev/ceph-0cbd51ad-a42d-49e0-96bb-d8160818a6c5/osd-block-26f73ff2-5461-42c9-b70a-3e6e38b6a785",
-                "lv_size": "21470642176",
-                "lv_tags": "ceph.block_device=/dev/ceph-0cbd51ad-a42d-49e0-96bb-d8160818a6c5/osd-block-26f73ff2-5461-42c9-b70a-3e6e38b6a785,ceph.block_uuid=r4883N-eDlP-inoG-ucWS-A9Gg-2dSj-eWE6WM,ceph.cephx_lockbox_secret=,ceph.cluster_fsid=523677df-def2-4a84-90d2-9910ed6233f2,ceph.cluster_name=ceph,ceph.crush_device_class=None,ceph.encrypted=0,ceph.osd_fsid=26f73ff2-5461-42c9-b70a-3e6e38b6a785,ceph.osd_id=0,ceph.osdspec_affinity=,ceph.type=block,ceph.vdo=0",
-                "lv_uuid": "r4883N-eDlP-inoG-ucWS-A9Gg-2dSj-eWE6WM",
-                "name": "osd-block-26f73ff2-5461-42c9-b70a-3e6e38b6a785",
-                "path": "/dev/ceph-0cbd51ad-a42d-49e0-96bb-d8160818a6c5/osd-block-26f73ff2-5461-42c9-b70a-3e6e38b6a785",
-                "tags": {
-                    "ceph.block_device": "/dev/ceph-0cbd51ad-a42d-49e0-96bb-d8160818a6c5/osd-block-26f73ff2-5461-42c9-b70a-3e6e38b6a785",
-                    "ceph.block_uuid": "r4883N-eDlP-inoG-ucWS-A9Gg-2dSj-eWE6WM",
-                    "ceph.cephx_lockbox_secret": "",
-                    "ceph.cluster_fsid": "523677df-def2-4a84-90d2-9910ed6233f2",
-                    "ceph.cluster_name": "ceph",
-                    "ceph.crush_device_class": "None",
-                    "ceph.encrypted": "0",
-                    "ceph.osd_fsid": "26f73ff2-5461-42c9-b70a-3e6e38b6a785",
-                    "ceph.osd_id": "0",
-                    "ceph.osdspec_affinity": "",
-                    "ceph.type": "block",
-                    "ceph.vdo": "0"
-                },
-                "type": "block",
-                "vg_name": "ceph-0cbd51ad-a42d-49e0-96bb-d8160818a6c5"
-            }
-        ],
+    # lvs -o lv_tags /dev/ceph-0cbd51ad-a42d-49e0-96bb-d8160818a6c5/osd-block-26f73ff2-5461-42c9-b70a-3e6e38b6a785
+      LV Tags                                                                                                                                                                                                                                                                                           
+      ceph.block_device=/dev/ceph-0cbd51ad-a42d-49e0-96bb-d8160818a6c5/osd-block-26f73ff2-5461-42c9-b70a-3e6e38b6a785,ceph.block_uuid=r4883N-eDlP-inoG-ucWS-A9Gg-2dSj-eWE6WM,ceph.cephx_lockbox_secret=,ceph.cluster_fsid=523677df-def2-4a84-90d2-9910ed6233f2,ceph.cluster_name=ceph,ceph.crush_device_class=None,ceph.encrypted=0,ceph.osd_fsid=26f73ff2-5461-42c9-b70a-3e6e38b6a785,ceph.osd_id=0,ceph.osdspec_affinity=,ceph.type=block,ceph.vdo=0
 
 Tới phần active, sẽ sử dụng những gì đã được tạo sẵn để kích hoạt đưa vào sử dụng ceph-osd
 
