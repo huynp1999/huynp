@@ -42,7 +42,7 @@ Sau khi triển khai một OSD thì thư mục dữ liệu sẽ như sau
     lrwxrwxrwx 1 ceph ceph 93 Aug 16 02:38 block -> /dev/ceph-aa7221d6-7879-4f2c-8e5d-f9ed131f21c4/osd-block-2135b85a-cb38-4275-a249-0d883c4acd48        #symlink từ block tới lv đã được ceph-volume tạo
     -rw------- 1 ceph ceph 37 Aug 16 02:38 ceph_fsid                            #fsid tức là id nhận dạng duy nhất của một cluster
     -rw------- 1 ceph ceph 37 Aug 16 02:38 fsid                                 #tương tự như trên nhưng là fsid của osd, ceph-volume sẽ tạo lg và lv dựa trên 2 fsid này
-    -rw------- 1 ceph ceph 55 Aug 16 02:38 keyring                              #khoá xác thực của OSD khi làm việc với ceph auth
+    -rw------- 1 ceph ceph 55 Aug 16 02:38 keyring                              #khoá xác thực của OSD khi làm việc với ceph auth. Sau khi xác thực keyring, osd có thể giao tiếp với các thành phần khác trong hệ thống như client, mon
     -rw------- 1 ceph ceph  6 Aug 16 02:38 ready                                #trạng thái hoạt động của osd (ready)
     -rw------- 1 ceph ceph 10 Aug 16 02:38 type                                 #kiểu backend của osd, bluestore hoặc filestore
     -rw------- 1 ceph ceph  2 Aug 16 02:38 whoami                               #id thứ tự của osd
@@ -108,13 +108,19 @@ Ngoài ra các LVM tag có thể list theo fomart JSON cũng sẽ nhận đượ
 
 Tới phần active, sẽ sử dụng những gì đã được tạo sẵn để kích hoạt đưa vào sử dụng ceph-osd
 
-1. Yêu cầu id OSD và uuid OSD
-2. Bật systemd unit theo với id và uuid tương thích
-3. Systemd unit sẽ đảm bảo tất cả các thiết bị nhận dạng đã được mount và sẵn sàng
+1. Yêu cầu id OSD và fsid OSD (uuid), có thể xem chúng trong data dir
+       
+       root@ceph01:/var/lib/ceph/osd/ceph-0# cat fsid
+       26f73ff2-5461-42c9-b70a-3e6e38b6a785
+       
+       root@ceph01:/var/lib/ceph/osd/ceph-0# cat whoami
+       0
+3. Bật systemd unit theo với id và uuid tương thích
+4. Systemd unit sẽ đảm bảo tất cả các thiết bị nhận dạng đã được mount và sẵn sàng
 
-        #  systemctl | grep ceph
-        var-lib-ceph-osd-ceph\x2d0.mount                           loaded active mounted   /var/lib/ceph/osd/ceph-0
-        var-lib-ceph-osd-ceph\x2d1.mount                           loaded active mounted   /var/lib/ceph/osd/ceph-1
+       #  systemctl | grep ceph
+       var-lib-ceph-osd-ceph\x2d0.mount                           loaded active mounted   /var/lib/ceph/osd/ceph-0
+       var-lib-ceph-osd-ceph\x2d1.mount                           loaded active mounted   /var/lib/ceph/osd/ceph-1
 5. Systemd unit `ceph-osd` được khởi động
 
 # FileStore
