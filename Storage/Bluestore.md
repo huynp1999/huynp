@@ -39,13 +39,13 @@ Sau khi triển khai một OSD thì thư mục dữ liệu sẽ như sau
 
     # root@ceph01:~# ls -l /var/lib/ceph/osd/ceph-1
     total 24
-    lrwxrwxrwx 1 ceph ceph 93 Aug 16 02:38 block -> /dev/ceph-aa7221d6-7879-4f2c-8e5d-f9ed131f21c4/osd-block-2135b85a-cb38-4275-a249-0d883c4acd48
-    -rw------- 1 ceph ceph 37 Aug 16 02:38 ceph_fsid
-    -rw------- 1 ceph ceph 37 Aug 16 02:38 fsid
-    -rw------- 1 ceph ceph 55 Aug 16 02:38 keyring
-    -rw------- 1 ceph ceph  6 Aug 16 02:38 ready
-    -rw------- 1 ceph ceph 10 Aug 16 02:38 type
-    -rw------- 1 ceph ceph  2 Aug 16 02:38 whoami
+    lrwxrwxrwx 1 ceph ceph 93 Aug 16 02:38 block -> /dev/ceph-aa7221d6-7879-4f2c-8e5d-f9ed131f21c4/osd-block-2135b85a-cb38-4275-a249-0d883c4acd48        #
+    -rw------- 1 ceph ceph 37 Aug 16 02:38 ceph_fsid                            #fsid tức là id nhận dạng duy nhất của một cluster
+    -rw------- 1 ceph ceph 37 Aug 16 02:38 fsid                                 #tương tự như trên nhưng là fsid của osd, ceph-volume sẽ tạo lg và lv dựa trên 2 fsid này
+    -rw------- 1 ceph ceph 55 Aug 16 02:38 keyring                              #khoá xác thực của OSD khi làm việc với ceph auth
+    -rw------- 1 ceph ceph  6 Aug 16 02:38 ready                                #trạng thái hoạt động của osd (ready)
+    -rw------- 1 ceph ceph 10 Aug 16 02:38 type                                 #kiểu backend của osd, bluestore hoặc filestore
+    -rw------- 1 ceph ceph  2 Aug 16 02:38 whoami                               #id thứ tự của osd
 
 
 Tại đây có thể thấy symlink từ `block` tới `vg/lv` mà đã được `ceph-volume` tạo ra theo cú pháp:
