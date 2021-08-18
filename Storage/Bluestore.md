@@ -115,7 +115,7 @@ Tới phần active, sẽ sử dụng những gì đã được tạo sẵn đ�
        
        root@ceph01:/var/lib/ceph/osd/ceph-0# cat whoami
        0
-3. Bật systemd unit theo với id và uuid tương thích
+3. Bật systemd unit theo với id và fsid tương thích
 4. Systemd unit sẽ đảm bảo tất cả các thiết bị nhận dạng đã được mount và sẵn sàng
 
        #  systemctl | grep ceph
