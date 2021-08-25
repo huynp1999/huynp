@@ -43,12 +43,49 @@ Một OSD khi được khởi tạo sẽ mặc định có `CRUSH location` là:
 Tương tự như vậy, với một device (OSD) ở một hàng, giá, khung và máy chủ cụ thể và thuộc root 'default', thì CRUSH location của nó sẽ là:
 
     `root=default row=a rack=a2 chassis=a2b host=a2b5`
-    
+
 Xem cây phân cấp CRUSH và *weight* của chúng sẽ được biểu thị theo đơn vị terabtye:
 
     ceph osd tree
+
+OSD có thể được add/move vào CRUSH map theo các bucket bằng câu lệnh:
+
+    ceph osd crush set {name} {weight} root={root} [{bucket-type}={bucket-name} ...]
     
-### Rule
+#### Ví dụ
+Có 3 host trong một datacenter, mỗi host có 2 OSD. Host 1 nằm cùng ngăn (rack) với host 2, còn host 3 nằm khác hàng (row).
+
+    ceph osd crush set osd.0 1.0 root=default datacenter=dc1 room=room1 row=row1 rack=rack1 host=host1
+    tương tự với osd.1-osd.3...
+    
+Với host 3 sẽ cần tạo một row2 và chuyển nó vào room1, rồi mới chuyển các osd vào
+
+    ceph osd crush add-bucket row2 row
+    ceph osd crush move row2 root=default room=room1
+    
+    root@ceph01:~# ceph osd tree
+    ID  CLASS WEIGHT  TYPE NAME                      STATUS REWEIGHT PRI-AFF
+     -1       6.00000 root default
+    -13       6.00000     datacenter dc1
+    -12       6.00000         room room1
+    -11       4.00000             row row1
+    -10       4.00000                 rack rack1
+     -9       2.00000                     host host1
+      0   hdd 1.00000                         osd.0      up  1.00000 1.00000
+      1   hdd 1.00000                         osd.1      up  1.00000 1.00000
+    -19       2.00000                     host host2
+      2   hdd 1.00000                         osd.2      up  1.00000 1.00000
+      3   hdd 1.00000                         osd.3      up  1.00000 1.00000
+     -3       2.00000             row row2
+    -21       2.00000                 host host3
+      4   hdd 1.00000                     osd.4          up  1.00000 1.00000
+      5   hdd 1.00000                     osd.5          up  1.00000 1.00000
+
+ Ngoài ra, có thể move cả một host vào rack riêng thay vì chuyển từng osd, ví dụ chuyển host2 sang cùng hàng với host3
+    
+    ceph osd crush move host2 root=default room=room1 row=row2
+
+## Rule
 CRUSH rule xác định cách thức dữ liệu được phân phối trên các thiết bị thuộc hệ thống phân cấp. Chúng xác định vị trí theo tính toán rồi sao chép hoặc phân phối. Các rule giúp chỉ định chính xác cách mà CRUSH đặt các bản sao dữ liệu.
 
 Các CRUSH rule có thể được tạo bằng cách chỉ định loại hình mà mà chúng sẽ được sử dụng (replicated hoặc erasure coded (EC)), failure domain và có thể với cả device class
@@ -70,7 +107,8 @@ Trong đó:
 - `<failure-domain>` là loại bucket thuộc node root dành cho việc replicate
 - `<class>` là device class (hdd, ssd, nvme)
     
-Ví dụ: tạo CRUSH rule mới và gán cho pool `rbd` để cho phép dữ liệu trong pool này chỉ được ghi vào một loại thiết bị cụ thể là hdd
+#### Ví dụ:
+Tạo CRUSH rule mới và gán cho pool `rbd` để cho phép dữ liệu trong pool này chỉ được ghi vào một loại thiết bị cụ thể là hdd
 
     ceph osd crush rule create-replicated replicated_hdd default host hdd
     ceph osd pool set rbd crush_rule replicated_hdd
