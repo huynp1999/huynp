@@ -36,6 +36,8 @@ CRUSH map có sẵn các `type` dùng để mô tả các node này, bao gồm:
 - `region`
 - `root`
 
+#### Các lệnh với OSD và bucket
+
 Một OSD khi được khởi tạo sẽ mặc định có `CRUSH location` là:
 
     `root=default host=HOSTNAME (HOSTNAME sẽ là output của hostname -s)`
@@ -90,6 +92,7 @@ CRUSH rule xác định cách thức dữ liệu được phân phối trên cá
 
 Các CRUSH rule có thể được tạo bằng cách chỉ định loại hình mà mà chúng sẽ được sử dụng (replicated hoặc erasure coded (EC)), failure domain và có thể với cả device class
 
+#### Các lệnh với rule
 Xem các rule được chỉ định trong cluster:
 
     ceph osd crush rule ls
