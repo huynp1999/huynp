@@ -166,6 +166,29 @@ Sau khi edit thì compile và set CRUSH map vào lại cluster:
     crushtool -c {decompiled-crushmap-filename} -o {compiled-crushmap-filename}
     ceph osd setcrushmap -i {compiled-crushmap-filename}
     
+Sau khi decompile xong thì CRUSH map sẽ có định dạng rule như sau:
+
+    rule <rulename> {
+            id [a unique whole numeric ID]
+            type [ replicated | erasure ]
+            min_size <min-size>
+            max_size <max-size>
+            step take <bucket-name> [class <device-class>]
+            step [choose|chooseleaf] [firstn|indep] <N> type <bucket-type>
+            step emit
+    }
+
+Trong đó:
+- `id` số định danh của rule, rule mặc định bắt đầu từ 0
+- `type` gồm 2 loại rule replicated và [erasure code](https://docs.ceph.com/en/latest/rados/operations/crush-map/#creating-a-rule-for-an-erasure-coded-pool)
+- `min_size` `max_size` nếu pool có ít bảo sao hơn `min` hoặc đã có nhiều hơn `max` thì CRUSH sẽ không chọn rule này. Giá trị mặc định `1` và `10`
+- `step take <bucket-name> [class <device-class>]` chọn một bucket và thực hiện rule từ node đó trở xuống. Nêu chỉ định thêm `device-class` thì rule sẽ chỉ áp dụng cho device có class đó trong pool
+- `step choose firstn <N> type <bucket-type>` chọn `N` bucket thuộc type đã cho. Giá trị `N` thông thường bằng `replicated_size` (có thể xem replicated size của pool bằng câu lệnh `ceph osd dump | grep 'replicated size'`)
+  - Nếu `N` = 0, thì chọn `replicated_size` bucket nằm trong pool
+  - Nếu 0 < `N` < `replicated_size` thì chọn bấy nhiêu `N` bucket
+  - Nếu `N` < 0, thì chọn `replicated_size - N` bucket
+- `step chooseleaf firstn <N> type <bucket-type>` chọn một bucket với type đã cho, và lấy leaf node (tức là OSD) của các nhánh con của bucket đó. `N` cũng được lấy tương tự như trên. 
+- `step emit` thường được dùng để kết thúc một rule, nhưng cũng có thể dùng để chọn một nhánh bucket khác trong cùng một rule.
 
 
 
