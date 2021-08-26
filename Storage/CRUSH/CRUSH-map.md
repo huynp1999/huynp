@@ -9,8 +9,8 @@ Phía trên nó là các bucket tương tự như mô hình tổ chức các thi
 
 Bằng cách mô tả lại tổ chức của thiết bị vật lý, CRUSH có thể hình dung rõ hơn về khả năng lỗi của các thiết bị, cũng như cách đặt vị trí của failure domain mà không làm hỏng đi các phân phối (distribution) mong muốn.
 
-## Cấu trúc cây phân cấp
-Cấu trúc của CRUSH bao gồm các device (OSD), bucket (type), các thông tin về weight và các rule quyết định việc replicate.
+## Cấu trúc CRUSH map
+Cấu trúc của CRUSH bao gồm cá thông tin chính về device (OSD), device class, bucket (type), weight và các rule quyết định việc replicate.
 
 ### Device
 Nằm cuối trong cây phân cấp, các thiết bị tượng trưng cho các OSD lưu trữ dữ liệu, thông thường là một OSD tương ứng một disk.
@@ -19,6 +19,18 @@ Các thiết bị này được xác định bởi `id` (một số nguyên khô
 Kể từ bản Ceph Luminous, các device này có thêm một trường thông tin là `class` (ví dụ: HDD, SSD hoặc NVME), tạo thuận tiện hơn cho CRUSH khi áp dụng các rule.
 Điều này cũng đặc biệt hữu ích có nhiều loại thiết bị trong cùng một máy chủ.
 
+#### Các lệnh với device class
+Theo mặc định khi khởi động, OSD tự động đặt class là hdd, ssd hoặc nvme tuỳ theo loại thiết bị mà chúng được triển khai trên đó.
+
+- Chỉ định class cho OSD
+
+        ceph osd crush set-device-class <class> <osd-name> [...]
+        
+- Sau khi class được đặt, nó sẽ là cố định và muốn thay đổi sẽ phải gỡ ra trước tiên, điều này giúp cho class được gắn thủ công thể không bị thay đổi tự động bởi OSD khi restart:
+
+        ceph osd crush rm-device-class <osd-name> [...]
+ 
+ - Xem thêm cách tạo rule cho từng class riêng biệt ở mục "Rule".
 ### Bucket (Type)
 'Bucket' là thuật ngữ của CRUSH dành cho cho các node trong hệ thống tổ chức phân cấp các thiết bị: máy chủ (host), giá đỡ (rack), hàng (row), phòng (room), v.v... 
 
@@ -37,22 +49,26 @@ CRUSH map có sẵn các `type` dùng để mô tả các node này, bao gồm:
 - `root`
 
 #### Các lệnh với OSD và bucket
+- Một OSD khi được khởi tạo sẽ mặc định có `CRUSH location` là:
 
-Một OSD khi được khởi tạo sẽ mặc định có `CRUSH location` là:
+        root=default host=HOSTNAME (HOSTNAME sẽ là output của hostname -s)
 
-    `root=default host=HOSTNAME (HOSTNAME sẽ là output của hostname -s)`
+- Tương tự như vậy, với một device (OSD) ở một hàng, giá, khung và máy chủ cụ thể và thuộc root 'default', thì CRUSH location của nó sẽ là:
 
-Tương tự như vậy, với một device (OSD) ở một hàng, giá, khung và máy chủ cụ thể và thuộc root 'default', thì CRUSH location của nó sẽ là:
+        root=default row=a rack=a2 chassis=a2b host=a2b5`
 
-    `root=default row=a rack=a2 chassis=a2b host=a2b5`
+- Xem cây phân cấp CRUSH và *weight* của chúng sẽ được biểu thị theo đơn vị terabtye:
 
-Xem cây phân cấp CRUSH và *weight* của chúng sẽ được biểu thị theo đơn vị terabtye:
+        ceph osd tree
 
-    ceph osd tree
+- Add/move OSD vào CRUSH map theo các bucket bằng câu lệnh:
 
-OSD có thể được add/move vào CRUSH map theo các bucket bằng câu lệnh:
+        ceph osd crush set {name} {weight} root={root} [{bucket-type}={bucket-name} ...]
+    
+- Xoá OSD khỏi CRUSH map
 
-    ceph osd crush set {name} {weight} root={root} [{bucket-type}={bucket-name} ...]
+        ceph osd crush remove {name}
+                
     
 #### Ví dụ
 Có 3 host trong một datacenter, mỗi host có 2 OSD. Host 1 nằm cùng ngăn (rack) với host 2, còn host 3 nằm khác hàng (row).
@@ -87,29 +103,37 @@ Với host 3 sẽ cần tạo một row2 và chuyển nó vào room1, rồi mớ
     
     ceph osd crush move host2 root=default room=room1 row=row2
 
-## Rule
+
+### Rule
 CRUSH rule xác định cách thức dữ liệu được phân phối trên các thiết bị thuộc hệ thống phân cấp. Chúng xác định vị trí theo tính toán rồi sao chép hoặc phân phối. Các rule giúp chỉ định chính xác cách mà CRUSH đặt các bản sao dữ liệu.
 
 Các CRUSH rule có thể được tạo bằng cách chỉ định loại hình mà mà chúng sẽ được sử dụng (replicated hoặc erasure coded (EC)), failure domain và có thể với cả device class
 
 #### Các lệnh với rule
-Xem các rule được chỉ định trong cluster:
+- Xem các rule được chỉ định trong cluster:
 
-    ceph osd crush rule ls
-Xem nội dung của các rule đó:
+        ceph osd crush rule ls
+- Xem nội dung của các rule đó:
 
-    ceph osd crush rule dump
+        ceph osd crush rule dump
 
-Tạo rule mới dành cho một device class cụ thể
+- Tạo replicated rule dành cho một device class cụ thể
 
-    ceph osd crush rule create-replicated <rule-name> <root> <failure-domain> <class>
+        ceph osd crush rule create-replicated <rule-name> <root> <failure-domain> <class>
 
 Trong đó:
 - `<rule-name>` tên rule
-- `<root>` là node root
-- `<failure-domain>` là loại bucket thuộc node root dành cho việc replicate
+- `<root>` thông thường sẽ là giá trị `default` tức node `root`
+- `<failure-domain>` là bucket type thuộc node root dành cho việc replicate
+  - Ví dụ failure domain là `host`, CRUSH sẽ đảm bảo mỗi bản sao của dữ liệu sẽ được lưu trên từng host riêng biệt
+  - Còn nếu là `rack`, thì bản sao dữ liệu sẽ được lưu trên các rack khác nhau
+  - Việc chọn failure domain tuỳ theo độ lớn của cluster
 - `<class>` là device class (hdd, ssd, nvme)
-    
+
+- Xoá rule
+
+        ceph osd crush rule rm {rule-name}
+
 #### Ví dụ:
 Tạo CRUSH rule mới và gán cho pool `rbd` để cho phép dữ liệu trong pool này chỉ được ghi vào một loại thiết bị cụ thể là hdd
 
