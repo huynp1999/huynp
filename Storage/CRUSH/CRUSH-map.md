@@ -140,7 +140,7 @@ Tạo CRUSH rule mới và gán cho pool `rbd` để cho phép dữ liệu trong
     ceph osd crush rule create-replicated replicated_hdd default host hdd
     ceph osd pool set rbd crush_rule replicated_hdd
 
-#### Chỉnh sửa rule theo cách thủ công
+#### Chỉnh sửa CRUSH rule thủ công
 Ngoài bằng câu lệnh thì cũng có thể chỉnh sửa các rule thủ công. (có thể làm với cả device, bucket, type)
 
 Trước tiên cần phải lấy CRUSH map và decompile rồi mới có thể edit được:
