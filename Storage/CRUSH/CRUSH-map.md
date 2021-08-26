@@ -1,3 +1,8 @@
+Mục lục
+- [CRUSH map]
+- [Cấu trúc CRUSH map](./CRUSH-map.md#cấu-trúc-crush-map)
+
+
 ## CRUSH map
 CRUSH sử dụng CRUSH map để đưa xác định vị trí dữ liệu nên được lưu vào đâu trong OSD, rồi phân phối chúng dựa theo các replicate rule và failure domain.
 
