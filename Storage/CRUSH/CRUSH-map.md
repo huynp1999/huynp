@@ -10,6 +10,7 @@ Mục lục
     - [Các lệnh với rule](./CRUSH-map.md#các-lệnh-với-rule)
     - [Ví dụ](./CRUSH-map.md#ví-dụ-1) 
     - [Chỉnh sửa rule thủ công](./CRUSH-map.md#chỉnh-sửa-crush-rule-thủ-công)
+    - [Ví dụ](./CRUSH-map.md#ví-dụ-1)
 
 ## CRUSH map
 CRUSH sử dụng CRUSH map để đưa xác định vị trí dữ liệu nên được lưu vào đâu trong OSD, rồi phân phối chúng dựa theo các replicate rule và failure domain.
