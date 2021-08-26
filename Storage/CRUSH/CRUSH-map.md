@@ -1,7 +1,15 @@
 Mục lục
-- [CRUSH map]
+- [CRUSH map](./CRUSH-map.md#crush-map)
 - [Cấu trúc CRUSH map](./CRUSH-map.md#cấu-trúc-crush-map)
-
+  - [Device](./CRUSH-map.md#device)
+    - [Các lệnh với device class](./CRUSH-map.md#các-lệnh-với-device-class)
+  - [Bucket](./CRUSH-map.md#bucket-type)
+    - [Các lệnh của OSD với bucket](./CRUSH-map.md#các-lệnh-với-osd-và-bucket)
+    - [Ví dụ](./CRUSH-map.md#ví-dụ)
+  - [Rule](./CRUSH-map.md#rule)
+    - [Các lệnh với rule](./CRUSH-map.md#các-lệnh-với-rule)
+    - [Ví dụ](./CRUSH-map.md#ví-dụ-1) 
+    - [Chỉnh sửa rule thủ công](./CRUSH-map.md#chỉnh-sửa-crush-rule-thủ-công)
 
 ## CRUSH map
 CRUSH sử dụng CRUSH map để đưa xác định vị trí dữ liệu nên được lưu vào đâu trong OSD, rồi phân phối chúng dựa theo các replicate rule và failure domain.
