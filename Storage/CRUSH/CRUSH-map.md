@@ -190,7 +190,21 @@ Trong đó:
 - `step chooseleaf firstn <N> type <bucket-type>` chọn một bucket với type đã cho, và lấy leaf node (tức là OSD) của các nhánh con của bucket đó. `N` cũng được lấy tương tự như trên. 
 - `step emit` thường được dùng để kết thúc một rule, nhưng cũng có thể dùng để chọn một nhánh bucket khác trong cùng một rule.
 
+#### Ví dụ
+Có 2 rule cơ bản, rule thứ nhất:
 
+    step take default
+    step chooseleaf firstn 0 type host
+    
+Giả sử có 3 host thuộc root default và replication size của pool = 3, thì rule này sẽ chọn 3 OSD, với mỗi host lấy 1 OSD.
+
+Rule thứ hai:
+
+    step take default
+    step choose firstn 2 type rack
+    step chooseleaf firstn 1 type host
+    
+Rule này sẽ chọn 2 rack thuộc root default, rồi tiếp tục chọn 1 OSD của một trong các host thuộc mỗi rack. Như vậy failure domain ở đây sẽ là host và tổng cộng lấy được 2 OSD trong đó là một OSD của mỗi rack
 
 
 
