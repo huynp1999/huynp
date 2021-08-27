@@ -117,5 +117,14 @@ Như vậy `ssdpool` sẽ có id là 7 và `hddpool` sẽ có id là 8, kiểm t
     8.72          0                  0        0         0       0     0           0          0    6        6 active+clean 2021-08-27 03:41:41.699308    1217'6   1217:16 [2,4,0]
 ```
 
-Benchmark kiểm tra với từng pool. Có thể thấy khi test từng pool thì chỉ có device có class thích hợp mới được hoạt động (ví dụ benchmark ssdpool thì chỉ sử dụng device có class sdd)
+Benchmark kiểm tra với từng pool. Có thể thấy khi test từng pool thì chỉ có device có class thích hợp mới được hoạt động
+
+Ví dụ benchmark ssdpool thì chỉ sử dụng device có class sdd
+
+![](https://github.com/huynp1999/huynp/blob/master/pic/storage/benchssd.png)
+
+Tương tự với hddpool
+
+![](https://github.com/huynp1999/huynp/blob/master/pic/storage/benchdd.png)
+
 
