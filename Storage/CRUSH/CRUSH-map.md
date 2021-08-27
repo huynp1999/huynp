@@ -75,10 +75,23 @@ CRUSH map có sẵn các `type` dùng để mô tả các node này, bao gồm:
 
         ceph osd tree
 
-- Add/move OSD vào CRUSH map theo các bucket bằng câu lệnh:
+Có 3 cách để chỉ định CRUSH location cho một OSD, cách 1 chỉ hỗ trợ move OSD sau khi đã khởi tạo, còn 2 cách còn lại cho phép đặt location từ khi OSD mới bắt đầu được khởi tạo
+
+1. Có thể Add/move OSD vào CRUSH map theo các bucket bằng câu lệnh sau:
 
         ceph osd crush set {name} {weight} root={root} [{bucket-type}={bucket-name} ...]
-    
+2. Thêm trường thông tin `crush location = <crush_location>` vào file cấu hình `ceph.conf` 
+
+        [osd]
+        crush location = datacenter=dc1 room=room1 row=row1 rack=rack1 host=host1
+3. Tạo một script với output là location của osd, và dẫn script tới file cấu hình `ceph.conf`. Phương pháp này cho phép không cần nhập thủ công từng tên của bucket:
+
+        crush location hook = /root/crushloc.sh
+
+        #!/bin/sh
+        HOSTNAME=`hostname -s`
+        echo "host=${HOSTNAME} row=row2 root=default"
+             
 - Xoá OSD khỏi CRUSH map
 
         ceph osd crush remove {name}
