@@ -10,26 +10,19 @@ Các trạng thái của một OSD trong cluster có thể là:
 - `up` đang hoạt động
 - `down` không hoạt động
 
-Nếu một OSD đang là `up`, thì nó có thể đang nằm trong cluster (tức là có thể đọc và ghi dữ liệu) hoặc nằm ngoài cluster (`out`).
-Nếu một OSD từng nằm trong cluster và gần đây đã được chuyển ra khỏi cluster, Ceph sẽ tự động di chuyển các PG sang cho các OSD khác.
-Với OSD nằm ngoài cluster, CRUSH sẽ không chỉ định các PG cho OSD này. Và với OSD không hoạt động (`down`) cũng có nghĩa là `out`.
+Kiểm tra tổng quan các OSD, câu lệnh sẽ cho biết tổng số `x` OSD, bao nhiêu `up` (y), bao nhiêu `in` (z) và epoch là số lần map được thay đổi?
 
-Một vài trường hợp khiến cho trạng thái của cluster bị `HEALTH WARN`:
-1. Do cluster chưa được bật.
-2. Do vừa start hoặc restart cluster nên nó có thể chưa sẵn sàng hoạt động được ngay, vì các PG cần thời gian khởi tạo và các OSD đang trong quá trình liên kết với nhau.
-3. Thêm hoặc xóa OSD.
-4. Cluster map vừa được sửa đổi.
-
-Kiểm tra tổng quan các OSD:
-
-    ceph osd stat
-Câu lệnh sẽ cho biết tổng số `x` OSD, bao nhiêu `up` (y), bao nhiêu `in` (z) và epoch là số lần map được thay đổi?
-
+    # ceph osd stat
     x osds: y up, z in; epoch: eNNNN
 
+Nếu số OSD `in` lớn hơn `up` thì dùng lệnh sau để làm rõ cái nào không hoạt động: (kham khảo tại [đây](https://docs.ceph.com/en/latest/rados/troubleshooting/troubleshooting-osd/#osd-not-running) nếu không bật thủ công lại đuợc):
 
+    ceph osd tree
 
-
+Có thể bật lại thủ công bằng câu lệnh `sudo systemctl start ceph-osd@1`, tuy nhiên thông thường khi OSD được set trạng thái `down` thì có nghĩa chúng cần thời gian restart và phục hồi trở lại, cụ thể những trường hợp:
+1. Do vừa start hoặc restart cluster nên nó có thể chưa sẵn sàng hoạt động được ngay, vì các PG cần thời gian khởi tạo và các OSD đang trong quá trình liên kết với nhau.
+2. Thêm hoặc xóa OSD, CRUSH cần thời gian phân phát PG cho các OSD khác.
+3. Cluster map vừa được sửa đổi.
 
 
 
