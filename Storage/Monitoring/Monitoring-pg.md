@@ -38,7 +38,27 @@ Trạng thái `active+degraded` xảy ra ở PG khi một OSD vẫn đang sẵn 
 
 Đối với một OSD ở cả hai trạng thái `degraded` và `down`, thì cũng nghĩa OSD này đã `out`. Dữ liệu của OSD khi `down` sẽ được chuyển sang các OSD khác.
 
-Ví dụ di hcuyeenr locaiton
+### Recovering
+Khi một OSD bị `down`, dữ liệu của nó sẽ bị lỗi thời so với các bản sao ở các PG khác. Khi OSD được `up` trở lại, dữ liệu của nó sẽ được update để phù hợp với trạng thái của cluster. Quá trình update này được thể hiện qua trạng thái `recovering`.
+
+### Back filling
+Khi một OSD mới được tạo trong cluster, CRUSH sẽ tái phân phát lại các PG đang có sẵn ở các OSD cũ tới OSD mới được thêm vào. Quá trình này gọi là back filling, thực hiện việc tái phân phát PG khi có một OSD được thêm hoặc bị xoá.
+
+Việc bắt một OSD mới chấp nhận các PG ngay lập tức có thể khiến nó bị quá tải. 
+
+Một số trạng thái xảy ra trong quá trình backfill:
+- `backfill_wait` đang chờ, chưa được backfill
+- `backfilling` đang tiến hành backfill
+- `backfill_toofull` không thể hoàn tất backfill vì không đủ không gian lưu trữ. Khi một PG không thể được backfill, nó sẽ được đánh trạng thái `incomplete`. Tuy nhiên trạng thái này có thể chỉ là tạm thời, vì các PG sẽ di chuyển xung quanh cluster và làm trống bộ nhớ.
+
+### Remapped
+Khi chuyển giao vị trí primary của 2 OSD, dữ liệu được migrate từ primary OSD cũ sang primary OSD mới. Quá trình migrate có thể sẽ cần một lúc, trong thời gian này primary cũ tiếp tục phục vụ các request cho tới khi migrate các PG hoàn tất. Toàn bộ tiến trình này được gọi là remmaped, khi remmaped hoàn tất sẽ sử dụng primary OSD mới làm nơi phục vụ request từ client
+
+### Stale
+Ceph kiểm tra heartbeat để đảm bảo các host và daemon đang hoạt động, ceph-osd daemon có thể bị lỗi nào đó khiến cho nó không thể trả về heartbeat kịp thời cho cluster (ví dụ như mất kết nối mạng tạm thời). Trạng thái `stale` thường xảy ra khi mới khởi động cluster cho tới khi tiến trình `peering` hoàn tất. Còn đối với một cluster đang hoạt động, một PG trong trạng thái `stale` tức là primary OSD của PG đó đã bị `down` hoặc không thể báo cáo tình hình PG lại cho monitor.
+
+### Ví dụ
+TH1: di chuyển location của một osd:
 
     pgs:     3.500% pgs not active
              17/663 objects degraded (2.564%)
@@ -51,14 +71,16 @@ Ví dụ di hcuyeenr locaiton
              1   active+recovering+undersized+degraded+remapped
              1   peering
 
-Ví dụ stop osd
+Do một OSD di chuyển location, nên nó cũng cần được `remapped` để client truy xuất.  
+
+TH2: một OSD `down`, khi này sẽ có ít OSD hơn `replicate_size` của pool nên PG sẽ được đánh dấu `active+undersized`. Để loại bỏ trạng thái này thì cần đặt `osd pool default size = 2`, vì 2 là số OSD hiện còn hoạt động.
 
     pgs:     132/663 objects degraded (19.910%)
              197 active+clean
              177 active+undersized
              26  active+undersized+degraded
 
-Ví dụ start osd lại
+TH3: restart OSD, các PG cũng cần peer và active lại.
 
     pgs:     35.250% pgs not active
              48/663 objects degraded (7.240%)
@@ -67,18 +89,3 @@ Ví dụ start osd lại
              61  activating
              50  active+undersized
              10  active+undersized+degraded
-
-### Recovering
-Khi một OSD bị `down`, dữ liệu của nó sẽ bị lỗi thời so với các bản sao ở các PG khác. Khi OSD được `up` trở lại, dữ liệu của nó sẽ được update để phù hợp với trạng thái của cluster. Quá trình update này được thể hiện qua trạng thái `recovering`.
-
-
-
-### Back filling
-Khi một OSD mới được tạo trong cluster, CRUSH sẽ tái phân phát lại các PG đang có sẵn ở các OSD cũ tới OSD mới được thêm vào. Quá trình này gọi là back filling, thực hiện việc tái phân phát PG khi có một OSD được thêm hoặc bị xoá.
-
-Việc bắt một OSD mới chấp nhận các PG ngay lập tức có thể khiến nó bị quá tải. 
-
-Một số trạng thái xảy ra trong quá trình backfill:
-- `backfill_wait` đang chờ, chưa được backfill
-- `backfilling` đang tiến hành backfill
-- `backfill_toofull` không thể hoàn tất backfill vì không đủ không gian lưu trữ. Khi một PG không thể được backfill, nó sẽ được đánh trạng thái `incomplete`. Tuy nhiên trạng thái này có thể chỉ là tạm thời, vì các PG sẽ di chuyển xung quanh cluster và tạo ra
