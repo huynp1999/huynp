@@ -260,5 +260,8 @@ Khác biệt giữa 2 cách:
 - Đối với cách 1: rule sẽ phân biệt hdd và ssd thông qua 2 class là `ssd` và `hdd`.
 - Đối với cách 2: rule sẽ phân biệt dựa trên 2 root là `root=ssdroot` và `root=default`
 
-Benchmark cách 2 sẽ cho tốc độ ghi dữ liệu nhanh hơn cách 1:
+Benchmark cách 2 sẽ cho tốc độ ghi dữ liệu nhanh hơn cách 1 theo cả ssd lẫn hdd:
 
+![](https://github.com/huynp1999/huynp/blob/master/pic/storage/benchss2.PNG)
+
+![](https://github.com/huynp1999/huynp/blob/master/pic/storage/benchhdd2.PNG)
