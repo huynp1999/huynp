@@ -147,29 +147,118 @@ Tạo 1 root bucket mới cho ssd pool (ssds)
     
     ceph osd crush add-bucket ssds root
 
-2. Tạo các host bucket dành cho ssd và move vào root vừa tạo
-ceph osd crush add-bucket ceph-node1-ssd  host
-ceph osd crush move ceph-node1-ssd root=ssds
+Tạo các host bucket dành cho ssd và move vào root vừa tạo
 
-3. Cấu hình ceph.conf để location ko bị reset về default
-[osd]
-osd crush update on start = false
-[osd.1]
-host = ceph-node1
-crush_location =  root=ssds host=ceph-node1-ssd
+    ceph osd crush add-bucket ceph01-ssd host
+    ceph osd crush move ceph01-ssd root=ssdroot
 
-4. Tạo OSD ssd mới và move tới root ssd bước 1
-ceph osd crush add 1 1 root=ssds
-ceph osd crush set osd.1 1 root=ssds host=ceph-node1-ssd
+Chuyển OSD ssd mới và move tới root ssd bước 1
 
-5. Tạo pool ssd
-ceph osd pool create ssdpool 128 128
+    ceph osd crush set osd.1 1 root=ssdroot host=ceph01-ssd
 
-6. Tạo rule cho root ssd
-ceph osd crush rule create-simple {rulename} {root} {failure-domain}
-ceph osd crush rule create-simple ssdrule    ssds   host
+(Optional) Cấu hình `ceph.conf` trên 3 node để location ko bị reset về default
 
-7. Gắn rule cho pool ssd
-ceph osd pool set ssdpool crush_rule ssdrule 
+    [osd]
+    osd crush update on start = false
+    [osd.1]
+    host = ceph01
+    crush_location = root=ssdroot host=ceph01-ssd
+    
+Tạo pool ssd
 
-8. Ktra ceph osd tree
+    ceph osd pool create ssdpool 128 128
+
+Tạo rule cho root ssd theo cú pháp
+
+    ceph osd crush rule create-simple ssdrule ssds host
+    
+    ceph osd crush rule create-simple {rulename} {root} {failure-domain}
+    
+Gắn rule cho pool ssd
+
+    ceph osd pool set ssdpool crush_rule ssdrule 
+
+Kiểm tra ceph osd tree
+
+    root@ceph01:~# ceph osd tree
+    ID  CLASS WEIGHT  TYPE NAME                      STATUS REWEIGHT PRI-AFF
+    -37       3.00000 root ssdroot
+    -38       1.00000     host ceph01-ssd
+      1   ssd 1.00000         osd.1                      up  1.00000 1.00000
+    -39       1.00000     host ceph02-ssd
+      3   ssd 1.00000         osd.3                      up  1.00000 1.00000
+    -40       1.00000     host ceph03-ssd
+      5   ssd 1.00000         osd.5                      up  1.00000 1.00000
+     -1       3.00000 root default
+    -33       1.00000     host ceph01
+      0   hdd 1.00000         osd.0                      up  1.00000 1.00000
+     -8       1.00000     host ceph02
+      2   hdd 1.00000         osd.2                      up  1.00000 1.00000
+     -5       1.00000     host ceph03
+      4   hdd 1.00000         osd.4                      up  1.00000 1.00000
+
+Kiểm tra crush rule và các pool
+
+    root@ceph01:~# ceph osd crush rule dump
+    [
+        {
+            "rule_id": 0,
+            "rule_name": "replicated_rule",
+            "ruleset": 0,
+            "type": 1,
+            "min_size": 1,
+            "max_size": 10,
+            "steps": [
+                {
+                    "op": "take",
+                    "item": -1,
+                    "item_name": "default"
+                },
+                {
+                    "op": "chooseleaf_firstn",
+                    "num": 0,
+                    "type": "host"
+                },
+                {
+                    "op": "emit"
+                }
+            ]
+        },
+        {
+            "rule_id": 3,
+            "rule_name": "ssdrule",
+            "ruleset": 3,
+            "type": 1,
+            "min_size": 1,
+            "max_size": 10,
+            "steps": [
+                {
+                    "op": "take",
+                    "item": -37,
+                    "item_name": "ssdroot"
+                },
+                {
+                    "op": "chooseleaf_firstn",
+                    "num": 0,
+                    "type": "host"
+                },
+                {
+                    "op": "emit"
+                }
+            ]
+        }
+
+    root@ceph01:~# ceph osd pool ls detail
+    pool 19 'ssdpool' replicated size 3 min_size 1 crush_rule 3 object_hash rjenkins pg_num 128 pgp_num 128 autoscale_mode warn last_change 1657 flags hashpspool stripe_width 0
+    pool 20 'rbdpool' replicated size 3 min_size 1 crush_rule 0 object_hash rjenkins pg_num 128 pgp_num 128 autoscale_mode warn last_change 1656 flags hashpspool stripe_width 0
+
+Dựa vào các thông tin trên:
+- Các ssd được tách ra với `root ssdroot` và có một rule và pool dành riêng cho ssd.
+- Các hdd còn lại ở root default nên root này mặc định sẽ dành riêng cho hdd.
+
+Khác biệt giữa 2 cách:
+- Đối với cách 1: rule sẽ phân biệt hdd và ssd thông qua 2 class là `ssd` và `hdd`.
+- Đối với cách 2: rule sẽ phân biệt dựa trên 2 root là `root=ssdroot` và `root=default`
+
+Benchmark cách 2 sẽ cho tốc độ ghi dữ liệu nhanh hơn cách 1:
+
