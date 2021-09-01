@@ -1,4 +1,4 @@
-## Cách 1:
+## Cách 1: Tạo 2 rule cho 2 class HDD và SSD, set 2 pool tương ứng với 2 rule đó.
 Có sẵn 3 cặp hdd và ssd ở mỗi host
 
     root@ceph01:~# ceph osd tree
@@ -127,4 +127,49 @@ Tương tự với hddpool
 
 ![](https://github.com/huynp1999/huynp/blob/master/pic/storage/benchdd.png)
 
+## Cách 2: Tách các osd có class ssd ra một ssd root riêng và tạo rule cho root đó. Như vậy root default sẽ trở thành hdd root. 
+Có sẵn 3 cặp hdd và ssd ở mỗi host
 
+    root@ceph01:~# ceph osd tree
+    ID  CLASS WEIGHT  TYPE NAME                      STATUS REWEIGHT PRI-AFF
+     -1       6.00000 root default
+    -33       2.00000     host ceph01
+      0   hdd 1.00000         osd.0                      up  1.00000 1.00000
+      1   ssd 1.00000         osd.1                      up  1.00000 1.00000
+     -8       2.00000     host ceph02
+      2   hdd 1.00000         osd.2                      up  1.00000 1.00000
+      3   ssd 1.00000         osd.3                      up  1.00000 1.00000
+     -5       2.00000     host ceph03
+      4   hdd 1.00000         osd.4                      up  1.00000 1.00000
+      5   ssd 1.00000         osd.5                      up  1.00000 1.00000
+
+Tạo 1 root bucket mới cho ssd pool (ssds)
+    
+    ceph osd crush add-bucket ssds root
+
+2. Tạo các host bucket dành cho ssd và move vào root vừa tạo
+ceph osd crush add-bucket ceph-node1-ssd  host
+ceph osd crush move ceph-node1-ssd root=ssds
+
+3. Cấu hình ceph.conf để location ko bị reset về default
+[osd]
+osd crush update on start = false
+[osd.1]
+host = ceph-node1
+crush_location =  root=ssds host=ceph-node1-ssd
+
+4. Tạo OSD ssd mới và move tới root ssd bước 1
+ceph osd crush add 1 1 root=ssds
+ceph osd crush set osd.1 1 root=ssds host=ceph-node1-ssd
+
+5. Tạo pool ssd
+ceph osd pool create ssdpool 128 128
+
+6. Tạo rule cho root ssd
+ceph osd crush rule create-simple {rulename} {root} {failure-domain}
+ceph osd crush rule create-simple ssdrule    ssds   host
+
+7. Gắn rule cho pool ssd
+ceph osd pool set ssdpool crush_rule ssdrule 
+
+8. Ktra ceph osd tree
