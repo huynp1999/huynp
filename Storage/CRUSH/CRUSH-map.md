@@ -75,8 +75,10 @@ CRUSH map có sẵn các `type` dùng để mô tả các node này, bao gồm:
 
         ceph osd tree
 
-Có 3 cách để chỉ định CRUSH location cho một OSD, cách 1 chỉ hỗ trợ move OSD sau khi đã khởi tạo, còn 2 cách còn lại cho phép đặt location từ khi OSD mới bắt đầu được khởi tạo
-
+Có 3 cách để chỉ định CRUSH location cho một OSD, cách 1 chỉ hỗ trợ move OSD sau khi đã khởi tạo, còn 2 cách còn lại cho phép đặt location từ khi OSD mới bắt đầu được khởi tạo. - - Note: Tuy nhiên khi restart cluster thì CRUSH map sẽ tự tính toán lại location của các OSD và tự di chuyển chúng về root default, để tắt tính năng update này cần cấu hình trong `ceph.conf`:
+        
+        [osd]
+        osd crush update on start = false
 1. Có thể Add/move OSD vào CRUSH map theo các bucket bằng câu lệnh sau:
 
         ceph osd crush set {name} {weight} root={root} [{bucket-type}={bucket-name} ...]
