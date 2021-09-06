@@ -130,13 +130,13 @@ TH7: khi một OSD lỗi khiến cho PG không thực hiện được `peering`,
     pg 1.4 is down+peering
     ...
     osd.1 is down since epoch 69, last address 192.168.106.220:6801/8651
-TH8:
+TH8: object trong PG bị đánh dấu `unfound`, ví dụ trong trường hợp:
 1. `osd.1` bị `down`, trong lúc đó dữ liệu đang được ghi vào `osd.2`.
 2. Khi `osd.1` up trở lại và peering thì sẽ thấy những object mới được ghi và tạo tiến trình phục hồi `recovering`.
 3. Nhưng trong quá trình phục hồi thì `osd.2` lại `down`.
-4. Lúc này `osd.1` vẫn biết các object mới nằm ở đó nhưng không lấy được, các object này sẽ được đánh dấu là `unfound`.
+4. Lúc này `osd.1` vẫn biết các object mới nằm ở đó nhưng không thể lấy được, các object này sẽ được đánh dấu là `unfound`.
 
-Có thể kiểm tra PG nào chứa `unfound` object, ở đây là `pg 3.8a5`:
+Có thể kiểm tra PG nào chứa `unfound` object bằng `ceph health detail`, ở đây là `pg 3.8a5`:
 
     HEALTH_WARN 1 pgs recovering; 1 pgs stuck unclean; recovery 5/937611 objects degraded (0.001%); 1/312537 unfound (0.000%)
     pg 3.8a5 is stuck unclean for 803946.712780, current state active+recovering, last acting [320,248,0]
