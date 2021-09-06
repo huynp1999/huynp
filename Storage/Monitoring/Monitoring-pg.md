@@ -57,7 +57,12 @@ Khi chuyển giao vị trí primary của 2 OSD, dữ liệu được migrate t�
 ### Stale
 Ceph kiểm tra heartbeat để đảm bảo các host và daemon đang hoạt động, ceph-osd daemon có thể bị lỗi nào đó khiến cho nó không thể trả về heartbeat kịp thời cho cluster (ví dụ như mất kết nối mạng tạm thời). Trạng thái `stale` thường xảy ra khi mới khởi động cluster cho tới khi tiến trình `peering` hoàn tất. Còn đối với một cluster đang hoạt động, một PG trong trạng thái `stale` tức là primary OSD của PG đó đã bị `down` hoặc không thể báo cáo tình hình PG lại cho monitor.
 
-### Troubleshooting
+### Inconsistency
+
+
+
+
+## Troubleshooting
 TH1: di chuyển location của một osd, nên các PG cũng cần được `remapped` để client truy xuất.  
 
     pgs:     3.500% pgs not active
