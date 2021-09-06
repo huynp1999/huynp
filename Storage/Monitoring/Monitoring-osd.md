@@ -11,7 +11,7 @@ Các trạng thái của một OSD trong cluster có thể là:
 - `down` không hoạt động
 
 Với một OSD đang nằm trong cụm `in`:
-- Nếu đang ở trạng thái `up` thì nó có thể đọc ghi dữ liệu bình thường, với đầy đủ các thông tin về dung lượng bộ nhớ có thể xem bằng `ceph osd df tree`.
+- Nếu ở trạng thái `up` thì nó có thể đọc ghi dữ liệu bình thường, với đầy đủ các thông tin về dung lượng bộ nhớ có thể xem bằng `ceph osd df tree`.
         
         Ví dụ với osd.0 ở trạng thái up nằm trong cluster
         ID  CLASS WEIGHT  REWEIGHT SIZE    RAW USE DATA    OMAP    META     AVAIL   %USE VAR  PGS STATUS TYPE NAME
@@ -20,7 +20,7 @@ Với một OSD đang nằm trong cụm `in`:
           0   hdd 1.00000  1.00000  20 GiB 1.1 GiB  75 MiB  44 KiB 1024 MiB  19 GiB 5.37 1.00 256     up         osd.0
 
 
-- Nếu đang ở trạng thái `down`, Ceph sẽ migrate các PG của nó sang các OSD khác và cũng như ngừng phân phối PG cho OSD này (PGS=0 tức là không ghi dữ liệu vào đây nữa). Các thông tin còn lại về dung lượng bộ nhớ như SIZE, AVAIL, %USE vẫn được duy trì do vẫn nằm trong cluster.
+- Nếu ở trạng thái `down`, Ceph sẽ migrate các PG của nó sang các OSD khác và cũng như ngừng phân phối PG cho OSD này (PGS=0 tức là không ghi dữ liệu vào đây nữa). Các thông tin còn lại về dung lượng bộ nhớ như SIZE, AVAIL, %USE vẫn được duy trì do vẫn nằm trong cluster.
  
         Ví dụ với osd.0 khi bị down nhưng vẫn nằm trong cluster
         ID  CLASS WEIGHT  REWEIGHT SIZE    RAW USE DATA    OMAP    META     AVAIL  %USE VAR  PGS STATUS TYPE NAME
