@@ -57,7 +57,7 @@ Khi chuyển giao vị trí primary của 2 OSD, dữ liệu được migrate t�
 ### Stale
 Ceph kiểm tra heartbeat để đảm bảo các host và daemon đang hoạt động, ceph-osd daemon có thể bị lỗi nào đó khiến cho nó không thể trả về heartbeat kịp thời cho cluster (ví dụ như mất kết nối mạng tạm thời). Trạng thái `stale` thường xảy ra khi mới khởi động cluster cho tới khi tiến trình `peering` hoàn tất. Còn đối với một cluster đang hoạt động, một PG trong trạng thái `stale` tức là primary OSD của PG đó đã bị `down` hoặc không thể báo cáo tình hình PG lại cho monitor.
 
-### Ví dụ
+### Troubleshooting
 TH1: di chuyển location của một osd, nên các PG cũng cần được `remapped` để client truy xuất.  
 
     pgs:     3.500% pgs not active
@@ -87,3 +87,58 @@ TH3: restart OSD, các PG cũng cần re-peer và active trở lại.
              61  activating
              50  active+undersized
              10  active+undersized+degraded
+
+TH4: một PG bị lỗi đồng bộ `inconsistent`, `scrubbing+deep` có nghĩa Ceph đang kiểm tra các object và đối chứng với các replica để đảm bảo tính nhất quán. PG này có thể fix bằng `ceph pg repair [pgid]` nhưng vẫn cần kiểm tra lỗi phần cứng tại [đây](https://access.redhat.com/solutions/1589113).
+
+    health: HEALTH_ERR
+             1 scrub errors
+             Possible data damage: 1 pg inconsistent
+    ...
+    pgs:     4320 active+clean
+             7    active+clean+scrubbing+deep
+             1    active+clean+scrubbing+deep+inconsistent
+             
+TH5: PG bị `stale`, có nghĩa monitor không nhận được update trạng thái (heartbeat) từ primary OSD của PG đó. Trạng thái `stale` thường xuất hiện khi cluster mới được khởi động và đang peering. Nếu trạng thái này kéo dài, có nghĩa primary OSD đã bị `down`, khi OSD này `up` trở lại nó sẽ tự phục hồi PG.
+ 
+    HEALTH_WARN
+            24 pgs stale
+            3/300 in osds are down
+    ...
+    pg 2.5 is stuck stale+active+remapped, last acting [2,0]
+    ...
+    osd.10 is down since epoch 23, last address 192.168.106.220:6800/11080
+    osd.11 is down since epoch 13, last address 192.168.106.220:6803/11539
+    osd.12 is down since epoch 24, last address 192.168.106.220:6806/11861
+    
+TH6: PG bị `unclean` hoặc `inactive`, nghĩa là có gì đó cản trở việc replicate object, hoặc việc serve request của PG, nguyên nhân thường thấy là do OSD `down`.
+
+    HEALTH_WARN 197 pgs stuck unclean
+    
+    HEALTH_WARN 197 pgs stuck inactive
+TH7: khi một OSD lỗi khiến cho PG không thực hiện được `peering`, thì chúng sẽ bị đánh dấu là `down` theo.
+
+    HEALTH_ERR
+            7 pgs degraded
+            12 pgs down
+            12 pgs peering
+            1 pgs recovering
+            6 pgs stuck unclean
+            114/3300 degraded (3.455%)
+            1/3 in osds are down
+    ...
+    pg 0.5 is down+peering
+    pg 1.4 is down+peering
+    ...
+    osd.1 is down since epoch 69, last address 192.168.106.220:6801/8651
+TH8:
+1. `osd.1` bị `down`, trong lúc đó dữ liệu đang được ghi vào `osd.2`.
+2. Khi `osd.1` up trở lại và peering thì sẽ thấy những object mới được ghi và tạo tiến trình phục hồi `recovering`.
+3. Nhưng trong quá trình phục hồi thì `osd.2` lại `down`.
+4. Lúc này `osd.1` vẫn biết các object mới nằm ở đó nhưng không lấy được, các object này sẽ được đánh dấu là `unfound`.
+
+Có thể kiểm tra PG nào chứa `unfound` object, ở đây là `pg 3.8a5`:
+
+    HEALTH_WARN 1 pgs recovering; 1 pgs stuck unclean; recovery 5/937611 objects degraded (0.001%); 1/312537 unfound (0.000%)
+    pg 3.8a5 is stuck unclean for 803946.712780, current state active+recovering, last acting [320,248,0]
+    pg 3.8a5 is active+recovering, acting [320,248,0], 1 unfound
+    recovery 5/937611 objects degraded (0.001%); **1/312537 unfound (0.000%)**
