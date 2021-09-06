@@ -88,7 +88,7 @@ TH3: restart OSD, các PG cũng cần re-peer và active trở lại.
              50  active+undersized
              10  active+undersized+degraded
 
-TH4: một PG bị lỗi đồng bộ `inconsistent`, `scrubbing+deep` có nghĩa Ceph đang kiểm tra các object và đối chứng với các replica để đảm bảo tính nhất quán. PG này có thể fix bằng `ceph pg repair [pgid]` nhưng vẫn cần kiểm tra lỗi phần cứng tại [đây](https://access.redhat.com/solutions/1589113).
+TH4: một PG bị lỗi đồng bộ `inconsistent`, `scrubbing+deep` có nghĩa Ceph đang kiểm tra các object và đối chứng với các replica để đảm bảo tính nhất quán. PG này có thể fix bằng `ceph pg repair [pgid]` tuỳ theo những tình trạng sau [đây](https://access.redhat.com/solutions/1589113).
 
     health: HEALTH_ERR
              1 scrub errors
@@ -100,9 +100,7 @@ TH4: một PG bị lỗi đồng bộ `inconsistent`, `scrubbing+deep` có nghĩ
              
 TH5: PG bị `stale`, có nghĩa monitor không nhận được update trạng thái (heartbeat) từ primary OSD của PG đó. Trạng thái `stale` thường xuất hiện khi cluster mới được khởi động và đang peering. Nếu trạng thái này kéo dài, có nghĩa primary OSD đã bị `down`, khi OSD này `up` trở lại nó sẽ tự phục hồi PG.
  
-    HEALTH_WARN
-            24 pgs stale
-            3/300 in osds are down
+    HEALTH_WARN 24 pgs stale; 3/300 in osds are down
     ...
     pg 2.5 is stuck stale+active+remapped, last acting [2,0]
     ...
@@ -117,14 +115,7 @@ TH6: PG bị `unclean` hoặc `inactive`, nghĩa là có gì đó cản trở vi
     HEALTH_WARN 197 pgs stuck inactive
 TH7: khi một OSD lỗi khiến cho PG không thực hiện được `peering`, thì chúng sẽ bị đánh dấu là `down` theo.
 
-    HEALTH_ERR
-            7 pgs degraded
-            12 pgs down
-            12 pgs peering
-            1 pgs recovering
-            6 pgs stuck unclean
-            114/3300 degraded (3.455%)
-            1/3 in osds are down
+    HEALTH_ERR 7 pgs degraded; 12 pgs down; 12 pgs peering; 1 pgs recovering; 6 pgs stuck unclean; 114/3300 degraded (3.455%); 1/3 in osds are down
     ...
     pg 0.5 is down+peering
     pg 1.4 is down+peering
