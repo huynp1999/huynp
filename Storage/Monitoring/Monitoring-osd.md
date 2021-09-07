@@ -56,6 +56,16 @@ Có thể bật lại thủ công bằng câu lệnh `sudo systemctl start ceph-
 
 ## Troubleshooting OSD
 ### OSD bị down
+Xảy ra khi một trong các tiến trình của `ceph-osd` không khả dụng, có thể do lỗi dịch vụ hoặc sự cố giao tiếp với các OSD khác. Do đó, các daemon `ceph-osd` còn sống khác đã báo cáo lỗi này cho monitor.
 
+Nếu daemon `ceph-osd` không chạy, thì ổ đĩa hoặc filesystem bên dưới nó cũng sẽ bị hỏng hoặc gây ra một số lỗi khác như mất keyring, ngăn daemon kết nối lại với cluster.
+Ngoài ra, sự cố về mạng gây ra tình trạng khi daemon `ceph-osd` đang chạy nhưng vẫn được đánh dấu trong cluster là `down`.
+    
+    ceph health detail
+    HEALTH_WARN 1/3 in osds are down
+    osd.0 is down since epoch 23, last address 192.168.106.220:6800/11080
+Thử restart lại daemon, ví dụ như của`osd.0`
+    
+    systemctl restart ceph-osd@0
 
-
+Ngoài ra, Nếu có lỗi nào khác ngăn không cho `ceph-osd` restart thì sẽ được ghi log ở `/var/log/ceph`. Lỗi về phần cứng hoặc filesystem không phản hồi có thể kiểm tra bằng `dmesg -T`. 
