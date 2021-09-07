@@ -58,9 +58,39 @@ Khi chuyển giao vị trí primary của 2 OSD, dữ liệu được migrate t�
 Ceph kiểm tra heartbeat để đảm bảo các host và daemon đang hoạt động, ceph-osd daemon có thể bị lỗi nào đó khiến cho nó không thể trả về heartbeat kịp thời cho cluster (ví dụ như mất kết nối mạng tạm thời). Trạng thái `stale` thường xảy ra khi mới khởi động cluster cho tới khi tiến trình `peering` hoàn tất. Còn đối với một cluster đang hoạt động, một PG trong trạng thái `stale` tức là primary OSD của PG đó đã bị `down` hoặc không thể báo cáo tình hình PG lại cho monitor.
 
 ### Inconsistency
+Ceph quản lý và cập nhật checksums của các object được lưu trữ trong cụm. Một quá trình gọi là **deep srub** được dùng để tính toán checksum các replica của một object. Nếu checksum của một replica không khớp với bản sao thẩm quyền (authoritative copy), thì replica này sẽ được coi không nhất quán (inconsistency copy).
 
+Để sửa chữa một PG không nhất quán, trước tiên cần phải biết chính xác id của nó:
 
+    # ceph health detail
+    ....
+    pg 11.eeef is active+clean+inconsistent, acting [106,427,854]
+    pg 5.ee92 is active+clean+inconsistent, acting [247,183,125]
+    ....
 
+Sử dụng `ceph pg repair` để sửa chữa một PG không nhất quán, câu lệnh này sẽ ghi đè authoritative copy lên trên inconsistent copy. 
+
+    ceph pg repair 11.eeef
+
+### Bảng tổng quan PG state
+
+| Trạng   thái PG | Mô tả                                                                                                                | Nguyên nhân                                                                                                | Khắc phục                                                                                                                  |
+|-----------------|----------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| Creating        | PG đang được khởi tạo cho pool mới                                                                                 | Vừa tạo pool mới                                                                                           | Ceph tự động                                                                                                               |
+| Peering         | Quảng bá, phân phát các PG vừa tạo cho các OSD                                                                     | OSD vừa start hoặc restart, vừa tạo pool mới,CRUSH map vừa được thay đổi                          | Ceph tự động                                                                                                               |
+| Activating      | Khởi động PG, đưa vào phục vụ các request                                                                          | OSD vừa start hoặc restart, vừa tạo pool mới, CRUSH map vừa được thay đổi                          | Ceph tự động                                                                                                               |
+| Active          | PG đã sẵn sàng để đọc và ghi dữ liệu                                                                               |                                                                                                            |                                                                                                                            |
+| Clean           | PG tại các OSD đã thống nhất được với nhau và không có replica nào rời rạc.                                        |                                                                                                            |                                                                                                                            |
+| Unclean         | Trong PG có chứa các object mà chưa đủ số lượng replicate theo quy định, và cản trở việc recover                   | PG không tìm được object cần thiết để recover (`unfound`), có OSD bị `down`, cấu hình sai        | Troubleshoot với OSD. Chỉnh lại file cấu hình, osd pool default size nên được để > 1 và < tổng số OSD trong cluster. |
+| Inactive        | PG không thể phục vụ các yêu cầu đọc/ghi                                                                           | Quá trình peering gặp vấn đề                                                                             | Troubleshoot với OSD (`ceph osd df tree`)                                                                                |
+| Degraded        | PG đang trong quá trình replicate PG không tìm thấy object                                                    | Cluster mới được khởi động, có OSD bị `down`, CRUSH map vừa được thay đổi                          | Ceph sẽ tự tiến hành `remapped`   khi CRUSH map được thay đổi                                                              |
+| Undersized      | Cluster hiện có it OSD hơn `replicate size` của pool                                                               | Có OSD bị `down`                                                                                           | Troubleshoot OSD (`ceph osd df tree`). Sửa lại `osd pool default size` bằng với số lượng OSD hiện tại                |
+| Back Filling    | CRUSH đang trong quá trình tái phân phát lại các PG từ OSD cũ sang mới, hoặc từ OSD bị lỗi sang các OSD còn   lại. | Khi có OSD được thêm hoặc bị xoá khỏi cluster. Khi OSD được thay đổi CRUSH location.                | Ceph tự động                                                                                                               |
+| Remapped        | Các OSD đang trong quá trình chuyển giao vị trí primary cho nhau                                                   | Khi OSD được thay đổi CRUSH location.                                                                    | Ceph tự động                                                                                                               |
+| Stale           | Monitor không nhận được update trạng thái (heartbeat) từ primary OSD của PG.                                       | Khi cluster mới được khởi động và đang peering. Nếu trạng thái kéo dài, tức là primary OSD đã `down` | Ceph tự động. Troubleshoot OSD (`ceph osd df tree`)                                                                    |
+| Inconsistency   | Object trong PG đang không nhất quán với các replica khác                                                          | Phần cứng của OSD không ổn định                                                                          | Sử dụng câu lệnh `ceph pg repair [pgid]`. Kiểm tra, thay thế phần cứng                                               |
+| Deep Scrubbing  | Thực hiện checksum các replica của các object, kiểm tra nhất quán                                                  | Thường xuất hiện kèm với trạng thái `inconsistent`                                                       | Ceph tự động                                                                                                               |
+| Unfound         | PG biết nhưng không tìm thấy object                                                                                | Do gián đoạn trong quá trình recover. Gây ra trạng thái `unclean`                                    | Xem cách khắc phục của `unclean`                                                                                           |
 
 ## Troubleshooting
 TH1: di chuyển location của một osd, nên các PG cũng cần được `remapped` để client truy xuất.  
@@ -93,7 +123,7 @@ TH3: restart OSD, các PG cũng cần re-peer và active trở lại.
              50  active+undersized
              10  active+undersized+degraded
 
-TH4: một PG bị lỗi đồng bộ `inconsistent`, `scrubbing+deep` có nghĩa Ceph đang kiểm tra các object và đối chứng với các replica để đảm bảo tính nhất quán. PG này có thể fix bằng `ceph pg repair [pgid]` tuỳ theo những tình trạng sau [đây](https://access.redhat.com/solutions/1589113).
+TH4: một PG bị lỗi đồng bộ `inconsistent`, `scrubbing+deep` có nghĩa Ceph đang kiểm tra các object và đối chứng với các replica để đảm bảo tính nhất quán. PG này có thể fix bằng `ceph pg repair [pgid]`.
 
     health: HEALTH_ERR
              1 scrub errors
