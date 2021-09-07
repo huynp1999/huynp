@@ -69,3 +69,32 @@ Thử restart lại daemon, ví dụ như của`osd.0`
     systemctl restart ceph-osd@0
 
 Ngoài ra, Nếu có lỗi nào khác ngăn không cho `ceph-osd` restart thì sẽ được ghi log ở `/var/log/ceph`. Lỗi về phần cứng hoặc filesystem không phản hồi có thể kiểm tra bằng `dmesg -T`. 
+
+### Thay thế OSD
+Từ phiên bản Luminous, các bước như xoá OSD CRUSH map, xoá auth key,... đều được gói gọn trong câu lệnh `ceph purge`.
+
+Các bước để thay một OSD cũ, ví dụ ở đây là osd.0. Trước tên cần set `out` để PG được phân chia cho các OSD còn lại, trước khi purge:
+
+     ceph osd out osd.0
+     ceph osd purge osd.0
+     
+Trong trường hợp muốn sử dụng lại ổ cứng cũ thì cần xoá mount vg/lv, vì OSD đã ra khỏi cluster nhưng device vẫn được mount tới lg/lv mà được tạo bởi `ceph-volume`. Check `lsblk` và xoá bỏ vg/lv:
+
+     dmsetup remove ceph--0cbd51ad--a42d--49e0--96bb--d8160818a6c5-osd--block--26f73ff2--5461--42c9--b70a--3e6e38b6a785
+     lvremove /dev/ceph-0cbd51ad-a42d-49e0-96bb-d8160818a6c5/osd-block-26f73ff2-5461-42c9-b70a-3e6e38b6a785
+
+Sử dụng zap nếu là ổ cứng cũ, còn ổ mới thì không cần làm bước này:
+      
+     # ceph-volume lvm zap /dev/sdb
+     --> Zapping: /dev/sdb
+     --> --destroy was not specified, but zapping a whole device will remove the partition table
+     Running command: /bin/dd if=/dev/zero of=/dev/sdb bs=1M count=10 conv=fsync
+     stderr: 10+0 records in
+     10+0 records out
+     10485760 bytes (10 MB, 10 MiB) copied, 0.0613278 s, 171 MB/s
+     --> Zapping successful for: <Raw Device: /dev/sdb>
+
+Cuối cùng là khởi tạo OSD, có thể chỉ định id cho OSD mới bằng ` --osd-id [id]`. Nếu không Ceph sẽ tự lấy gắn ID còn trống mà nhỏ nhất, ở đây là id 0:
+        
+     ceph-volume lvm create --data /dev/sdb
+     
