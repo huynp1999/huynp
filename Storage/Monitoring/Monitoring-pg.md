@@ -72,6 +72,45 @@ Sử dụng `ceph pg repair` để sửa chữa một PG không nhất quán, c�
 
     ceph pg repair 11.eeef
 
+# Down
+Trong một vài trường hợp mà tiến trình peering có thể bị gặp sự cố, điều này dẫn tới PG không thể `active` và không thể sử dụng được (`stuck unclean`). Thông thường, lỗi peering thường do lỗi từ OSD. Ví dụ kiểm tra PG bị `down+peering`:
+
+    ceph health detail
+    HEALTH_ERR 7 pgs degraded; 12 pgs down; 12 pgs peering; 1 pgs recovering; 6 pgs stuck unclean; 114/3300 degraded (3.455%); 1/3 in osds are down
+    ...
+    pg 0.5 is down+peering
+    pg 1.4 is down+peering
+    ...
+    osd.1 is down since epoch 69, last address 192.168.106.220:6801/8651
+    
+Query tới pg để làm rõ tại sao:
+
+    ceph pg 0.5 query
+    
+    { "state": "down+peering",
+      ...
+      "recovery_state": [
+           { "name": "Started\/Primary\/Peering\/GetInfo",
+             "enter_time": "2012-03-06 14:40:16.169679",
+             "requested_info_from": []},
+           { "name": "Started\/Primary\/Peering",
+             "enter_time": "2012-03-06 14:40:16.169659",
+             "probing_osds": [
+                   0,
+                   1],
+             "blocked": "peering is blocked due to down osds",
+             "down_osds_we_would_probe": [
+                   1],
+             "peering_blocked_by": [
+                   { "osd": 1,
+                     "current_lost_at": 0,
+                     "comment": "starting or marking this osd lost may let us proceed"}]},
+           { "name": "Started",
+             "enter_time": "2012-03-06 14:40:16.169513"}
+       ]
+    }
+
+Tại mục `recovery_state` cho biết "peering is blocked due to down osds", như vậy cần troubleshoot OSD đã bị down tại [đây](./Monitoring-osd.md).
 ### Bảng tổng quan PG state
 
 | Trạng   thái PG | Mô tả                                                                                                                | Nguyên nhân                                                                                                | Khắc phục                                                                                                                  |
