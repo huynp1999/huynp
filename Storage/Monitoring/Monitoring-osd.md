@@ -54,7 +54,8 @@ Có thể bật lại thủ công bằng câu lệnh `sudo systemctl start ceph-
 2. Thêm hoặc xóa OSD, CRUSH cần thời gian phân phát PG cho các OSD khác.
 3. Cluster map vừa được sửa đổi.
 
-
+## Troubleshooting OSD
+### OSD bị down
 
 
 
