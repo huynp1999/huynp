@@ -202,7 +202,36 @@ Kết quả
 
 
 # Add node
+Ví dụ muốn thêm một node client có ip `192.168.1.35`
 
+    [root@ceph01 ceph-ansible]# vi /etc/hosts
+    192.168.1.31 ceph01
+    192.168.1.32 ceph02
+    192.168.1.33 ceph03
+    192.168.1.35 client01
+    
+Thêm node client vào inventory:
+
+    [root@ceph01 ceph-ansible]# vi /etc/ansible/hosts
+    ...
+    [clients]
+    client01
+    
+Tại node client, tạo và cấp quyền cho user ansibledeploy
+
+    echo "ansibledeploy ALL = (root) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/ansibledeploy
+    chmod 0440 /etc/sudoers.d/ansibledeploy
+    sed -i s'/Defaults requiretty/#Defaults requiretty'/g /etc/sudoers
+
+Quay lại admin node, cấp phát ssh key cho client:
+
+    [ansibledeploy@ceph01 root]$ ssh-copy-id ansibledeploy@client01
+    
+Và playbook với option `--limit` riêng cho `client01`:
+
+    [ansibledeploy@ceph01 ceph-ansible]$ ansible-playbook site.yml --limit client01
+
+Kết quả:
 
     PLAY RECAP ***************************************************************************************************************************************
     client01                   : ok=95   changed=10   unreachable=0    failed=0    skipped=309  rescued=0    ignored=0
@@ -210,3 +239,16 @@ Kết quả
 
     INSTALLER STATUS *********************************************************************************************************************************
     Install Ceph Client            : Complete (0:00:07)
+    
+Kiểm tra tại node client:
+
+    [root@client ~]# cat /etc/ceph/ceph.conf 
+    # Please do not change this file directly since it is managed by Ansible and will be overwritten
+    [global]
+    fsid = c9e1807a-56fd-472b-aced-9479273d18a6
+    mon host = 192.168.1.31,192.168.1.32,192.168.1.33
+    public network = 192.168.1.0/24
+    cluster network = 10.10.10.0/24
+    [client.libvirt]
+    admin socket = /var/run/ceph/$cluster-$type.$id.$pid.$cctid.asok # must be writable by QEMU and allowed by SELinux or AppArmor
+    log file = /var/log/ceph/qemu-guest-$pid.log # must be writable by QEMU and allowed by SELinux or AppArmor
