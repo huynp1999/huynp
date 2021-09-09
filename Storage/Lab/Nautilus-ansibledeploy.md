@@ -163,5 +163,40 @@ Tiến hành deploy
     [ansibledeploy@ceph01 ceph-ansible]$ sudo cp site.yml.sample site.yml
     [ansibledeploy@ceph01 ceph-ansible]$ ansible-playbook site.yml
     
-    
-This phase can be restarted by running: roles/ceph-osd/tasks/main.yml
+Kết quả
+
+    TASK [show ceph status for cluster ceph] ********************************************************************************
+    Thursday 09 September 2021  15:40:58 +0700 (0:00:00.683)       14:42:22.836 ***
+    ok: [ceph01 -> ceph01] =>
+      msg:
+      - '  cluster:'
+      - '    id:     892df4ed-93b2-4338-9481-435dab49e281'
+      - '    health: HEALTH_WARN'
+      - '            mons are allowing insecure global_id reclaim'
+      - ' '
+      - '  services:'
+      - '    mon: 3 daemons, quorum ceph01,ceph02,ceph03 (age 2m)'
+      - '    mgr: ceph03(active, since 68s), standbys: ceph02, ceph01'
+      - '    osd: 6 osds: 6 up (since 24s), 6 in (since 24s)'
+      - ' '
+      - '  task status:'
+      - ' '
+      - '  data:'
+      - '    pools:   0 pools, 0 pgs'
+      - '    objects: 0 objects, 0 B'
+      - '    usage:   6.0 GiB used, 114 GiB / 120 GiB avail'
+      - '    pgs:     '
+      - ' '
+
+    PLAY RECAP ***************************************************************************************************************
+    ceph01                     : ok=314  changed=43   unreachable=0    failed=0    skipped=564  rescued=0    ignored=0
+    ceph02                     : ok=268  changed=36   unreachable=0    failed=0    skipped=538  rescued=0    ignored=0
+    ceph03                     : ok=277  changed=40   unreachable=0    failed=0    skipped=524  rescued=0    ignored=0
+
+    INSTALLER STATUS *********************************************************************************************************
+    Install Ceph Monitor           : Complete (0:00:33)
+    Install Ceph Manager           : Complete (0:01:11)
+    Install Ceph OSD               : Complete (0:00:59)
+    Install Ceph Crash             : Complete (0:00:12)
+
+
