@@ -1,3 +1,4 @@
+# Deploy cluster
 
     yum install epel-release -y
     yum install ansible git virtualenv -y
@@ -200,3 +201,12 @@ Kết quả
     Install Ceph Crash             : Complete (0:00:12)
 
 
+# Add node
+
+
+    PLAY RECAP ***************************************************************************************************************************************
+    client01                   : ok=95   changed=10   unreachable=0    failed=0    skipped=309  rescued=0    ignored=0
+
+
+    INSTALLER STATUS *********************************************************************************************************************************
+    Install Ceph Client            : Complete (0:00:07)
