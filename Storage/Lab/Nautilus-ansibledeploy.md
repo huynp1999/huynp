@@ -1,94 +1,50 @@
-# Deploy cluster
+# Deploy Ceph cluster bằng Ansible
+## Làm việc với 3 node:
 
-    yum install epel-release -y
-    yum install ansible git virtualenv -y
-
-    pip3 install netaddr
-    
+Mô hình IP:
+|  Host name | Management IP (ens33) | Public IP (ens34) | Disk |
+| --- |:------:|:-----:|:-----:|
+|  ceph01   |  192.168.1.31    | 10.10.10.31 | 3 x 20GB (sda, sdb, sdc) |
+|  ceph02   |   192.168.1.32   | 10.10.10.32 | 3 x 20GB (sda, sdb, sdc) |
+|  ceph03   |   192.168.1.33   | 10.10.10.33 | 3 x 20GB (sda, sdb, sdc) |
+  
 Tạo user ansibledeploy trên 3 host và cấp quyền sudo:
 
     echo "ansibledeploy ALL = (root) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/ansibledeploy
     chmod 0440 /etc/sudoers.d/ansibledeploy
     sed -i s'/Defaults requiretty/#Defaults requiretty'/g /etc/sudoers
     
-cấu hình cho OSD, MON, MGR, RGW [firewall](https://access.redhat.com/documentation/en-us/red_hat_ceph_storage/3/html/installation_guide_for_red_hat_enterprise_linux/requirements-for-installing-rhcs#configuring-a-firewall-for-red-hat-ceph-storage-install)
+(Optional) cấu hình firewall cho các node [firewall](https://access.redhat.com/documentation/en-us/red_hat_ceph_storage/3/html/installation_guide_for_red_hat_enterprise_linux/requirements-for-installing-rhcs#configuring-a-firewall-for-red-hat-ceph-storage-install)
 
+## Làm việc tại node admin (ceph01)
+
+Khai báo hostname cho 3 host trong `/etc/hosts`
+    
+    ...
     192.168.1.31 ceph01
     192.168.1.32 ceph02
     192.168.1.33 ceph03
 
-chuyển user deploy
+Chuyển sang user `ansibledeploy`, tạo private key và public key cho user ansibledeploy và copy sang các node còn lại:
     
     [ansibledeploy@ceph01 root]$ ssh-keygen
-    Generating public/private rsa key pair.
-    Enter file in which to save the key (/home/ansibledeploy/.ssh/id_rsa):
-    Created directory '/home/ansibledeploy/.ssh'.
-    Enter passphrase (empty for no passphrase):
-    Enter same passphrase again:
-    Your identification has been saved in /home/ansibledeploy/.ssh/id_rsa.
-    Your public key has been saved in /home/ansibledeploy/.ssh/id_rsa.pub.
-    The key fingerprint is:
-    SHA256:S3HfnUlR6q6SPoOQVInqmTZ7vnYJRiyJj+R/5F+rH8c ansibledeploy@ceph01
-    The key's randomart image is:
-    +---[RSA 3072]----+
-    |       . .     .o|
-    |      . o      ..|
-    |   . + .. .   .. |
-    |  o + +  o . o..o|
-    | o + * .S   . oo.|
-    |  o B *. . . .   |
-    |   o * o.oo.E .  |
-    |    o = +.=+ .   |
-    |     =o+o+++.    |
-    +----[SHA256]-----+
+    [ansibledeploy@ceph01 root]$ ssh-copy-id ansibledeploy@ceph01
+    [ansibledeploy@ceph01 root]$ ssh-copy-id ansibledeploy@ceph02
+    [ansibledeploy@ceph01 root]$ ssh-copy-id ansibledeploy@ceph03
 
-    [ansibledeploy@ceph01 root]$ vi  ~/.ssh/config
-    Host ceph01
-            Hostname ceph01
-            user ansibledeploy
-    Host ceph02
-            Hostname ceph02
-            user ansibledeploy
-    Host ceph03
-            Hostname ceph03
-            user ansibledeploy
-            
-            
-           
+Nếu copy bị lỗi về permission:
+
+    [ansibledeploy@ceph01 root]$ chmod 600 ~/.ssh/config
+
+Tạo ceph-ansible-keys và ansible log directory:
+
     [admin@host ~]$ mkdir ~/ceph-ansible-keys
-
     [root@ceph01 ~]# mkdir /var/log/ansible
     [root@ceph01 ~]# chown ansibledeploy.ansibledeploy /var/log/ansible
     [root@ceph01 ~]# chmod 755 /var/log/ansible
-    
-    [ansibledeploy@ceph01 root]$ ssh-keyscan ceph01 ceph02 ceph03 >> ~/.ssh/known_hosts
-    # ceph02:22 SSH-2.0-OpenSSH_8.0
-    # ceph01:22 SSH-2.0-OpenSSH_8.0
-    # ceph01:22 SSH-2.0-OpenSSH_8.0
-    # ceph01:22 SSH-2.0-OpenSSH_8.0
-    # ceph02:22 SSH-2.0-OpenSSH_8.0
-    # ceph02:22 SSH-2.0-OpenSSH_8.0
-    # ceph03:22 SSH-2.0-OpenSSH_8.0
-    # ceph03:22 SSH-2.0-OpenSSH_8.0
-    # ceph03:22 SSH-2.0-OpenSSH_8.0
-    
-    [ansibledeploy@ceph01 root]$ chmod 600 ~/.ssh/config
 
-Làm lần lượt với từng host:
+Cấu hình ansible inventory, mặc định ở `/etc/ansible/hosts`
 
-    [ansibledeploy@ceph01 root]$ ssh-copy-id ansibledeploy@ceph01
-    /usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/ansibledeploy/.ssh/id_rsa.pub"
-    /usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
-    /usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
-    ansibledeploy@ceph01's password:
-
-    Number of key(s) added: 1
-
-    Now try logging into the machine, with:   "ssh 'ansibledeploy@ceph01'"
-    and check to make sure that only the key(s) you wanted were added.
-
-    [ansibledeploy@ceph01 root]$ vi /etc/ansible/hosts
-    ...
     [mons]
     ceph01
     ceph02
@@ -102,29 +58,22 @@ Làm lần lượt với từng host:
     ceph02
     ceph03   
     
-Clone
+Clone repo của Ceph và chuyển đang branch `stable-4.0` tức phiên bản `Nautilus`
 
     [root@ceph01 ~]# cd /usr/share
     [root@ceph01 share]# git clone https://github.com/ceph/ceph-ansible.git
-    Cloning into 'ceph-ansible'...
-    remote: Enumerating objects: 61727, done.
-    remote: Counting objects: 100% (1194/1194), done.
-    remote: Compressing objects: 100% (533/533), done.
-    remote: Total 61727 (delta 877), reused 806 (delta 634), pack-reused 60533
-    Receiving objects: 100% (61727/61727), 11.73 MiB | 8.76 MiB/s, done.
-    Resolving deltas: 100% (43004/43004), done.
     [root@ceph01 share]# cd ceph-ansible/
     [root@ceph01 ceph-ansible]# git checkout stable-4.0
     Branch 'stable-4.0' set up to track remote branch 'stable-4.0' from 'origin'.
     Switched to a new branch 'stable-4.0'
-    
-Cấu hình
+   
+Tạo các file cấu hình:
 
     [root@ceph01 ceph-ansible]# ln -s /usr/share/ceph-ansible/group_vars /etc/ansible/group_vars
     [root@ceph01 ceph-ansible]# cd /etc/ansible/group_vars/
     [root@ceph01 group_vars]# cp all.yml.sample all.yml
 
-Cấu hình
+Cấu hình `/etc/ansible/group_vars/all.yml`:
 
     ceph_origin: repository
     ceph_repository: community
@@ -146,25 +95,35 @@ Cấu hình
         osd_pool_default_pg_num: 32
         osd_pool_default_pgp_num: 32
 
-Pre deploy
+Các trường thông tin:
+
+- ceph_origin — nguồn gốc của package, trong trường hợp này là repository.
+- ceph_repository — phiên bản của repository
+- ceph_stable_release — phiên bản của Ceph
+- monitor_interface — interface mà ceph monitor sử dụng, cũng là interface của public_network
+- public_network — mạng truy cập ra ngoài
+- cluster_network — mạng dành cho việc replicate trong cluster
+- osd_objectstore — filestore hoặc bluestore
+- devices — các disk được sử dụng
+- Ngoài ra còn có dedicated_devices — dành cho journal disk, ssd
+
+Một vài cấu hình trước khi tiến hành deploy:
 
     [root@ceph01 group_vars]# touch /var/log/ansible.log
     [root@ceph01 group_vars]# chown ansibledeploy:ansibledeploy /var/log/ansible.log
     [root@ceph01 group_vars]# chmod 775 /var/log/ansible.log
-Sửa lại
-
     [root@ceph01 group_vars]# vi /etc/ansible/ansible.cfg
     ...
     action_plugins = /usr/share/ceph-ansible/plugins/actions/
 
-Tiến hành deploy
+Tiến hành deploy:
 
     [root@ceph01 group_vars]# su ansibledeploy
     [ansibledeploy@ceph01 group_vars]$ cd /usr/share/ceph-ansible/
     [ansibledeploy@ceph01 ceph-ansible]$ sudo cp site.yml.sample site.yml
     [ansibledeploy@ceph01 ceph-ansible]$ ansible-playbook site.yml
     
-Kết quả
+Kết quả khi deploy thành công:
 
     TASK [show ceph status for cluster ceph] ********************************************************************************
     Thursday 09 September 2021  15:40:58 +0700 (0:00:00.683)       14:42:22.836 ***
@@ -200,9 +159,8 @@ Kết quả
     Install Ceph OSD               : Complete (0:00:59)
     Install Ceph Crash             : Complete (0:00:12)
 
-
-# Add node
-Ví dụ muốn thêm một node client có ip `192.168.1.35`
+# Thêm node mới vào cluster có sẵn
+Ví dụ muốn thêm một hostname client có ip `192.168.1.35`:
 
     [root@ceph01 ceph-ansible]# vi /etc/hosts
     192.168.1.31 ceph01
@@ -217,7 +175,7 @@ Thêm node client vào inventory:
     [clients]
     client01
     
-Tại node client, tạo và cấp quyền cho user ansibledeploy
+Tại node client, tạo và cấp quyền cho user ansibledeploy:
 
     echo "ansibledeploy ALL = (root) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/ansibledeploy
     chmod 0440 /etc/sudoers.d/ansibledeploy
@@ -231,7 +189,7 @@ Và playbook với option `--limit` riêng cho `client01`:
 
     [ansibledeploy@ceph01 ceph-ansible]$ ansible-playbook site.yml --limit client01
 
-Kết quả:
+Kết quả khi deploy thành công:
 
     PLAY RECAP ***************************************************************************************************************************************
     client01                   : ok=95   changed=10   unreachable=0    failed=0    skipped=309  rescued=0    ignored=0
