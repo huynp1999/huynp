@@ -80,3 +80,6 @@ cấu hình cho OSD, MON, MGR, RGW [firewall](https://access.redhat.com/document
     
     vi /etc/anisble/ansible.cfg
     action_plugins = /usr/share/ceph-ansible/plugins/actions/
+
+
+This phase can be restarted by running: roles/ceph-osd/tasks/main.yml
