@@ -2,11 +2,7 @@
     yum install epel-release -y
     yum install ansible git virtualenv -y
 
-    virtualenv ./venv
-    source ./venv/bin/activate
-    pip freeze > requirements.txt
-    pip install -r requirements.txt
-    pip install netaddr
+    pip3 install netaddr
     
 cấu hình cho OSD, MON, MGR, RGW [firewall](https://access.redhat.com/documentation/en-us/red_hat_ceph_storage/3/html/installation_guide_for_red_hat_enterprise_linux/requirements-for-installing-rhcs#configuring-a-firewall-for-red-hat-ceph-storage-install)
 
