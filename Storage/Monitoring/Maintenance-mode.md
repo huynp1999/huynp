@@ -22,15 +22,17 @@ Sau khi flag đã được set hoàn tất, có thể dừng các OSD hoặc cá
 
     systemctl stop ceph-@...
  
-Các flag các có chung mục đích dành cho việc bảo trì:
-- `noout`: sau một thời gian cố định (`osd mon report interval`), nếu OSD không báo cạo được tình trạng lại cho monitor, nó sẽ bị đánh dấu là `out` khỏi cluster. Vậy nên `noout` thường được dùng trong quá trình troubleshoot OSD mà không bị monitor hiểu lầm.
-- `nodown`: các sự cố về mạng có thể gây gián đoạn heartbeat của Ceph, một OSD đang `up` nhưng sẽ có thể bị đánh dấu `down`. Set `nodown` để tránh monitor hiểu lầm trong quá trình troubleshoot OSD.
-- `full`: khi cluster chạm tới tỉ lệ `full_ratio`, ceph sẽ chặn quá trình ghi dữ liệu lại. Flag `full` được dùng để ngăn chặn trường hợp trên và mở rộng dung lượng.
-- `pause`: flag này dùng để ngăn client truy xuất dữ liệu trong quá trình troubleshoot.
-- `nobackfill`: khi một OSD hoặc một node bị down tạm thời (ví dụ khi thay thế phần cứng, nâng cấp hệ điều hành), set `nobackfill` để Ceph không thực hiện backfill trong khi các OSD `down`.
-- `norecover`, `nonrebalance`: khi cần thay thế một OSD disk mà lại không muốn các PG bị phân tán ra các OSD khác, hai flag được dùng để ngăn chặn việc này.
-- `noscrub, nodeep-scrubb`: flag này được dùng để ngăn chặn quá trình deep scrub tự động, nhằm giảm tải cho các hoạt động khác như recovery, backfilling, rebalancing,...
- 
+Các flag khác có chung mục đích dành cho việc bảo trì:
+| Flag                       | Mô tả                                                                                                                                                                                                                                                  |
+|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `noout`                    | Sau một thời gian cố định (`osd mon report interval`), nếu OSD không báo cạo được tình trạng lại cho monitor, nó sẽ bị đánh dấu là `out` khỏi cluster. Vậy nên `noout` thường được dùng trong quá trình troubleshoot OSD mà không bị monitor hiểu lầm. |
+| `nodown`                   | Các sự cố về mạng có thể gây gián đoạn heartbeat của Ceph, một OSD đang `up` nhưng sẽ có thể bị đánh dấu `down`. Set `nodown` để tránh monitor hiểu lầm trong quá trình troubleshoot OSD.                                                              |
+| `full`                     | Khi cluster chạm tới tỉ lệ `full_ratio`, ceph sẽ chặn quá trình ghi dữ liệu lại. Flag `full` được dùng để ngăn chặn trường hợp trên và mở rộng dung lượng.                                                                                             |
+| `pause`                    | Flag này dùng để ngăn client truy xuất dữ liệu trong quá trình troubleshoot.                                                                                                                                                                           |
+| `nobackfill`               | Khi một OSD hoặc một node bị down tạm thời (ví dụ khi thay thế phần cứng, nâng cấp hệ điều hành), set `nobackfill` để Ceph không thực hiện backfill trong khi các OSD `down`.                                                                          |
+| `nonrebalance`             | Ngăn chặn việc PG bị phân tán ra các OSD khác trong quá trình thay thế một OSD disk.                                                                                                                                                                   |
+| `norecover`                | Tắt tính tăng tự phục hồi từ các OSD khác trong thời gian troubleshoot                                                                                                                                                                                 |
+| `noscrub`, `nodeep-scrubb` | Flag này được dùng để ngăn chặn quá trình deep scrub tự động, nhằm giảm tải cho các hoạt động khác như recovery, backfilling, rebalancing,...                                                                                                          |
 ## Use cases
 ### 1. Reboot một node
 Tắt tạm thời auto rebalancing
