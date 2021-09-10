@@ -21,24 +21,37 @@ Hoặc có thể là toàn bộ cluster:
 Sau khi flag đã được set hoàn tất, có thể dừng các OSD hoặc các service khác trong failure domain để tiến hành bảo trì.
 
     systemctl stop ceph-@...
-    
-## Use case
-### 1. Reboot, bảo trì một node
+ 
+Các flag các có chung mục đích dành cho việc bảo trì:
+- `noout`: sau một thời gian cố định (`osd mon report interval`), nếu OSD không báo cạo được tình trạng lại cho monitor, nó sẽ bị đánh dấu là `out` khỏi cluster. Vậy nên `noout` thường được dùng trong quá trình troubleshoot OSD mà không bị monitor hiểu lầm.
+- `nodown`: các sự cố về mạng có thể gây gián đoạn heartbeat của Ceph, một OSD đang `up` nhưng sẽ có thể bị đánh dấu `down`. Set `nodown` để tránh monitor hiểu lầm trong quá trình troubleshoot OSD.
+- `full`: khi cluster chạm tới tỉ lệ `full_ratio`, ceph sẽ chặn quá trình ghi dữ liệu lại. Flag `full` được dùng để ngăn chặn trường hợp trên và mở rộng dung lượng.
+- `pause`: flag này dùng để ngăn client truy xuất dữ liệu trong quá trình troubleshoot.
+- `nobackfill`: khi một OSD hoặc một node bị down tạm thời (ví dụ khi thay thế phần cứng, nâng cấp hệ điều hành), set `nobackfill` để Ceph không thực hiện backfill trong khi các OSD `down`.
+- `norecover`, `nonrebalance`: khi cần thay thế một OSD disk mà lại không muốn các PG bị phân tán ra các OSD khác, hai flag được dùng để ngăn chặn việc này.
+- `noscrub, nodeep-scrubb`: flag này được dùng để ngăn chặn quá trình deep scrub tự động, nhằm giảm tải cho các hoạt động khác như recovery, backfilling, rebalancing,...
+ 
+## Use cases
+### 1. Reboot một node
 Tắt tạm thời auto rebalancing
 
     ceph osd set noout
     noout is set
+    ceph osd set norebalance
+    norebalance is set
     ceph -s
       cluster:
         id:     xxx
         health: HEALTH_WARN
-                noout flag(s) set
+                noout,norebalance flag(s) set
     [...]
 
 Sau khi khởi động lại node hoàn tất, unset các flag để trở về trạng thái bình thường
 
     ceph osd unset noout
     noout is unset
+    ceph osd unset norebalance
+    norebalance is unset
     ceph -s
       cluster:
         id:     xxx
