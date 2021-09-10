@@ -23,7 +23,7 @@ Sau khi flag đã được set hoàn tất, có thể dừng các OSD hoặc cá
     systemctl stop ceph-@...
     
 ## Use case
-1. Reboot node
+### 1. Reboot node
 Tắt tạm thời auto rebalancing
 
     ceph osd set noout
@@ -52,7 +52,7 @@ Sau khi khởi động hoàn tất, unset các flag để trở về trạng th�
         health: HEALTH_OK
     [...]
 
-2. Stop, start cluster
+### 2. Stop, start cluster
 Set các OSD flag, tránh cho việc dữ liệu bị 
 
     ceph osd set noout
