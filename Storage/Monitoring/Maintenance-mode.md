@@ -23,29 +23,22 @@ Sau khi flag đã được set hoàn tất, có thể dừng các OSD hoặc cá
     systemctl stop ceph-@...
     
 ## Use case
-### 1. Reboot node
+### 1. Reboot, bảo trì một node
 Tắt tạm thời auto rebalancing
 
     ceph osd set noout
     noout is set
-    ceph osd set norebalance
-    norebalance is set
     ceph -s
       cluster:
         id:     xxx
         health: HEALTH_WARN
-                noout,norebalance flag(s) set
+                noout flag(s) set
     [...]
 
-Reboot
-
-    reboot
-Sau khi khởi động hoàn tất, unset các flag để trở về trạng thái bình thường
+Sau khi khởi động lại node hoàn tất, unset các flag để trở về trạng thái bình thường
 
     ceph osd unset noout
     noout is unset
-    ceph osd unset norebalance
-    norebalance is unset
     ceph -s
       cluster:
         id:     xxx
