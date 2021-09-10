@@ -22,5 +22,74 @@ Sau khi flag đã được set hoàn tất, có thể dừng các OSD hoặc cá
 
     systemctl stop ceph-@...
     
-##     
+## Use case
+1. Reboot node
+Tắt tạm thời auto rebalancing
+
+    ceph osd set noout
+    noout is set
+    ceph osd set norebalance
+    norebalance is set
+    ceph -s
+      cluster:
+        id:     xxx
+        health: HEALTH_WARN
+                noout,norebalance flag(s) set
+    [...]
+
+Reboot
+
+    reboot
+Sau khi khởi động hoàn tất, unset các flag để trở về trạng thái bình thường
+
+    ceph osd unset noout
+    noout is unset
+    ceph osd unset norebalance
+    norebalance is unset
+    ceph -s
+      cluster:
+        id:     xxx
+        health: HEALTH_OK
+    [...]
+
+2. Stop, start cluster
+Set các OSD flag, tránh cho việc dữ liệu bị 
+
+    ceph osd set noout
+    ceph osd set nobackfill
+    ceph osd set norecover
+    ceph osd set norebalance
+    ceph osd set nodown
+    ceph osd set pause
+    ceph -s
+      cluster:
+      [...]
+        health: HEALTH_WARN
+                pauserd,pausewr,nodown,noout,nobackfill,norebalance,norecover flag(s) set
+
+      services:
+      [...]
+        osd: x osds: y up, z in
+             flags pauserd,pausewr,nodown,noout,nobackfill,norebalance,norecover
+
+Dừng các service theo thứ tự mgr -> osd -> mon: (node by node)
+
+    sudo systemctl stop ceph-mgr\*.service
+    sudo systemctl stop ceph-osd\*.service
+    sudo systemctl stop ceph-mon\*.service
+
+Khởi động theo thứ tự mon -> osd -> mgr: (node by node)
+
+    sudo systemctl start ceph-mon\*.service
+    systemctl start ceph-osd@DEVICE.service
+    sudo systemctl start ceph-mgr\*.service
+
+Unset các flag
+
+    ceph osd unset pause
+    ceph osd unset nodown
+    ceph osd unset norebalance
+    ceph osd unset norecover
+    ceph osd unset nobackfill
+    ceph osd unset noout
 
