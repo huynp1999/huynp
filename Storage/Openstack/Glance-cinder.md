@@ -9,8 +9,7 @@ Glance sử dụng RESTful API cho phép truy vấn metadata của VM image tư�
 VM image được tạo từ Glance có thể được lưu trữ ở nhiều kiểu lưu trữ khác nhau, từ filesystem, tới object storage (Swift) và block storage (Cinder).
 
 ## Các thao tác quản lý image
-1.Upload image vào Glance
-
+#### 1. Upload image vào Glance
 VM image có thể được import vào glance bằng câu lệnh
 
     openstack image create --public \
@@ -24,13 +23,12 @@ Trong đó:
   
 Ví dụ upload image của cirros cho VM:
   
-    openstack image create "cirros-ceph" --file cirros-0.3.4-x86_64-disk.img --disk-format qcow2 --container-format bare --public
+    openstack image create "cirros-ceph" --file ./cirros-0.3.4-x86_64-disk.img --disk-format qcow2 --container-format bare --public
     
- 2. List, show thông tin
+#### 2. List, show thông tin
  Để liệt kê danh sách hay hiện thị các thông tin chi tiết của image sử dụng câu lệnh:
  
     openstack image list
     openstack image show cirros-ceph
     
-    
-    
+  
