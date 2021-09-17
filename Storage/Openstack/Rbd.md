@@ -16,8 +16,19 @@ Tạo snapshot của một image:
 
     rbd snap create mypool/myimage@mysnap
     
+### 2. Thao tác với trash
+Thay vì xoá hẳn thì có thể xoá tạm thời volume/image vào thùng rác:
+    
+    rbd trash mv mypool/myimage
+Lấy danh sách các image đã bị xoá:
 
-### 2. RBD layering
+    $ rbd trash ls mypool
+    36c371d5245c1 myimage
+Khôi phục volume từ thùng rác (option `--image` nếu muốn rename image):
+
+    rbd trash restore mypool/36c371d5245c1 --image restoreimage
+
+### 3. RBD layering
 Tính năng layering trong RBD cho phép tạo nhiều copy-on-write clone (CoW) của một block device snapshot.
 Layering được sử dụng như trong trường hợp cần clone snapshot của một image thuộc một VM, và ta sẽ không muốn snapshot gốc bị ảnh hưởng mà chỉ thao tác trên clone của nó.
 Lúc này snapshot của VM gốc sẽ là `parent`, còn snapshot được clone cho instance mới sẽ gọi là `child`.
@@ -54,7 +65,7 @@ Muốn xoá một parent snapshot, cần gỡ (`flatten`) hoặc xoá (`rm`) cá
     $ rbd snap unprotect mypool/myimage@mysnap
     $ rbd snap rm mypool/myimage@mysnap
 
-### 3. Striping
+### 4. Striping
 Như đã biết, một rbd image sẽ được phân tán ra khắp RADOS cluster, vậy nên các request đọc/ghi tới image cũng được chuyển tới nhiều node trong cluster.
 Điều này có thể gây ra rủi ro nghẽn cổ chai đối với các image lớn và có lượng truy xuất cao.
 
