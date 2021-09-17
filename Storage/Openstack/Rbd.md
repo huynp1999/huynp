@@ -2,7 +2,7 @@
 Công cụ rbd được dùng để thao tác với image của RBD ([Rados Block Device](https://github.com/huynp1999/huynp/blob/master/Storage/Ceph-components/ceph-rbd.md)).
 RBD image về cơ bản là một block device tương tự như ổ cứng, cdrom,... Image này sẽ được tách (striped) thành nhiều object và lưu được lưu phân tán trong RADOS cluster.
 
-## 1. Các thao tác với RBD image
+## Các thao tác với RBD image
 Tạo một image mới có dung lượng 100GB, từ một pool:
     
     rbd create mypool/myimage --size 102400
@@ -12,10 +12,23 @@ Xoá image:
 List image của một pool:
 
     rbd ls -p mypool
+    
+### 1. Thao tác với image snapshot     
 Tạo snapshot của một image:
 
     rbd snap create mypool/myimage@mysnap
+List snapshot của một image:
+ 
+    rbd snap ls mypool/myimage
+Phục hồi image từ snapshot:    
     
+    rbd snap rollback mypool/myimage@mysnap
+Xoá một snapshot của một image:
+
+    rbd snap rm mypool/myimage@mysnap
+Xoá toàn bộ snapshot của một image:
+
+    rbd snap purge mypool/myimage
 ### 2. Thao tác với trash
 Thay vì xoá hẳn thì có thể xoá tạm thời volume/image vào thùng rác:
     
