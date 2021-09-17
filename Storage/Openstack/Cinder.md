@@ -28,7 +28,9 @@ Trong đó:
 #### 5. Mở rộng volume
 Có 2 cách để resize một volume:
 1. Gỡ volume ra khỏi instance và resize:
+    
         openstack server remove volume <instance_name> <volume_name>
         openstack volume set <volume_name> --size <size> (note: size mới phải lớn hơn cũ)
 2. Mở rộng trực tiếp vào volume đang gắn, không cần reboot:
+    
         openstack --os-volume-api-version <microversion/3.42> volume set <volume_name> --size <size>
