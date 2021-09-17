@@ -34,7 +34,7 @@ Tính năng layering có thể được bật khi tạo một image mới:
 Image cần được bật bảo vệ trước khi thực hiện clone:
 
     rbd snap protect mypool/myimage@mysnap
-Tiến hành clone `myimage` cho `childimage` thông qua snapshot `mysnap`
+Tiến hành clone `myimage` cho `childimage1` thông qua snapshot `mysnap`
 
     rbd clone mypool/myimage@mysnap mypool2/childimage1
 List các child của snapshot
