@@ -15,6 +15,8 @@ List image của một pool:
 Tạo snapshot của một image:
 
     rbd snap create mypool/myimage@mysnap
+    
+
 ### 2. RBD layering
 Tính năng layering trong RBD cho phép tạo nhiều copy-on-write clone (CoW) của một block device snapshot.
 Layering được sử dụng như trong trường hợp cần clone snapshot của một image thuộc một VM, và ta sẽ không muốn snapshot gốc bị ảnh hưởng mà chỉ thao tác trên clone của nó.
@@ -24,6 +26,10 @@ Lúc này snapshot của VM gốc sẽ là `parent`, còn snapshot được clon
 
 Parent snapshot luôn luôn là `read-only`, một mặt để tránh ảnh hưởng từ các clone của nó, mặt khác lại có thể giúp việc cloning nhanh chóng hơn.
 Nhìn từ phía người dùng, child snapshot sẽ không khác gì một rbd image thông thường mà có thể snapshot, đọc/ghi, resize,...
+
+Tính năng layering có thể được bật khi tạo một image mới:
+
+    rbd snap create mypool/myimage --image-feature layering
 
 Image cần được bật bảo vệ trước khi thực hiện clone:
 
@@ -50,4 +56,8 @@ Muốn xoá một parent snapshot, cần gỡ (`flatten`) hoặc xoá (`rm`) cá
 
 ### 3. Striping
 Như đã biết, một rbd image sẽ được phân tán ra khắp RADOS cluster, vậy nên các request đọc/ghi tới image cũng được chuyển tới nhiều node trong cluster.
-Điều này có thể gây ra rủi ro về nghẽn cổ chai đối với các image lớn và nhiều truy xuất.
+Điều này có thể gây ra rủi ro nghẽn cổ chai đối với các image lớn và có lượng truy xuất cao.
+
+Striping có thể được điều chỉnh nhờ các option khi tạo một image mới:
+- `--object-size`: chỉ định size của object khi chia (mặc định 4MB, min 4K, max 32M)
+- `--stripe_unit`: số byte được ghi liền kề của một object, trước khi chuyển sang object tiếp theo (default stripe_unit = object-size)
