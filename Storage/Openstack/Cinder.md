@@ -22,3 +22,6 @@ Trong đó:
 - `<instance_name>` tên hoặc id vm
 - `<volume_name>` tên hoặc id volume
 - `</dev/vdX>` gắn volume vào như một ổ đĩa ảo nên có thể chỉ định tên cho thiết bị như `vba,b,c...`
+
+#### 4. Xoá volume
+    openstack volume delete <volume_name>
