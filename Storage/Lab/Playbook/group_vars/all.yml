@@ -1,5 +1,9 @@
 public_network: 192.168.1.0/24
 cluster_network: 10.10.10.0/24
+hosts:
+  - ceph01
+  - ceph02
+  - ceph03
 devices:
   - /dev/sdb
   - /dev/sdc
