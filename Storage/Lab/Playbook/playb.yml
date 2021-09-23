@@ -22,16 +22,20 @@
   tasks:
     - name: Deploy monitor
       command: "ceph-deploy new {{item}}"
-      with_items: hosts
-    - name: Config ceph.conf
+      with_items: "{{ host }}"
+    - name: Copy config
       template:
           src: templates/ceph.conf.j2
-          dest: /home/ansibledeploy/my-cluster/ceph.conf
+          dest: files/temp.conf
+    - name: Apply ceph.conf
+      shell: "cat files/temp.conf >> /etc/ceph/ceph.conf"
+          
 
 - hosts: mgr
   become: True
   any_errors_fatal: true
   command: "ceph-deploy mgr create {{item}}"
+  with_items: "{{ host }}"
   with_items: hosts
 #  roles:
 #      - ceph-mgr
@@ -40,7 +44,7 @@
   become: True
   any_errors_fatal: true
   command: "ceph-deploy osd create --data {{item}}"
-  with_items: devices
+  with_items: "{{ device }}"
 #  roles:
 #      - ceph-osd
 
