@@ -1,0 +1,41 @@
+- hosts:
+  - mon
+  - osd
+  - mgr
+
+  become: true
+  tasks:
+  - name: Install packet
+    yum:
+      name: '{{item}}'
+      state: present
+    with_items:
+    - epel-release
+    - wget
+    - git
+    - python-setuptools
+    - python-virtualenv
+
+- hosts: mon
+  become: True
+  any_errors_fatal: true
+  command: "ceph-deploy new {{ item }}"
+#  roles:
+#      - ceph-mon
+
+- hosts: mgr
+  become: True
+  any_errors_fatal: true
+  command: "ceph-deploy mgr create {{item}}"
+#  roles:
+#      - ceph-mgr
+
+- hosts: osd
+  become: True
+  any_errors_fatal: true
+  command: "ceph-deploy osd create --data {{item}}"
+  with_items: devices
+#  roles:
+#      - ceph-osd
+
+
