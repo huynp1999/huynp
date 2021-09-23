@@ -19,14 +19,20 @@
 - hosts: mon
   become: True
   any_errors_fatal: true
-  command: "ceph-deploy new {{ item }}"
-#  roles:
-#      - ceph-mon
+  tasks:
+    - name: Deploy monitor
+      command: "ceph-deploy new {{item}}"
+      with_items: hosts
+    - name: Config ceph.conf
+      template:
+          src: templates/ceph.conf.j2
+          dest: /home/ansibledeploy/my-cluster/ceph.conf
 
 - hosts: mgr
   become: True
   any_errors_fatal: true
   command: "ceph-deploy mgr create {{item}}"
+  with_items: hosts
 #  roles:
 #      - ceph-mgr
 
