@@ -3,12 +3,15 @@
   tasks:
     - name: Add cluster
       shell: "ceph-deploy new {{ host | join(' ') }}"
+      
     - name: Copy config
       template:
           src: templates/ceph.conf.j2
           dest: /home/cephuser/temp.conf
+          
     - name: Apply ceph.conf
       shell: "cat /home/cephuser/temp.conf >> /home/cephuser/ceph.conf"
+      
     - name: Delete temp file
       file:
         path: /home/cephuser/temp.conf
@@ -38,11 +41,11 @@
       shell: "ceph-deploy mgr create {{ item }}"
       with_items: "{{ host }}"
 
-
 - hosts: osd
   tasks:
     - name: Create osd keyring
       shell: "sudo ceph-authtool --create-keyring /var/lib/ceph/bootstrap-osd/ceph.keyring --gen-key -n client.bootstrap-osd --cap mon 'profile bootstrap-osd' --cap mgr 'allow r'"
+      
     - name: Deploy osd
       shell: "ceph-volume lvm create --bluestore --data {{ device }}"
       with_items:
