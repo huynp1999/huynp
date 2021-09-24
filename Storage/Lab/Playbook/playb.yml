@@ -1,9 +1,9 @@
 
-- hosts: 
+- hosts: ceph01
   any_errors_fatal: true
   tasks:
     - name: Add cluster
-      command: "ceph-deploy new {{item}}"
+      command: "ceph-deploy new {{ item }}"
       with_items: "{{ host }}"
     - name: Copy config
       template:
@@ -12,25 +12,18 @@
     - name: Apply ceph.conf
       shell: "cat files/temp.conf >> /etc/ceph/ceph.conf"
 
-- hosts: mgr
-  any_errors_fatal: true
-  command: "ceph-deploy install --release nautilus {{item}}"
-  with_items: "{{ host }}"
-  with_items: hosts
+    - name: Install release
+      command: "ceph-deploy install --release nautilus {{ item }}"
+      with_items: "{{ host }}"
+      
+    - name: Deploy manager
+      command: "ceph-deploy mgr create {{ item }}"
+      with_items: "{{ host }}"
 
-- hosts: mgr
-  any_errors_fatal: true
-  command: "ceph-deploy mgr create {{item}}"
-  with_items: "{{ host }}"
-  with_items: hosts
-#  roles:
-#      - ceph-mgr
-
-- hosts: osd
-  any_errors_fatal: true
-  command: "ceph-deploy osd create --data {{item}}"
-  with_items: "{{ device }}"
-#  roles:
-#      - ceph-osd
+    - name: deploy osd
+      shell: "ceph-deploy osd create --data {{ item[0] }} {{ item[1] }}"
+      with_nested:
+        - "{{ device }}"
+        - "{{ host }}"
 
 
