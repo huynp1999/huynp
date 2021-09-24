@@ -1,26 +1,8 @@
-- hosts:
-  - mon
-  - osd
-  - mgr
 
-  become: true
-  tasks:
-  - name: Install packet
-    yum:
-      name: '{{item}}'
-      state: present
-    with_items:
-    - epel-release
-    - wget
-    - git
-    - python-setuptools
-    - python-virtualenv
-
-- hosts: mon
-  become: True
+- hosts: 
   any_errors_fatal: true
   tasks:
-    - name: Deploy monitor
+    - name: Add cluster
       command: "ceph-deploy new {{item}}"
       with_items: "{{ host }}"
     - name: Copy config
@@ -29,10 +11,14 @@
           dest: files/temp.conf
     - name: Apply ceph.conf
       shell: "cat files/temp.conf >> /etc/ceph/ceph.conf"
-          
 
 - hosts: mgr
-  become: True
+  any_errors_fatal: true
+  command: "ceph-deploy install --release nautilus {{item}}"
+  with_items: "{{ host }}"
+  with_items: hosts
+
+- hosts: mgr
   any_errors_fatal: true
   command: "ceph-deploy mgr create {{item}}"
   with_items: "{{ host }}"
@@ -41,7 +27,6 @@
 #      - ceph-mgr
 
 - hosts: osd
-  become: True
   any_errors_fatal: true
   command: "ceph-deploy osd create --data {{item}}"
   with_items: "{{ device }}"
