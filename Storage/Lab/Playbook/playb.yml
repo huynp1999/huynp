@@ -1,26 +1,28 @@
-
 - hosts: ceph01
   any_errors_fatal: true
   tasks:
     - name: Add cluster
-      shell: "ceph-deploy new {{ item }}"
-      with_items: "{{ host }}"
+      shell: "ceph-deploy new {{ host | join(' ') }}"
     - name: Copy config
       template:
           src: templates/ceph.conf.j2
-          dest: files/temp.conf
+          dest: /home/cephuser/temp.conf
     - name: Apply ceph.conf
-      shell: "cat files/temp.conf >> /etc/ceph/ceph.conf"
+      shell: "cat /home/cephuser/temp.conf >> /home/cephuser/ceph.conf"
+    - name: Delete temp file
+      file:
+        path: /home/cephuser/temp.conf
+        state: absent
 
     - name: Install release
-      shell: "ceph-deploy install --release nautilus {{ item }}"
+      command: "ceph-deploy install --release nautilus {{ item }}"
       with_items: "{{ host }}"
-      
-    - name: Start monitor
-      shell: "ceph-deploy mon create-initial"
-      
+ 
+    - name: Create monitor
+      command: "ceph-deploy mon create-initial"
+
     - name: Copy ceph.conf
-      shelld: "ceph-deploy admin {{ item }}"
+      command: "ceph-deploy admin {{ item }}"
       with_items: "{{ host }}"
 
 - hosts: all
@@ -36,13 +38,11 @@
       shell: "ceph-deploy mgr create {{ item }}"
       with_items: "{{ host }}"
 
-    - name: deploy osd
-      shell: "ceph-deploy osd create --data {{ item[0] }} {{ item[1] }}"
-      with_nested:
+- hosts: osd
+    - name: Deploy osd
+      shell: "ceph-volume lvm create --bluestore --data {{ device }}"
+      with_items:
         - "{{ device }}"
-        - "{{ host }}"
-        
-    - name: Status
-      shell: "ceph -s"    
+  
 
 
