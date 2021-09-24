@@ -1,4 +1,4 @@
-public_network: 192.168.1.0/24
+public_network: 10.10.10.0/24
 cluster_network: 10.10.10.0/24
 host:
   - ceph01
