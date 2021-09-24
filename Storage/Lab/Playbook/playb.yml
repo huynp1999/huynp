@@ -3,7 +3,7 @@
   any_errors_fatal: true
   tasks:
     - name: Add cluster
-      command: "ceph-deploy new {{ item }}"
+      shell: "ceph-deploy new {{ item }}"
       with_items: "{{ host }}"
     - name: Copy config
       template:
@@ -13,11 +13,27 @@
       shell: "cat files/temp.conf >> /etc/ceph/ceph.conf"
 
     - name: Install release
-      command: "ceph-deploy install --release nautilus {{ item }}"
+      shell: "ceph-deploy install --release nautilus {{ item }}"
       with_items: "{{ host }}"
       
+    - name: Start monitor
+      shell: "ceph-deploy mon create-initial"
+      
+    - name: Copy ceph.conf
+      shelld: "ceph-deploy admin {{ item }}"
+      with_items: "{{ host }}"
+
+- hosts: all
+  any_errors_fatal: true
+  tasks:
+    - name: Chmod
+      shell: "sudo chmod +r /etc/ceph/ceph.client.admin.keyring"
+
+- hosts: ceph01
+  any_errors_fatal: true
+  tasks:
     - name: Deploy manager
-      command: "ceph-deploy mgr create {{ item }}"
+      shell: "ceph-deploy mgr create {{ item }}"
       with_items: "{{ host }}"
 
     - name: deploy osd
@@ -25,5 +41,8 @@
       with_nested:
         - "{{ device }}"
         - "{{ host }}"
+        
+    - name: Status
+      shell: "ceph -s"    
 
 
