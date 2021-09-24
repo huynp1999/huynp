@@ -38,7 +38,11 @@
       shell: "ceph-deploy mgr create {{ item }}"
       with_items: "{{ host }}"
 
+
 - hosts: osd
+  tasks:
+    - name: Create osd keyring
+      shell: "sudo ceph-authtool --create-keyring /var/lib/ceph/bootstrap-osd/ceph.keyring --gen-key -n client.bootstrap-osd --cap mon 'profile bootstrap-osd' --cap mgr 'allow r'"
     - name: Deploy osd
       shell: "ceph-volume lvm create --bluestore --data {{ device }}"
       with_items:
