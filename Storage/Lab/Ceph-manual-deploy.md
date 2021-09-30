@@ -104,7 +104,7 @@ Add 2 key vừa tạo vào monitor keyring:
     
 Tạo monitor map cho monitor đầu tiên trong cluster, với hostname, ip, fsid vừa tạo và lưu vào `/tmp/monmap`:
 
-    monmaptool --create --add ceph01 192.168.1.71 --fsid 7c324709-706e-4212-838f-726cd7b36ab1 /tmp/monmap
+    monmaptool --create --add ceph01 10.10.10.71 --fsid 662560a5-5c3a-4ee5-a3d0-48ca6ae395ea /tmp/monmap
 
 Tạo thư mục dữ liệu cho monitor tại `/var/lib/ceph/mon/` với tên thư mục là `{cluster-name}-{hostname}`:
 
