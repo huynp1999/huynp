@@ -61,13 +61,13 @@ Tạo file cấu hình cho ceph, mặc định ở `/etc/ceph/ceph.conf`. Và ge
 
     [root@ceph01 ~]# touch /etc/ceph/ceph.conf
     [root@ceph01 ~]# uuidgen
-    7c324709-706e-4212-838f-726cd7b36ab1
+    662560a5-5c3a-4ee5-a3d0-48ca6ae395ea
 
 Cấu hình cơ bản sau khi tạo file:
 
     [root@ceph01 ~]# vim /etc/ceph/ceph.conf
     [global]
-    fsid = 7c324709-706e-4212-838f-726cd7b36ab1
+    fsid = 662560a5-5c3a-4ee5-a3d0-48ca6ae395ea
     mon initial members = ceph01
     mon host = 192.168.1.71,192.168.1.72,192.168.1.73
     auth cluster required = cephx
