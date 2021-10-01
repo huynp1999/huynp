@@ -339,3 +339,10 @@ Kiểm tra:
         pgs:
 
  Làm tương tự các thành phần với node 3 còn lại.   
+
+## Docs
+- https://access.redhat.com/documentation/en-us/red_hat_ceph_storage/3/html/installation_guide_for_red_hat_enterprise_linux/manually-installing-red-hat-ceph-storage
+- http://dl.geekboy.pro:8080/Book/Learning%20Ceph.pdf (trang 86)
+- https://docs.ceph.com/en/latest/install/manual-deployment/
+- https://docs.ceph.com/en/latest/rados/operations/add-or-rm-mons/
+- https://docs.ceph.com/en/latest/rados/operations/add-or-rm-osds/
