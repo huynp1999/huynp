@@ -1,4 +1,5 @@
- Setup repo, cài đặt packet và kiểm tra trên 3 node của cluster:
+# Setup tại 3 node
+Setup repo, cài đặt packet và kiểm tra trên 3 node của cluster:
  
     [root@ceph01 ~]# yum install -y epel-release
     [root@ceph01 ~]# yum update -y
@@ -55,7 +56,7 @@
     python-rbd-14.2.22-0.el7.x86_64
     ceph-mon-14.2.22-0.el7.x86_64
 
-# Cấu hình các thành phần trong Ceph cluster
+# Cấu hình các thành phần tại node mon đầu tiên (ceph01) 
 ### Monitor
 Tạo file cấu hình cho ceph, mặc định ở `/etc/ceph/ceph.conf`. Và generate uuid (fsid) cho cluster:
 
@@ -143,7 +144,7 @@ Kiểm tra:
         mgr: no daemons active
         osd: 0 osds: 0 up, 0 in
 
-Nếu `ceph -s` không hoạt động và service `ceph-mon@ceph01` bị fail thì lỗi do phân quyền, owner của các thư mục.
+Troubleshoot: nếu `ceph -s` không hoạt động và service `ceph-mon@ceph01` bị fail thì lỗi do phân quyền, owner của các thư mục.
 ### Manager
 Tạo thư mục dữ liệu cho manager tại `/var/lib/ceph/mgr/` với tên thư mục là `{cluster-name}-{hostname}`:
 
@@ -186,7 +187,7 @@ Nếu node OSD nằm riêng với node mon thì phải copy admin keyring và co
     scp root@osd01:/etc/ceph/ceph.client.admin.keyring /etc/ceph
     scp root@osd01:/var/lib/ceph/bootstrap-osd/ceph.keyring /var/lib/ceph/bootstrap-osd/ceph.keyring
 
-Sau khi đã có đủ config và các keyring cần thiết, triển khai osd trên thiết bị, ví dụ `/dev/sdb`:
+Có 3 cách để deploy thủ công một OSD từ device, đây là cách nhanh nhất 2 cách còn lại có thể tham khảo ở các docs bên dưới. Sau khi đã có đủ config và các keyring cần thiết, triển khai osd trên thiết bị, ví dụ `/dev/sdb`:
 
     ceph-volume lvm create --data /dev/sdb
     
@@ -211,4 +212,12 @@ Kiểm tra:
          usage:   1.0 GiB used, 19 GiB / 20 GiB avail
          pgs:
 
+Như vậy là đã xong node mon đầu tiên, kèm theo 2 thành phần chung là mgr và osd
+# Deploy 2 node còn lại
+### Mon
+Trước tiên cần copy config từ node đầu tiên:
 
+    [root@ceph01 ~]# scp /etc/ceph/ceph.* ceph02:/etc/ceph
+    [root@ceph01 ~]# scp /etc/ceph/ceph.* ceph03:/etc/ceph
+
+### OSD
