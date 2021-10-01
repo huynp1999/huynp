@@ -1,4 +1,6 @@
-# Setup tại 3 node
+# Deploy Ceph cluster thủ công
+
+## Setup tại 3 node
 Setup repo, cài đặt packet và kiểm tra trên 3 node của cluster:
  
     [root@ceph01 ~]# yum install -y epel-release
@@ -65,7 +67,7 @@ Thêm các alias cho các node tại `/etc/hosts`:
     10.10.10.71 ceph01
     10.10.10.72 ceph02
     10.10.10.73 ceph03
-# Cấu hình các thành phần tại node mon đầu tiên (ceph01) 
+## Cấu hình các thành phần tại node mon đầu tiên (ceph01) 
 ### Monitor
 Tạo file cấu hình cho ceph, mặc định ở `/etc/ceph/ceph.conf`. Và generate uuid (fsid) cho cluster:
 
@@ -224,7 +226,7 @@ Kiểm tra:
 Do mới cluster mới có 1 osd < 3 (chỉ số replicate size đã được cấu hình trong `ceph.conf`) nên sẽ có warning. Chỉ cần deploy thêm osd tại các node khác là tự động hết.
 
 Như vậy là đã xong node mon, mgr và osd đầu tiên.
-# Deploy 2 node còn lại
+## Deploy 2 node còn lại
 ### Monitor
 Trước tiên cần copy config từ node đầu tiên:
 
