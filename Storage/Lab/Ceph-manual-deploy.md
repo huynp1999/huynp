@@ -55,7 +55,7 @@
     python-rbd-14.2.22-0.el7.x86_64
     ceph-mon-14.2.22-0.el7.x86_64
 
-#Cấu hình các thành phần trong Ceph cluster
+# Cấu hình các thành phần trong Ceph cluster
 ### Monitor
 Tạo file cấu hình cho ceph, mặc định ở `/etc/ceph/ceph.conf`. Và generate uuid (fsid) cho cluster:
 
@@ -100,21 +100,115 @@ Add 2 key vừa tạo vào monitor keyring:
 
 Đổi owner cho monitor keyring:
 
-    chown ceph:ceph /tmp/ceph.mon.keyring
+    [root@ceph01 ~]# chown ceph:ceph /tmp/ceph.mon.keyring
     
 Tạo monitor map cho monitor đầu tiên trong cluster, với hostname, ip, fsid vừa tạo và lưu vào `/tmp/monmap`:
 
-    monmaptool --create --add ceph01 10.10.10.71 --fsid 662560a5-5c3a-4ee5-a3d0-48ca6ae395ea /tmp/monmap
+    [root@ceph01 ~]# monmaptool --create --add ceph01 10.10.10.71 --fsid 662560a5-5c3a-4ee5-a3d0-48ca6ae395ea /tmp/monmap
 
 Tạo thư mục dữ liệu cho monitor tại `/var/lib/ceph/mon/` với tên thư mục là `{cluster-name}-{hostname}`:
 
-    mkdir /var/lib/ceph/mon/ceph-ceph01/
+    [root@ceph01 ~]# mkdir /var/lib/ceph/mon/ceph-ceph01/
 
 Add monitor map và keyring vào monitor daemon đầu tiên trong cluster:
 
-    sudo -u ceph ceph-mon --mkfs -i ceph01 --monmap /tmp/monmap --keyring /tmp/ceph.mon.keyring
+    [root@ceph01 ~]# ceph-mon --mkfs -i ceph01 --monmap /tmp/monmap --keyring /tmp/ceph.mon.keyring
+
+Đổi owner cho các directory vừa được tạo:
+    
+    [root@ceph01 ~]# chown -R ceph:ceph /var/lib/ceph/mon
+    [root@ceph01 ~]# chown -R ceph:ceph /var/log/ceph
+    [root@ceph01 ~]# chown -R ceph:ceph /var/run/ceph
+    [root@ceph01 ~]# chown ceph:ceph /etc/ceph/ceph.client.admin.keyring
+    [root@ceph01 ~]# chown ceph:ceph /etc/ceph/ceph.conf
+    [root@ceph01 ~]# chown ceph:ceph /etc/ceph/rbdmap
 
 Khởi động monitor daemon:
 
-    systemctl start ceph-mon@ceph01
+    [root@ceph01 ~]# systemctl enable ceph-mon.target
+    [root@ceph01 ~]# systemctl enable ceph-mon@ceph01
+    [root@ceph01 ~]# systemctl start ceph-mon@ceph01
+
+Kiểm tra:
+
+    [root@ceph01 ~]# ceph -s
+      cluster:
+        id:     662560a5-5c3a-4ee5-a3d0-48ca6ae395ea
+        health: HEALTH_WARN
+                mon is allowing insecure global_id reclaim
+                1 monitors have not enabled msgr2
+
+      services:
+        mon: 1 daemons, quorum ceph01 (age 24s)
+        mgr: no daemons active
+        osd: 0 osds: 0 up, 0 in
+
+Nếu `ceph -s` không hoạt động và service `ceph-mon@ceph01` bị fail thì lỗi do phân quyền, owner của các thư mục.
+### Manager
+Tạo thư mục dữ liệu cho manager tại `/var/lib/ceph/mgr/` với tên thư mục là `{cluster-name}-{hostname}`:
+
+    [root@ceph01 ~]# mkdir /var/lib/ceph/mgr/ceph-ceph01
+
+Tạo auth key cho `ceph-mgr` daemon:
+
+    [root@ceph01 ~]# ceph auth get-or-create mgr.`hostname -s` mon 'allow profile mgr' osd 'allow *' mds 'allow *' -o /var/lib/ceph/mgr/ceph-node1/keyring
+    [root@ceph01 ~]# chown -R ceph:ceph /var/lib/ceph/mgr
+
+Khởi động manager daemon:
+
+    [root@ceph01 ~]# systemctl enable ceph-mgr.target
+    [root@ceph01 ~]# systemctl enable ceph-mgr@ceph01
+    [root@ceph01 ~]# systemctl start ceph-mgr@ceph01
+    
+Kiểm tra:
+
+    [root@ceph01 ~]# ceph -s
+      cluster:
+        id:     662560a5-5c3a-4ee5-a3d0-48ca6ae395ea
+        health: HEALTH_WARN
+                mon is allowing insecure global_id reclaim
+                1 monitors have not enabled msgr2
+
+      services:
+        mon: 1 daemons, quorum ceph01 (age 9m)
+        mgr: ceph01(active, since 17s)
+        osd: 0 osds: 0 up, 0 in
+
+      data:
+        pools:   0 pools, 0 pgs
+        objects: 0 objects, 0 B
+        usage:   0 B used, 0 B / 0 B avail
+
+### OSD
+Nếu node OSD nằm riêng với node mon thì phải copy admin keyring và config cho node OSD trước khi deploy trên đó:
+
+    scp root@osd01:/etc/ceph/ceph.conf /etc/ceph
+    scp root@osd01:/etc/ceph/ceph.client.admin.keyring /etc/ceph
+    scp root@osd01:/var/lib/ceph/bootstrap-osd/ceph.keyring /var/lib/ceph/bootstrap-osd/ceph.keyring
+
+Sau khi đã có đủ config và các keyring cần thiết, triển khai osd trên thiết bị, ví dụ `/dev/sdb`:
+
+    ceph-volume lvm create --data /dev/sdb
+    
+Kiểm tra:
+
+    [root@ceph01 ~]# ceph -s
+       cluster:
+         id:     662560a5-5c3a-4ee5-a3d0-48ca6ae395ea
+         health: HEALTH_WARN
+                 OSD count 1 < osd_pool_default_size 3
+                 mon is allowing insecure global_id reclaim
+                 1 monitors have not enabled msgr2
+
+       services:
+         mon: 1 daemons, quorum ceph01 (age 42m)
+         mgr: ceph01(active, since 32m)
+         osd: 1 osds: 1 up (since 1.5389s), 1 in (since 1.5389s)
+
+       data:
+         pools:   0 pools, 0 pgs
+         objects: 0 objects, 0 B
+         usage:   1.0 GiB used, 19 GiB / 20 GiB avail
+         pgs:
+
 
